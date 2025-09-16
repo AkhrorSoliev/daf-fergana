@@ -19,6 +19,11 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      // Allow localized content with apostrophes/quotes in JSX text
+      "react/no-unescaped-entities": "off",
+      // Keep existing project defaults
+    },
   },
 ];
 
