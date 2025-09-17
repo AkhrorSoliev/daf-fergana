@@ -15,8 +15,20 @@ const images = [
   "/assets/hero-image-5.jpg",
 ];
 
+const rotatingPhrases = [
+  "Kuchli start 💪",
+  "Ravon yo'l 🛣️",
+  "Cheksiz imkoniyatlar ✨",
+  "Tez natija ⚡",
+  "Samarali tayyorgarlik 🎯",
+  "Ishonchli yo‘l-yo‘riq 🧭",
+  "Yuqori motivatsiya 🚀",
+  "Amaliy tajriba 🧩",
+];
+
 export default function HeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [phraseIndex, setPhraseIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,6 +36,13 @@ export default function HeroSection() {
     }, 6000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length);
+    }, 2600);
+    return () => clearInterval(timer);
   }, []);
 
   const scrollToConsultation = () => {
@@ -82,13 +101,35 @@ export default function HeroSection() {
             className="max-w-4xl mx-auto"
           >
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              Nemis tilini <span className="text-accent">professional</span>{" "}
-              darajada o'rganing
+              <div className="text-center">
+                <span className="text-white/95">DaF bilan</span>
+                <span
+                  className="relative inline-flex align-middle overflow-hidden whitespace-nowrap h-[1.1em]"
+                  aria-live="polite"
+                >
+                  {/* Hidden placeholder to lock width to the longest phrase */}
+                  <span className="opacity-0 inline-block px-1 text-accent align-middle">
+                    Samarali tayyorgarlik 🎯
+                  </span>
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.span
+                      key={phraseIndex}
+                      initial={{ y: "100%", opacity: 0 }}
+                      animate={{ y: "0%", opacity: 1 }}
+                      exit={{ y: "-100%", opacity: 0 }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      className="absolute left-0 top-0 px-1 text-accent leading-none will-change-transform w-full text-center"
+                    >
+                      {rotatingPhrases[phraseIndex]}
+                    </motion.span>
+                  </AnimatePresence>
+                </span>
+              </div>
             </h1>
 
             <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed">
-              DaF Sprachzentrum M.CH.J — nemis tilini o'qitishga ixtisoslashgan
-              til markazi. O'zbekiston bo'ylab 8 ta filial.
+              Nemis tili sizni universitetlar, ish va yangi hayot sari
+              yetaklaydi.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
