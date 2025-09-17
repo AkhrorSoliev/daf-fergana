@@ -41,18 +41,43 @@ const testimonials = [
 ];
 
 const workplaces = [
-  "https://picsum.photos/200/200?random=20",
-  "https://picsum.photos/200/200?random=21",
-  "https://picsum.photos/200/200?random=22",
-  "https://picsum.photos/200/200?random=23",
-  "https://picsum.photos/200/200?random=24",
-  "https://picsum.photos/200/200?random=25",
-  "https://picsum.photos/200/200?random=26",
-  "https://picsum.photos/200/200?random=27",
+  "/partners/partner-1.svg",
+  "/partners/partner-2.svg",
+  "/partners/partner-3.svg",
+  "/partners/partner-4.svg",
+  "/partners/partner-5.svg",
+  "/partners/partner-6.svg",
+  "/partners/partner-7.svg",
+  "/partners/partner-8.svg",
 ];
 
-// Base list for the marquee; we render it twice for seamless looping
-const marqueeImages = Array.from({ length: 10 }, (_, i) => 30 + i);
+// Provided image URLs for marquee (duplicated once for seamless loop)
+const marqueeImages = [
+  "https://json-api.uz/mnt/file-1758128916037.jpg",
+  "https://json-api.uz/mnt/file-1758128916202.jpg",
+  "https://json-api.uz/mnt/file-1758128916041.jpg",
+  "https://json-api.uz/mnt/file-1758128916204.jpg",
+  "https://json-api.uz/mnt/file-1758128916200.jpg",
+  "https://json-api.uz/mnt/file-1758128916075.jpg",
+  "https://json-api.uz/mnt/file-1758128916184.jpg",
+  "https://json-api.uz/mnt/file-1758128916047.jpg",
+  "https://json-api.uz/mnt/file-1758128916055.jpg",
+  "https://json-api.uz/mnt/file-1758128916061.jpg",
+  "https://json-api.uz/mnt/file-1758128916074.jpg",
+  "https://json-api.uz/mnt/file-1758128916053.jpg",
+  "https://json-api.uz/mnt/file-1758128916073.jpg",
+  "https://json-api.uz/mnt/file-1758128916230.jpg",
+  "https://json-api.uz/mnt/file-1758128916072.jpg",
+  "https://json-api.uz/mnt/file-1758128916245.jpg",
+  "https://json-api.uz/mnt/file-1758128916067.jpg",
+  "https://json-api.uz/mnt/file-1758128916084.jpg",
+  "https://json-api.uz/mnt/file-1758128916205.jpg",
+  "https://json-api.uz/mnt/file-1758128916068.jpg",
+  "https://json-api.uz/mnt/file-1758128916077.jpg",
+  "https://json-api.uz/mnt/file-1758128916106.jpg",
+  "https://json-api.uz/mnt/file-1758128916206.jpg",
+  "https://json-api.uz/mnt/file-1758128916062.jpg",
+];
 
 export default function MediaSection() {
   return (
@@ -74,36 +99,36 @@ export default function MediaSection() {
           <div className="relative overflow-hidden w-[100vw] mx-[calc(50%-50vw)]">
             {/* Seamless marquee: same row duplicated once; track is non-wrapping */}
             <div className="flex flex-nowrap gap-6 animate-marquee-50 hover:pause-animation will-change-transform">
-              {marqueeImages.map((seed, i) => (
+              {marqueeImages.map((url, i) => (
                 <div
-                  key={`a-${seed}`}
-                  className={`flex-shrink-0 w-[210px] h-[210px] transition-transform duration-300 ${
+                  key={`a-${i}`}
+                  className={`flex-shrink-0 w-[273px] h-[273px] transition-transform duration-300 ${
                     i % 2 === 0 ? "rotate-[-2deg]" : "rotate-[2deg]"
                   } hover:rotate-0`}
                 >
                   <Image
-                    src={`https://picsum.photos/210/210?random=${seed}`}
+                    src={url}
                     alt={`Success story ${i + 1}`}
-                    width={210}
-                    height={210}
-                    className="rounded-lg object-cover w-[210px] h-[210px]"
+                    width={273}
+                    height={273}
+                    className="rounded-lg object-cover w-[273px] h-[273px]"
                   />
                 </div>
               ))}
-              {marqueeImages.map((seed, i) => (
+              {marqueeImages.map((url, i) => (
                 <div
-                  key={`b-${seed}`}
+                  key={`b-${i}`}
                   aria-hidden="true"
-                  className={`flex-shrink-0 w-[210px] h-[210px] transition-transform duration-300 ${
+                  className={`flex-shrink-0 w-[273px] h-[273px] transition-transform duration-300 ${
                     i % 2 === 0 ? "rotate-[-2deg]" : "rotate-[2deg]"
                   } hover:rotate-0`}
                 >
                   <Image
-                    src={`https://picsum.photos/210/210?random=${seed}`}
+                    src={url}
                     alt=""
-                    width={210}
-                    height={210}
-                    className="rounded-lg object-cover w-[210px] h-[210px]"
+                    width={273}
+                    height={273}
+                    className="rounded-lg object-cover w-[273px] h-[273px]"
                   />
                 </div>
               ))}
@@ -200,15 +225,14 @@ export default function MediaSection() {
                   index % 2 === 0 ? "rotate-[-2deg]" : "rotate-[2deg]"
                 } hover:rotate-0 transition-transform duration-300`}
               >
-                <div className="relative overflow-hidden rounded-lg shadow-lg">
+                <div className="relative overflow-hidden rounded-lg shadow-lg bg-white dark:bg-secondary/10 border border-border flex items-center justify-center h-48">
                   <Image
                     src={workplace}
                     alt={`Workplace ${index + 1}`}
                     width={200}
                     height={200}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full max-h-48 object-contain p-6 group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
               </motion.div>
             ))}
