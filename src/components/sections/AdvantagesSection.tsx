@@ -129,7 +129,7 @@ export default function AdvantagesSection() {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {advantages.map((advantage, index) => (
+          {advantages.map((advantage) => (
             <motion.div
               key={advantage.title}
               variants={itemVariants}

@@ -13,7 +13,6 @@ import {
   ArrowRight,
   Award,
   BookOpen,
-  Calendar,
   Globe,
   CheckCircle,
 } from "lucide-react";

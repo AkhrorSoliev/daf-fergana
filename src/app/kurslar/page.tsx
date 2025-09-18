@@ -1,19 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  courses,
   getCoursesByCategory,
   type Course,
   type CourseCategory,
@@ -95,7 +88,7 @@ export default function CoursesPage() {
       setTimeout(() => {
         closeModal();
       }, 2000);
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -302,10 +295,10 @@ export default function CoursesPage() {
               size="lg"
               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
-              <a href="/#consultation" className="flex items-center gap-2">
+              <Link href="/#consultation" className="flex items-center gap-2">
                 <Phone className="w-5 h-5" />
                 Konsultatsiya olish
-              </a>
+              </Link>
             </Button>
           </div>
         </motion.div>
