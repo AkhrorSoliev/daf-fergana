@@ -100,12 +100,14 @@ export default function Navbar() {
           {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center">
             <Button
-              onClick={scrollToConsultation}
+              asChild
               size="sm"
               className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
             >
-              <Phone className="w-4 h-4 mr-2" />
-              Bepul konsultatsiya
+              <Link href="/#consultation" className="inline-flex items-center">
+                <Phone className="w-4 h-4 mr-2" />
+                Bepul konsultatsiya
+              </Link>
             </Button>
           </div>
 
@@ -158,11 +160,17 @@ export default function Navbar() {
                 {/* Mobile CTA */}
                 <div className="px-2 pt-4">
                   <Button
-                    onClick={scrollToConsultation}
+                    asChild
                     className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                   >
-                    <Phone className="w-4 h-4 mr-2" />
-                    Bepul konsultatsiya
+                    <Link
+                      href="/#consultation"
+                      onClick={() => setIsOpen(false)}
+                      className="inline-flex items-center justify-center"
+                    >
+                      <Phone className="w-4 h-4 mr-2" />
+                      Bepul konsultatsiya
+                    </Link>
                   </Button>
                 </div>
               </div>

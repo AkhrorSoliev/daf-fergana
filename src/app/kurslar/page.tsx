@@ -51,7 +51,25 @@ const categoryInfo = {
 export default function CoursesPage() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: "", phone: "", level: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "+998 ",
+    level: "",
+  });
+  const PHONE_PREFIX = "+998 ";
+  const PHONE_PATTERN = /^\+998\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
+
+  function formatUzbekPhone(input: string): string {
+    const digits = input.replace(/\D/g, "");
+    const afterPrefix = digits.startsWith("998") ? digits.slice(3) : digits;
+    const limited = afterPrefix.slice(0, 9);
+    const part1 = limited.slice(0, 2); // operator code (2)
+    const part2 = limited.slice(2, 5); // next (3)
+    const part3 = limited.slice(5, 7); // next (2)
+    const part4 = limited.slice(7, 9); // last (2)
+    const groups = [part1, part2, part3, part4].filter(Boolean);
+    return PHONE_PREFIX + groups.join(" ");
+  }
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
@@ -82,12 +100,25 @@ export default function CoursesPage() {
     setSubmitStatus("idle");
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setSubmitStatus("success");
-      setTimeout(() => {
-        closeModal();
-      }, 2000);
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          level: formData.level || undefined,
+          source: "Kurslar",
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setTimeout(() => {
+          closeModal();
+        }, 1500);
+      } else {
+        setSubmitStatus("error");
+      }
     } catch {
       setSubmitStatus("error");
     } finally {
@@ -125,7 +156,7 @@ export default function CoursesPage() {
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-orange-500 mx-auto mb-6" />
           <p className="text-lg text-foreground/70 max-w-3xl mx-auto leading-relaxed">
-            A1 dan B2 gacha barcha darajalar uchun individual, intensiv va
+            A1 dan C1 gacha barcha darajalar uchun individual, intensiv va
             standart kurslar. O'zingizga mos yo'nalishni tanlang va nemis tilini
             professional darajada o'rganing.
           </p>
@@ -376,10 +407,42 @@ export default function CoursesPage() {
                         onChange={(e) =>
                           setFormData((prev) => ({
                             ...prev,
-                            phone: e.target.value,
+                            phone: formatUzbekPhone(e.target.value),
                           }))
                         }
-                        placeholder="+998 XX XXX XX XX"
+                        onFocus={(e) => {
+                          if (!formData.phone.startsWith(PHONE_PREFIX)) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              phone: PHONE_PREFIX,
+                            }));
+                          }
+                          const el = e.currentTarget;
+                          const val = el.value;
+                          requestAnimationFrame(() => {
+                            if (
+                              el &&
+                              typeof el.setSelectionRange === "function"
+                            ) {
+                              el.setSelectionRange(val.length, val.length);
+                            }
+                          });
+                        }}
+                        onKeyDown={(e) => {
+                          const caret =
+                            (e.target as HTMLInputElement).selectionStart ?? 0;
+                          const isBackspace = e.key === "Backspace";
+                          const isDelete = e.key === "Delete";
+                          if (
+                            (isBackspace && caret <= PHONE_PREFIX.length) ||
+                            (isDelete && caret < PHONE_PREFIX.length)
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                        inputMode="numeric"
+                        pattern={PHONE_PATTERN.source}
+                        placeholder="+998 XXX XX XX XX"
                         className="pl-10 h-12 border-border/60 focus:border-blue-500"
                         required
                       />
@@ -426,7 +489,8 @@ export default function CoursesPage() {
                     disabled={
                       isSubmitting ||
                       !formData.name.trim() ||
-                      !formData.phone.trim()
+                      !formData.phone.trim() ||
+                      !PHONE_PATTERN.test(formData.phone)
                     }
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
                   >

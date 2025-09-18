@@ -34,9 +34,29 @@ export default function ConsultationSection() {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: { phone: "+998 " },
   });
+
+  const PHONE_PREFIX = "+998 ";
+  const PHONE_PATTERN = /^\+998\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
+
+  function formatUzbekPhone(input: string): string {
+    // Keep digits only
+    const digits = input.replace(/\D/g, "");
+    // Remove leading country code if user typed it
+    const afterPrefix = digits.startsWith("998") ? digits.slice(3) : digits;
+    const limited = afterPrefix.slice(0, 9);
+    const part1 = limited.slice(0, 2); // operator code (2)
+    const part2 = limited.slice(2, 5); // next (3)
+    const part3 = limited.slice(5, 7); // next (2)
+    const part4 = limited.slice(7, 9); // last (2)
+    const groups = [part1, part2, part3, part4].filter(Boolean);
+    return PHONE_PREFIX + groups.join(" ");
+  }
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -48,7 +68,11 @@ export default function ConsultationSection() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.name,
+          phone: data.phone,
+          source: "Bepul konsultatsiya",
+        }),
       });
 
       if (response.ok) {
@@ -161,10 +185,65 @@ export default function ConsultationSection() {
                     </label>
                     <Input
                       id="phone"
-                      {...register("phone")}
-                      placeholder="+998 XX XXX XX XX"
+                      {...register("phone", {
+                        required: true,
+                        validate: (v) => PHONE_PATTERN.test(v),
+                      })}
+                      value={watch("phone")}
+                      onChange={(e) => {
+                        const formatted = formatUzbekPhone(e.target.value);
+                        setValue("phone", formatted, { shouldValidate: true });
+                      }}
+                      onFocus={(e) => {
+                        if (
+                          !watch("phone") ||
+                          !watch("phone").startsWith(PHONE_PREFIX)
+                        ) {
+                          setValue("phone", PHONE_PREFIX, {
+                            shouldValidate: true,
+                          });
+                        }
+                        // Move caret to end
+                        const el = e.currentTarget;
+                        const val = el.value;
+                        requestAnimationFrame(() => {
+                          if (
+                            el &&
+                            typeof el.setSelectionRange === "function"
+                          ) {
+                            el.setSelectionRange(val.length, val.length);
+                          }
+                        });
+                      }}
+                      onKeyDown={(e) => {
+                        // Prevent deleting the fixed prefix
+                        const current = watch("phone") || "";
+                        const caret =
+                          (e.target as HTMLInputElement).selectionStart ?? 0;
+                        const isBackspace = e.key === "Backspace";
+                        const isDelete = e.key === "Delete";
+                        if (
+                          (isBackspace && caret <= PHONE_PREFIX.length) ||
+                          (isDelete && caret < PHONE_PREFIX.length)
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
+                      inputMode="numeric"
+                      pattern={PHONE_PATTERN.source}
+                      placeholder="+998 XXX XX XX XX"
                       className="h-12 md:h-14 text-base border-border/60 focus:border-accent focus:ring-accent/20 transition-all duration-200"
                     />
+                    {errors.phone && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-2 text-sm text-destructive flex items-center"
+                      >
+                        <AlertCircle className="w-4 h-4 mr-1" />
+                        Telefon raqam formati: +998 XXX XX XX XX
+                      </motion.p>
+                    )}
                     {errors.phone && (
                       <motion.p
                         initial={{ opacity: 0, y: -10 }}

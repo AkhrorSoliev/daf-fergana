@@ -203,11 +203,11 @@ export default function TeacherDetailPage({ params }: PageProps) {
                         <Button
                           asChild
                           variant="outline"
-                          className="border border-border/60 hover:border-primary hover:bg-primary/5 hover:text-primary font-medium text-base py-3 md:py-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group"
+                          className="border border-border/60 hover:border-primary hover:bg-primary/5 font-medium text-base py-3 md:py-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group"
                         >
                           <Link
                             href="/oqituvchilar"
-                            className="flex items-center justify-center gap-2 text-foreground group-hover:text-primary"
+                            className="flex items-center justify-center gap-2"
                           >
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
                             <span>O'qituvchilar</span>
@@ -217,11 +217,11 @@ export default function TeacherDetailPage({ params }: PageProps) {
                         <Button
                           asChild
                           variant="outline"
-                          className="border border-border/60 hover:border-secondary hover:bg-secondary/10 hover:text-secondary font-medium text-base py-3 md:py-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group"
+                          className="border border-border/60 hover:border-secondary hover:bg-secondary/10 font-medium text-base py-3 md:py-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group"
                         >
                           <Link
                             href="/kurslar"
-                            className="flex items-center justify-center gap-2 text-foreground group-hover:text-secondary"
+                            className="flex items-center justify-center gap-2"
                           >
                             <BookOpen className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                             <span>Kurslar</span>

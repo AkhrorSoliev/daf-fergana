@@ -164,7 +164,7 @@ export default function AdvantagesSection() {
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full group-hover:bg-accent group-hover:text-accent-foreground group-hover:border-accent transition-all duration-300"
+                    className="w-full group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-all duration-300"
                     aria-label={`${advantage.title} haqida batafsil`}
                   >
                     <Link
