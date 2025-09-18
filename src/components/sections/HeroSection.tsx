@@ -21,7 +21,7 @@ const rotatingPhrases = [
   "Cheksiz imkoniyatlar ✨",
   "Tez natija ⚡",
   "Samarali tayyorgarlik 🎯",
-  "Ishonchli yo‘l-yo‘riq 🧭",
+  "Ishonchli yo'l-yo'riq 🧭",
   "Yuqori motivatsiya 🚀",
   "Amaliy tajriba 🧩",
 ];
@@ -53,7 +53,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="hero-container relative h-screen overflow-hidden">
       {/* Background Images */}
       <div className="absolute inset-0 bg-black">
         {/* Stacked cross-fade to avoid flashes */}
@@ -72,7 +72,10 @@ export default function HeroSection() {
                 alt="DaF Fergana Education Center"
                 fill
                 className="object-cover"
-                priority={idx === 0}
+                sizes="100vw"
+                quality={90}
+                priority={idx === currentImageIndex}
+                fetchPriority={idx === currentImageIndex ? "high" : "auto"}
               />
             </motion.div>
           ))}
@@ -84,7 +87,10 @@ export default function HeroSection() {
           alt=""
           fill
           className="opacity-0 pointer-events-none select-none"
+          sizes="100vw"
+          quality={90}
           priority={false}
+          fetchPriority="high"
         />
 
         {/* Dark Gradient Overlay */}
@@ -92,25 +98,19 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex items-center justify-center h-full">
-        <div className="container text-center text-white">
+      <div className="relative z-10 h-full">
+        <div className="h-full flex items-center justify-center px-4 sm:px-6 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto"
+            className="w-full max-w-4xl mx-auto text-center text-white"
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              <div className="text-center">
+            {/* Main Heading */}
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
+              <div className="flex flex-col items-center gap-1 sm:gap-2">
                 <span className="text-white/95">DaF bilan</span>
-                <span
-                  className="relative inline-flex align-middle overflow-hidden whitespace-nowrap h-[1.1em]"
-                  aria-live="polite"
-                >
-                  {/* Hidden placeholder to lock width to the longest phrase */}
-                  <span className="opacity-0 inline-block px-1 text-accent align-middle">
-                    Samarali tayyorgarlik 🎯
-                  </span>
+                <div className="relative overflow-hidden h-[1.2em] flex items-center justify-center w-full">
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.span
                       key={phraseIndex}
@@ -118,52 +118,60 @@ export default function HeroSection() {
                       animate={{ y: "0%", opacity: 1 }}
                       exit={{ y: "-100%", opacity: 0 }}
                       transition={{ duration: 0.5, ease: "easeInOut" }}
-                      className="absolute left-0 top-0 px-1 text-accent leading-none will-change-transform w-full text-center"
+                      className="absolute text-accent leading-none will-change-transform text-center"
+                      aria-live="polite"
                     >
                       {rotatingPhrases[phraseIndex]}
                     </motion.span>
                   </AnimatePresence>
-                </span>
+                </div>
               </div>
             </h1>
 
-            <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed">
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed px-2">
               Nemis tili sizni universitetlar, ish va yangi hayot sari
               yetaklaydi.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-              <Button
-                asChild
-                size="lg"
-                className="bg-accent hover:bg-accent/90 text-accent-foreground text-base md:text-lg px-6 md:px-8 py-4 md:py-6 h-auto w-full sm:w-auto"
-              >
-                <Link href="/kurslar" className="flex items-center">
-                  Kurslarni ko'rish
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
-              </Button>
+            {/* Action Buttons */}
+            <div className="w-full max-w-lg mx-auto px-4 sm:px-0">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <Button
+                  asChild
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground text-sm sm:text-base font-medium px-6 sm:px-8 py-3 sm:py-4 h-auto w-full sm:flex-1 rounded-xl shadow-lg shadow-accent/20 hover:shadow-accent/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-2 focus-visible:ring-accent/60"
+                >
+                  <Link
+                    href="/kurslar"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <span>Kurslarni ko'rish</span>
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </Link>
+                </Button>
 
-              <Button
-                onClick={scrollToConsultation}
-                variant="outline"
-                size="lg"
-                className="border-2 border-white/80 bg-white/10 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm text-base md:text-lg px-6 md:px-8 py-4 md:py-6 h-auto w-full sm:w-auto"
-              >
-                <Play className="mr-2 w-5 h-5" />
-                Bepul konsultatsiya
-              </Button>
+                <Button
+                  onClick={scrollToConsultation}
+                  variant="outline"
+                  className="border-2 border-white/70 bg-white/10 text-white hover:bg-white/20 hover:text-white backdrop-blur-md text-sm sm:text-base font-medium px-6 sm:px-8 py-3 sm:py-4 h-auto w-full sm:flex-1 rounded-xl shadow-[0_8px_30px_rgba(255,255,255,0.12)] hover:shadow-[0_12px_40px_rgba(255,255,255,0.15)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-2 focus-visible:ring-white/70"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <Play className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span>Bepul konsultatsiya</span>
+                  </span>
+                </Button>
+              </div>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator - Desktop Only */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="hidden lg:block absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}
