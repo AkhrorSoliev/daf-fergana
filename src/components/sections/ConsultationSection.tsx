@@ -1,25 +1,33 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Phone, Mail, CheckCircle, AlertCircle } from 'lucide-react';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Phone,
+  Mail,
+  CheckCircle,
+  AlertCircle,
+  MessageCircle,
+} from "lucide-react";
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Ism kamida 2 ta harfdan iborat bo\'lishi kerak'),
-  phone: z.string().min(1, 'Telefon raqam kiritish majburiy'),
+  name: z.string().min(2, "Ism kamida 2 ta harfdan iborat bo'lishi kerak"),
+  phone: z.string().min(1, "Telefon raqam kiritish majburiy"),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 export default function ConsultationSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
   const {
     register,
@@ -32,145 +40,257 @@ export default function ConsultationSection() {
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
-    setSubmitStatus('idle');
+    setSubmitStatus("idle");
 
     try {
-      const response = await fetch('/api/lead', {
-        method: 'POST',
+      const response = await fetch("/api/lead", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
 
       if (response.ok) {
-        setSubmitStatus('success');
+        setSubmitStatus("success");
         reset();
-        // Hide success message after 5 seconds
-        setTimeout(() => setSubmitStatus('idle'), 5000);
+        setTimeout(() => setSubmitStatus("idle"), 5000);
       } else {
-        setSubmitStatus('error');
+        setSubmitStatus("error");
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-      setSubmitStatus('error');
+      console.error("Form submission error:", error);
+      setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="consultation" className="py-20">
-      <div className="container">
+    <section
+      id="consultation"
+      className="py-16 md:py-24 bg-gradient-to-br from-accent/5 via-background to-secondary/10 relative overflow-hidden"
+    >
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-32 left-1/4 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-1/4 w-36 h-36 bg-secondary/15 rounded-full blur-2xl" />
+      </div>
+
+      <div className="container relative">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-12 md:mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4"
+          >
+            📞 Bepul maslahat
+          </motion.div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Bepul konsultatsiya
           </h2>
-          <div className="w-24 h-1 bg-accent mx-auto mb-8" />
-          <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            Nemis tilini o'rganish yoki Germaniyada ta'lim olish haqida maslahat oling. 
-            Mutaxassislarimiz sizga yordam berishga tayyor!
+          <div className="w-24 h-1 bg-gradient-to-r from-accent to-secondary mx-auto mb-6" />
+          <p className="text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
+            Nemis tilini o'rganish yoki Germaniyada ta'lim olish haqida maslahat
+            oling. Mutaxassislarimiz sizga yordam berishga tayyor!
           </p>
         </motion.div>
 
         <div className="max-w-2xl mx-auto">
-          <Card className="p-8 shadow-lg">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                  Ism Familiya *
-                </label>
-                <Input
-                  id="name"
-                  {...register('name')}
-                  placeholder="Ismingizni kiriting"
-                  className="h-12"
-                />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-destructive flex items-center">
-                    <AlertCircle className="w-4 h-4 mr-1" />
-                    {errors.name.message}
-                  </p>
-                )}
-              </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <Card className="relative overflow-hidden p-6 md:p-8 lg:p-10 shadow-xl border border-border/60 bg-white/95 dark:bg-card">
+              {/* Subtle background pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-secondary/5 opacity-50" />
 
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                  Telefon raqam *
-                </label>
-                <Input
-                  id="phone"
-                  {...register('phone')}
-                  placeholder="+998 XX XXX XX XX"
-                  className="h-12"
-                />
-                {errors.phone && (
-                  <p className="mt-1 text-sm text-destructive flex items-center">
-                    <AlertCircle className="w-4 h-4 mr-1" />
-                    {errors.phone.message}
-                  </p>
-                )}
-              </div>
+              <div className="relative">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-semibold text-foreground mb-3"
+                    >
+                      Ism Familiya *
+                    </label>
+                    <Input
+                      id="name"
+                      {...register("name")}
+                      placeholder="Ismingizni kiriting"
+                      className="h-12 md:h-14 text-base border-border/60 focus:border-accent focus:ring-accent/20 transition-all duration-200"
+                    />
+                    {errors.name && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-2 text-sm text-destructive flex items-center"
+                      >
+                        <AlertCircle className="w-4 h-4 mr-1" />
+                        {errors.name.message}
+                      </motion.p>
+                    )}
+                  </motion.div>
 
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full h-12 bg-accent hover:bg-accent/90 text-accent-foreground text-lg"
-              >
-                {isSubmitting ? (
-                  'Yuborilmoqda...'
-                ) : (
-                  <>
-                    <Phone className="w-5 h-5 mr-2" />
-                    Konsultatsiya so'rang
-                  </>
-                )}
-              </Button>
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    viewport={{ once: true }}
+                  >
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-semibold text-foreground mb-3"
+                    >
+                      Telefon raqam *
+                    </label>
+                    <Input
+                      id="phone"
+                      {...register("phone")}
+                      placeholder="+998 XX XXX XX XX"
+                      className="h-12 md:h-14 text-base border-border/60 focus:border-accent focus:ring-accent/20 transition-all duration-200"
+                    />
+                    {errors.phone && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-2 text-sm text-destructive flex items-center"
+                      >
+                        <AlertCircle className="w-4 h-4 mr-1" />
+                        {errors.phone.message}
+                      </motion.p>
+                    )}
+                  </motion.div>
 
-              {/* Status Messages */}
-              {submitStatus === 'success' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    viewport={{ once: true }}
+                  >
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full h-12 md:h-14 bg-accent hover:bg-accent/90 text-accent-foreground text-base md:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center">
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{
+                              duration: 1,
+                              repeat: Infinity,
+                              ease: "linear",
+                            }}
+                            className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full mr-2"
+                          />
+                          Yuborilmoqda...
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center">
+                          <Phone className="w-5 h-5 mr-2" />
+                          Konsultatsiya so'rang
+                        </span>
+                      )}
+                    </Button>
+                  </motion.div>
+
+                  {/* Enhanced Status Messages */}
+                  <AnimatePresence>
+                    {submitStatus === "success" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                        className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-center text-green-800 dark:text-green-200"
+                      >
+                        <CheckCircle className="w-5 h-5 mr-3 text-green-600" />
+                        <span className="font-medium">
+                          Muvaffaqiyatli yuborildi! Tez orada siz bilan
+                          bog'lanamiz.
+                        </span>
+                      </motion.div>
+                    )}
+
+                    {submitStatus === "error" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                        className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-center text-red-800 dark:text-red-200"
+                      >
+                        <AlertCircle className="w-5 h-5 mr-3 text-red-600" />
+                        <span className="font-medium">
+                          Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.
+                        </span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </form>
+
+                {/* Enhanced Contact Info */}
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-800"
+                  className="mt-8 pt-6 border-t border-border/60"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  viewport={{ once: true }}
                 >
-                  <CheckCircle className="w-5 h-5 mr-2" />
-                  Muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.
-                </motion.div>
-              )}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center sm:text-left">
+                    <motion.a
+                      href="tel:+998905351099"
+                      whileHover={{ scale: 1.02 }}
+                      className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
+                    >
+                      <Phone className="w-4 h-4 text-accent" />
+                      <span className="text-sm font-medium text-foreground/70">
+                        +998 90 535 10 99
+                      </span>
+                    </motion.a>
 
-              {submitStatus === 'error' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-800"
-                >
-                  <AlertCircle className="w-5 h-5 mr-2" />
-                  Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.
-                </motion.div>
-              )}
-            </form>
+                    <motion.a
+                      href="mailto:info@daf-fergana.uz"
+                      whileHover={{ scale: 1.02 }}
+                      className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
+                    >
+                      <Mail className="w-4 h-4 text-accent" />
+                      <span className="text-sm font-medium text-foreground/70">
+                        info@daf-fergana.uz
+                      </span>
+                    </motion.a>
 
-            {/* Contact Info */}
-            <div className="mt-8 pt-6 border-t border-border">
-              <div className="flex flex-col sm:flex-row gap-4 text-center sm:text-left">
-                <div className="flex items-center justify-center sm:justify-start space-x-2">
-                  <Phone className="w-4 h-4 text-accent" />
-                  <span className="text-sm text-foreground/70">+998 90 535 10 99</span>
-                </div>
-                <div className="flex items-center justify-center sm:justify-start space-x-2">
-                  <Mail className="w-4 h-4 text-accent" />
-                  <span className="text-sm text-foreground/70">info@daf-fergana.uz</span>
-                </div>
+                    <motion.a
+                      href="#"
+                      whileHover={{ scale: 1.02 }}
+                      className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
+                    >
+                      <MessageCircle className="w-4 h-4 text-accent" />
+                      <span className="text-sm font-medium text-foreground/70">
+                        Telegram
+                      </span>
+                    </motion.a>
+                  </div>
+                </motion.div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </motion.div>
         </div>
       </div>
     </section>

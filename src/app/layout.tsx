@@ -26,7 +26,9 @@ export default function RootLayout({
     <html lang="uz" className={bricolage.variable} suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen [&_.hero-container]:px-0">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

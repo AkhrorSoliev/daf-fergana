@@ -22,12 +22,17 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Close mobile menu on route change
+    setIsOpen(false);
+  }, [pathname]);
 
   const scrollToConsultation = () => {
     const element = document.getElementById("consultation");
@@ -41,44 +46,49 @@ export default function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm"
-          : "bg-background/60 backdrop-blur border-b border-transparent"
+          ? "bg-background/95 backdrop-blur-lg border-b border-border shadow-lg"
+          : "bg-background/80 backdrop-blur-md border-b border-transparent"
       }`}
     >
-      <div className="container">
-        <div className="flex items-center justify-between h-14 md:h-16">
+      <div className="container mx-auto">
+        <div className="flex items-center justify-between h-16 lg:h-18">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">
+          <Link
+            href="/"
+            className="flex items-center space-x-2 group"
+            onClick={() => setIsOpen(false)}
+          >
+            <div className="w-8 h-8 lg:w-9 lg:h-9 bg-primary rounded-lg flex items-center justify-center group-hover:bg-primary/90 transition-colors">
+              <span className="text-primary-foreground font-bold text-lg lg:text-xl">
                 D
               </span>
             </div>
-            <span className="text-xl font-bold text-foreground">
+            <span className="text-lg lg:text-xl font-bold text-foreground group-hover:text-primary transition-colors">
               DaF Fergana
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-1">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 aria-current={pathname === item.href ? "page" : undefined}
-                className={`relative px-2 py-1 rounded-md transition-colors hover:text-primary hover:bg-muted/60 text-[13px] md:text-sm font-normal tracking-wide ${
+                className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-muted/60 ${
                   pathname === item.href
                     ? "text-primary bg-primary/10"
-                    : "text-foreground/70"
+                    : "text-foreground/70 hover:text-foreground"
                 }`}
               >
                 {item.name}
                 {pathname === item.href && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                    className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full"
                     initial={false}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
@@ -87,11 +97,12 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:flex items-center space-x-3">
+          {/* Desktop CTA Button */}
+          <div className="hidden lg:flex items-center">
             <Button
               onClick={scrollToConsultation}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground px-4 py-2"
+              size="sm"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
             >
               <Phone className="w-4 h-4 mr-2" />
               Bepul konsultatsiya
@@ -101,10 +112,20 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-md text-foreground hover:bg-muted"
-            aria-label="Toggle menu"
+            className="lg:hidden p-2 rounded-lg text-foreground hover:bg-muted/60 hover:text-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isOpen}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <motion.div
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {isOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </motion.div>
           </button>
         </div>
 
@@ -115,27 +136,30 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-border bg-background/95 backdrop-blur-md"
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="lg:hidden border-t border-border bg-background/98 backdrop-blur-lg"
             >
-              <div className="px-2 pt-2 pb-3 space-y-1">
+              <div className="py-4 space-y-1">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                    className={`block px-4 py-3 mx-2 rounded-lg text-base font-medium transition-all duration-200 ${
                       pathname === item.href
-                        ? "text-primary bg-primary/10"
-                        : "text-foreground hover:text-primary hover:bg-muted"
+                        ? "text-primary bg-primary/10 border border-primary/20"
+                        : "text-foreground hover:text-primary hover:bg-muted/60"
                     }`}
                   >
                     {item.name}
                   </Link>
                 ))}
-                <div className="pt-4">
+
+                {/* Mobile CTA */}
+                <div className="px-2 pt-4">
                   <Button
                     onClick={scrollToConsultation}
-                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                   >
                     <Phone className="w-4 h-4 mr-2" />
                     Bepul konsultatsiya

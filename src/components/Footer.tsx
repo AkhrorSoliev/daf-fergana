@@ -112,7 +112,8 @@ export default function Footer() {
         <div className="border-t border-primary-foreground/20 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-primary-foreground/60 text-sm">
-              © 2024 DaF Sprachzentrum Fergana. Barcha huquqlar himoyalangan.
+              © {new Date().getFullYear()} DaF Sprachzentrum Fergana. Barcha
+              huquqlar himoyalangan.
             </p>
             <div className="flex space-x-6 text-sm">
               <Link
