@@ -119,53 +119,37 @@ export default function MediaSection() {
           </div>
 
           {/* Enhanced marquee with proper fade edges */}
-          <div className="relative overflow-hidden w-[100vw] mx-[calc(50%-50vw)] py-8">
+          <div className="relative overflow-hidden w-[100vw] mx-[calc(50%-50vw)] py-6 md:py-8">
             {/* Fade edges positioned relative to viewport */}
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
-            <div className="flex flex-nowrap gap-8 animate-marquee-50 hover:pause-animation will-change-transform">
-              {marqueeImages.map((url, i) => (
-                <motion.div
-                  key={`a-${i}`}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  className={`group flex-shrink-0 w-[273px] h-[273px] transition-all duration-500 ${
-                    i % 2 === 0 ? "rotate-[-2deg]" : "rotate-[2deg]"
-                  } hover:rotate-0 hover:scale-105`}
-                >
-                  <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-500">
-                    <Image
-                      src={url}
-                      alt={`Success story ${i + 1}`}
-                      width={273}
-                      height={273}
-                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute inset-0 ring-1 ring-white/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                </motion.div>
-              ))}
-              {marqueeImages.map((url, i) => (
+            <div className="flex flex-nowrap gap-4 sm:gap-6 md:gap-8 animate-marquee-50 hover:pause-animation will-change-transform">
+              {/* Render all images twice for seamless infinite loop */}
+              {[...marqueeImages, ...marqueeImages].map((url, i) => (
                 <div
-                  key={`b-${i}`}
-                  aria-hidden="true"
-                  className={`group flex-shrink-0 w-[273px] h-[273px] transition-all duration-500 ${
-                    i % 2 === 0 ? "rotate-[-2deg]" : "rotate-[2deg]"
+                  key={`img-${i}`}
+                  className={`group flex-shrink-0 w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[273px] md:h-[273px] transition-all duration-500 ${
+                    i % 2 === 0
+                      ? "rotate-[-1deg] sm:rotate-[-2deg]"
+                      : "rotate-[1deg] sm:rotate-[2deg]"
                   } hover:rotate-0 hover:scale-105`}
+                  aria-hidden={i >= marqueeImages.length}
                 >
-                  <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-500">
+                  <div className="relative w-full h-full overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-500">
                     <Image
                       src={url}
-                      alt=""
+                      alt={
+                        i < marqueeImages.length
+                          ? `Success story ${(i % marqueeImages.length) + 1}`
+                          : ""
+                      }
                       width={273}
                       height={273}
                       className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
+                      sizes="(max-width: 640px) 180px, (max-width: 768px) 220px, 273px"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute inset-0 ring-1 ring-white/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 ring-1 ring-white/20 rounded-lg sm:rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                 </div>
               ))}
