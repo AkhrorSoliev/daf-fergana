@@ -25,12 +25,6 @@ const advantages = [
     href: "/afzalliklar/consulting",
   },
   {
-    title: "Rus tilida nemis tili darslari",
-    description: "Rus tilida nemis tili o'qitish",
-    icon: BookOpen,
-    href: "/afzalliklar/rus-tilida-nemis",
-  },
-  {
     title: "Germaniyada Ta'lim — Bachelor & Master",
     description: "Germaniya universitetlarida o'qish imkoniyati",
     icon: GraduationCap,
