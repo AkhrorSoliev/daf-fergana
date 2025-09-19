@@ -39,26 +39,21 @@ export default function HeroSection() {
 
   // Decide which image set to use based on viewport (phones use mobile images)
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
-      const matches = "matches" in e ? e.matches : e.matches;
-      setIsMobile(matches);
-    };
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 767px)");
+    const onChange = (event: MediaQueryListEvent) => setIsMobile(event.matches);
     // Set initial state
     setIsMobile(mediaQuery.matches);
-    // Listen for changes
-    const listener = (e: MediaQueryListEvent) => handleChange(e);
+    // Listen for changes (modern and legacy Safari)
     if (typeof mediaQuery.addEventListener === "function") {
-      mediaQuery.addEventListener("change", listener);
+      mediaQuery.addEventListener("change", onChange);
     } else if (typeof mediaQuery.addListener === "function") {
-      // Safari fallback
-      mediaQuery.addListener(listener);
+      mediaQuery.addListener(onChange);
     }
     return () => {
       if (typeof mediaQuery.removeEventListener === "function") {
-        mediaQuery.removeEventListener("change", listener);
+        mediaQuery.removeEventListener("change", onChange);
       } else if (typeof mediaQuery.removeListener === "function") {
-        mediaQuery.removeListener(listener);
+        mediaQuery.removeListener(onChange);
       }
     };
   }, []);
@@ -68,7 +63,6 @@ export default function HeroSection() {
   // Ensure current index stays within bounds when switching image sets
   useEffect(() => {
     setCurrentImageIndex((prev) => prev % images.length);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images.length]);
 
   useEffect(() => {
