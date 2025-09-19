@@ -199,18 +199,18 @@ export default function LibraryPage() {
           </p>
         </div>
 
-        <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
           <div>
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Qidirish: nomi, daraja, turi..."
-              className="h-10"
+              className="h-10 w-full"
             />
           </div>
-          <div className="flex gap-3 md:col-span-2">
+          <div>
             <Select value={levelFilter} onValueChange={setLevelFilter}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="h-10 w-full">
                 <SelectValue placeholder="Daraja" />
               </SelectTrigger>
               <SelectContent>
@@ -224,9 +224,10 @@ export default function LibraryPage() {
                 </SelectGroup>
               </SelectContent>
             </Select>
-
+          </div>
+          <div>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="h-10 w-full">
                 <SelectValue placeholder="Turi" />
               </SelectTrigger>
               <SelectContent>
