@@ -8,13 +8,7 @@ import { z } from "zod";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Phone,
-  Mail,
-  CheckCircle,
-  AlertCircle,
-  MessageCircle,
-} from "lucide-react";
+import { Phone, Mail, CheckCircle, AlertCircle, Send } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Ism kamida 2 ta harfdan iborat bo'lishi kerak"),
@@ -356,11 +350,13 @@ export default function ConsultationSection() {
                     </motion.a>
 
                     <motion.a
-                      href="#"
+                      href="https://t.me/daffergana"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       whileHover={{ scale: 1.02 }}
                       className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     >
-                      <MessageCircle className="w-4 h-4 text-accent" />
+                      <Send className="w-4 h-4 text-accent" />
                       <span className="text-sm font-medium text-foreground/70">
                         Telegram
                       </span>

@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Phone, Mail, MapPin, MessageCircle, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, Send, ExternalLink } from "lucide-react";
 
 const branches = [
   {
@@ -223,8 +223,13 @@ export default function ContactsSection() {
                     variant="outline"
                     className="w-full border-border/60 hover:border-secondary hover:bg-secondary/10 font-medium rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
                   >
-                    <a href="#" className="flex items-center justify-center">
-                      <MessageCircle className="w-4 h-4 mr-2" />
+                    <a
+                      href="https://t.me/daffergana"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center"
+                    >
+                      <Send className="w-4 h-4 mr-2" />
                       Telegram orqali yozing
                     </a>
                   </Button>
