@@ -28,7 +28,7 @@ type ParsedTitle = {
 };
 
 function parseTitle(raw: string): ParsedTitle {
-  let title = raw.trim();
+  const title = raw.trim();
   const levelRegex = /\b([ABC][12](?:\s*[-–]\s*[ABC]?[12])?)\b/i;
   const levelMatch = title.match(levelRegex);
   const level = levelMatch ? levelMatch[1].replace(/\s*/g, "") : undefined;
