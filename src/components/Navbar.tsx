@@ -13,6 +13,7 @@ const navigation = [
   { name: "Kurslar", href: "/kurslar" },
   { name: "Filallar", href: "/filiallar" },
   { name: "Natijalar", href: "/natijalar" },
+  { name: "Kutubxona", href: "/library" },
 ];
 
 export default function Navbar() {
