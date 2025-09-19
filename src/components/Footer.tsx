@@ -1,12 +1,5 @@
 import Link from "next/link";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Instagram,
-  Youtube,
-} from "lucide-react";
+import { Phone, Mail, MapPin, Send, Instagram } from "lucide-react";
 
 const navigation = [
   { name: "Asosiy sahifa", href: "/" },
@@ -17,9 +10,12 @@ const navigation = [
 ];
 
 const socialLinks = [
-  { name: "Telegram", href: "#", icon: MessageCircle },
-  { name: "Instagram", href: "#", icon: Instagram },
-  { name: "YouTube", href: "#", icon: Youtube },
+  { name: "Telegram", href: "https://t.me/daffergana", icon: Send },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/daf_fergana/",
+    icon: Instagram,
+  },
 ];
 
 export default function Footer() {
@@ -98,6 +94,8 @@ export default function Footer() {
                 <a
                   key={item.name}
                   href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-primary-foreground/20 transition-colors"
                   aria-label={item.name}
                 >

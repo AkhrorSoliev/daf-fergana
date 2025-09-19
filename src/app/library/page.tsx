@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Headphones, ExternalLink } from "lucide-react";
+import { Headphones, ExternalLink, Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -197,6 +197,31 @@ export default function LibraryPage() {
             Quyidagi roʻyxatdan kerakli kitobni tanlang. Koʻrish yoki yuklab
             olish mumkin.
           </p>
+        </div>
+
+        {/* Telegram notice */}
+        <div className="mb-8">
+          <div className="flex flex-col items-center gap-3 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 p-4 text-center">
+            <p className="text-sm md:text-base text-blue-800 dark:text-blue-200">
+              Agar kitoblarni Telegram orqali ko'rmoqchi yoki yuklab olmoqchi
+              bo'lsangiz, quyidagi havola orqali kanalimizga o'ting.
+            </p>
+            <Button
+              asChild
+              size="sm"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <a
+                href="https://t.me/daf_bibliothek"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2"
+              >
+                <Send className="w-4 h-4" />
+                <span>Telegramdagi kutubxona</span>
+              </a>
+            </Button>
+          </div>
         </div>
 
         <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">

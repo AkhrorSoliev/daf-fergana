@@ -7,12 +7,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Play, ArrowRight } from "lucide-react";
 
-const images = [
+const desktopTabletImages = [
   "/assets/hero-image-1.jpg",
   "/assets/hero-image-2.jpg",
   "/assets/hero-image-3.jpg",
   "/assets/hero-image-4.jpg",
-  "/assets/hero-image-5.jpg",
+];
+
+const mobileImages = [
+  "/assets/hero-image-mobile-1.jpg",
+  "/assets/hero-image-mobile-2.jpg",
+  "/assets/hero-image-mobile-3.jpg",
+  "/assets/hero-image-mobile-4.jpg",
 ];
 
 const rotatingPhrases = [
@@ -29,6 +35,41 @@ const rotatingPhrases = [
 export default function HeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Decide which image set to use based on viewport (phones use mobile images)
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      const matches = "matches" in e ? e.matches : e.matches;
+      setIsMobile(matches);
+    };
+    // Set initial state
+    setIsMobile(mediaQuery.matches);
+    // Listen for changes
+    const listener = (e: MediaQueryListEvent) => handleChange(e);
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", listener);
+    } else if (typeof mediaQuery.addListener === "function") {
+      // Safari fallback
+      mediaQuery.addListener(listener);
+    }
+    return () => {
+      if (typeof mediaQuery.removeEventListener === "function") {
+        mediaQuery.removeEventListener("change", listener);
+      } else if (typeof mediaQuery.removeListener === "function") {
+        mediaQuery.removeListener(listener);
+      }
+    };
+  }, []);
+
+  const images = isMobile ? mobileImages : desktopTabletImages;
+
+  // Ensure current index stays within bounds when switching image sets
+  useEffect(() => {
+    setCurrentImageIndex((prev) => prev % images.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -36,7 +77,7 @@ export default function HeroSection() {
     }, 6000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [images.length]);
 
   useEffect(() => {
     const timer = setInterval(() => {
