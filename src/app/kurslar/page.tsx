@@ -442,7 +442,7 @@ export default function CoursesPage() {
                         }}
                         inputMode="numeric"
                         pattern={PHONE_PATTERN.source}
-                        placeholder="+998 XXX XX XX XX"
+                        placeholder="+998 XX XXX XX XX"
                         className="pl-10 h-12 border-border/60 focus:border-blue-500"
                         required
                       />
