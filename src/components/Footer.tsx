@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin, Send, Instagram } from "lucide-react";
+import { Phone, Mail, MapPin, Send, Instagram, Sparkles } from "lucide-react";
 
 const navigation = [
   { name: "Asosiy sahifa", href: "/" },
@@ -109,9 +109,23 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/20 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-primary-foreground/60 text-sm">
-              © {new Date().getFullYear()} DaF Sprachzentrum Fergana. Barcha
-              huquqlar himoyalangan.
+            <p className="text-primary-foreground/60 text-sm flex items-center flex-wrap gap-2">
+              <span>
+                © {new Date().getFullYear()} DaF Sprachzentrum Fergana. Barcha
+                huquqlar himoyalangan.
+              </span>
+              <span className="mx-1 text-primary-foreground/40">•</span>
+              <a
+                href="https://t.me/akhror_soliev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+                aria-label="Telegramda muallif profili — Ahro Soliyev"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-accent" />
+                Ahro Soliyev
+              </a>
+              <span>tomonidan tayyorlandi.</span>
             </p>
             <div className="flex space-x-6 text-sm">
               <Link

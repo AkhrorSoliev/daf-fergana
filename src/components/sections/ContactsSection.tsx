@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,46 +12,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Phone, Mail, MapPin, Send, ExternalLink } from "lucide-react";
-
-const branches = [
-  {
-    id: "fergana",
-    name: "Farg'ona filiali",
-    address:
-      "Ma'rifat ko'chasi 73, 150100, Farg'ona shahri, Farg'ona viloyati, O'zbekiston",
-    phone: "+998 90 535 10 99",
-    email: "fergana@daf-fergana.uz",
-    mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d458.9196921568029!2d71.78530216685563!3d40.387179363413175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38bb83fb91cc7da3%3A0x36a25812ad51e334!2sDAF%20sprachzentrum!5e0!3m2!1sen!2s!4v1758038227609!5m2!1sen!2s",
-  },
-  {
-    id: "tashkent",
-    name: "Toshkent filiali",
-    address: "Amir Temur ko'chasi 15, 100000, Toshkent shahri, O'zbekiston",
-    phone: "+998 71 123 45 67",
-    email: "tashkent@daf-fergana.uz",
-    mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.1234567890!2d69.2401!3d41.2995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b0cc379e9c3%3A0xfd5af35cac3e4c90!2sTashkent%20City!5e0!3m2!1sen!2s!4v1758038227609!5m2!1sen!2s",
-  },
-  {
-    id: "samarkand",
-    name: "Samarqand filiali",
-    address: "Registon maydoni 1, 140100, Samarqand shahri, O'zbekiston",
-    phone: "+998 66 234 56 78",
-    email: "samarkand@daf-fergana.uz",
-    mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.1234567890!2d66.9597!3d39.6547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f4d191960077df7%3A0x487636d6d6a7b8a2!2sRegistan!5e0!3m2!1sen!2s!4v1758038227609!5m2!1sen!2s",
-  },
-];
+import { branches as sharedBranches, mapEmbedUrl } from "@/data/branches";
 
 export default function ContactsSection() {
-  const [selectedBranch, setSelectedBranch] = useState(branches[0]);
+  const [selectedBranchId, setSelectedBranchId] = useState(
+    sharedBranches[0].id
+  );
+  const selectedBranch = useMemo(() => {
+    return (
+      sharedBranches.find((b) => b.id === selectedBranchId) ?? sharedBranches[0]
+    );
+  }, [selectedBranchId]);
 
   const handleBranchChange = (branchId: string) => {
-    const branch = branches.find((b) => b.id === branchId);
-    if (branch) {
-      setSelectedBranch(branch);
-    }
+    setSelectedBranchId(branchId);
   };
 
   return (
@@ -111,20 +85,20 @@ export default function ContactsSection() {
                   transition={{ duration: 0.2 }}
                 >
                   <Select
-                    value={selectedBranch.id}
+                    value={selectedBranchId}
                     onValueChange={handleBranchChange}
                   >
                     <SelectTrigger className="w-full h-12 md:h-14 text-base border-border/60 focus:border-accent">
                       <SelectValue placeholder="Filialni tanlang" />
                     </SelectTrigger>
                     <SelectContent>
-                      {branches.map((branch) => (
+                      {sharedBranches.map((branch) => (
                         <SelectItem
                           key={branch.id}
                           value={branch.id}
                           className="text-base"
                         >
-                          {branch.name}
+                          {branch.city}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -133,7 +107,7 @@ export default function ContactsSection() {
 
                 <motion.div
                   className="mt-8 space-y-6"
-                  key={selectedBranch.id}
+                  key={selectedBranchId}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
@@ -160,31 +134,41 @@ export default function ContactsSection() {
                       <p className="font-semibold text-foreground mb-1">
                         Telefon
                       </p>
-                      <a
-                        href={`tel:${selectedBranch.phone}`}
-                        className="text-foreground/70 text-sm md:text-base hover:text-accent transition-colors duration-200 hover:underline"
-                      >
-                        {selectedBranch.phone}
-                      </a>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedBranch.phones.map((phone) => {
+                          const telHref = `tel:${phone.replace(/[^+\d]/g, "")}`;
+                          return (
+                            <a
+                              key={phone}
+                              href={telHref}
+                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/60 bg-white/70 dark:bg-white/5 hover:border-accent hover:bg-accent/10 text-foreground text-sm transition-colors"
+                            >
+                              {phone}
+                            </a>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-4">
-                    <div className="p-2 bg-accent/10 rounded-lg">
-                      <Mail className="w-5 h-5 text-accent" />
+                  {selectedBranch.email && (
+                    <div className="flex items-center space-x-4">
+                      <div className="p-2 bg-accent/10 rounded-lg">
+                        <Mail className="w-5 h-5 text-accent" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground mb-1">
+                          Email
+                        </p>
+                        <a
+                          href={`mailto:${selectedBranch.email}`}
+                          className="text-foreground/70 text-sm md:text-base hover:text-accent transition-colors duration-200 hover:underline"
+                        >
+                          {selectedBranch.email}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-semibold text-foreground mb-1">
-                        Email
-                      </p>
-                      <a
-                        href={`mailto:${selectedBranch.email}`}
-                        className="text-foreground/70 text-sm md:text-base hover:text-accent transition-colors duration-200 hover:underline"
-                      >
-                        {selectedBranch.email}
-                      </a>
-                    </div>
-                  </div>
+                  )}
                 </motion.div>
 
                 {/* Enhanced Action Buttons */}
@@ -195,7 +179,10 @@ export default function ContactsSection() {
                       className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
                     >
                       <a
-                        href={`tel:${selectedBranch.phone}`}
+                        href={`tel:${selectedBranch.phones[0].replace(
+                          /[^+\d]/g,
+                          ""
+                        )}`}
                         className="flex items-center justify-center"
                       >
                         <Phone className="w-4 h-4 mr-2" />
@@ -209,7 +196,11 @@ export default function ContactsSection() {
                       className="border-border/60 hover:border-accent hover:bg-accent/5 font-medium rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
                     >
                       <a
-                        href={`mailto:${selectedBranch.email}`}
+                        href={
+                          selectedBranch.email
+                            ? `mailto:${selectedBranch.email}`
+                            : "#"
+                        }
                         className="flex items-center justify-center"
                       >
                         <Mail className="w-4 h-4 mr-2" />
@@ -256,7 +247,9 @@ export default function ContactsSection() {
                     Joylashuv
                   </h3>
                   <motion.a
-                    href={selectedBranch.mapUrl.replace("/embed", "")}
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                      `${selectedBranch.city}, ${selectedBranch.address}`
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05 }}
@@ -269,13 +262,16 @@ export default function ContactsSection() {
 
                 <motion.div
                   className="relative w-full h-80 md:h-96 rounded-2xl overflow-hidden shadow-lg"
-                  key={selectedBranch.id}
+                  key={selectedBranchId}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
                 >
                   <iframe
-                    src={selectedBranch.mapUrl}
+                    src={mapEmbedUrl(
+                      selectedBranch.city,
+                      selectedBranch.address
+                    )}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}

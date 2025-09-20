@@ -13,68 +13,20 @@ import {
   Phone,
   ExternalLink,
 } from "lucide-react";
+import { branches, mapSearchUrl, mapEmbedUrl } from "@/data/branches";
 
-type Branch = {
-  city: string;
-  address: string;
-  phones: string[];
-  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+const cityIconMap: Record<
+  string,
+  React.ComponentType<React.SVGProps<SVGSVGElement>>
+> = {
+  Toshkent: Building2,
+  Buxoro: Landmark,
+  "Farg‘ona": Home,
+  Namangan: Navigation,
+  Navoiy: Factory,
+  Samarqand: Building,
+  Xorazm: Landmark,
 };
-
-const branches: Branch[] = [
-  {
-    city: "Toshkent",
-    address: "Chilonzor tumani, Lutfiy ko‘chasi 47",
-    phones: ["+998 90 002 77 66", "+998 95 989 16 09"],
-    Icon: Building2,
-  },
-  {
-    city: "Buxoro",
-    address: "“Dunyo” binosi",
-    phones: ["+998 90 412 97 95"],
-    Icon: Landmark,
-  },
-  {
-    city: "Farg‘ona",
-    address: "Turkiston ko‘chasi 22",
-    phones: ["+99 890 535 10 99"],
-    Icon: Home,
-  },
-  {
-    city: "Namangan",
-    address: "A. Xo‘jayev ko‘chasi 38",
-    phones: ["+998 97 258 12 26"],
-    Icon: Navigation,
-  },
-  {
-    city: "Navoiy",
-    address: "Gulbog‘ ko‘chasi 12",
-    phones: ["+998 90 665 25 25"],
-    Icon: Factory,
-  },
-  {
-    city: "Samarqand",
-    address: "Ibn Xoldun ko‘chasi 10B, klinikada tibbiy ekspert",
-    phones: ["+998 90 159 98 88"],
-    Icon: Building,
-  },
-  {
-    city: "Xorazm",
-    address: "Urganch shahri",
-    phones: ["+998 91 862 36 93"],
-    Icon: Landmark,
-  },
-];
-
-function mapSearchUrl(city: string, address: string): string {
-  const q = encodeURIComponent(`${city}, ${address}`);
-  return `https://www.google.com/maps/search/?api=1&query=${q}`;
-}
-
-function mapEmbedUrl(city: string, address: string): string {
-  const q = encodeURIComponent(`${city}, ${address}`);
-  return `https://www.google.com/maps?q=${q}&output=embed`;
-}
 
 export default function BranchesPage() {
   return (
@@ -96,7 +48,8 @@ export default function BranchesPage() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
-          {branches.map(({ city, address, phones, Icon }) => {
+          {branches.map(({ city, address, phones }) => {
+            const Icon = cityIconMap[city] ?? Building2;
             const mapsUrl = mapSearchUrl(city, address);
             const embedUrl = mapEmbedUrl(city, address);
             return (
