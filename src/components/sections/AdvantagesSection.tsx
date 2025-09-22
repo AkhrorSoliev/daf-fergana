@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
+  Send,
   Users,
   BookOpen,
   GraduationCap,
@@ -20,55 +21,64 @@ import {
 const advantages = [
   {
     title: "Consulting xizmatlari",
-    description: "Professional maslahat va yo'naltirish xizmatlari",
+    description:
+      "Profil tahlili, yo'nalish tanlash, hujjatlar va viza jarayonida yo'l-yo'riq.",
     icon: Users,
     href: "/afzalliklar/consulting",
   },
   {
     title: "Germaniyada Ta'lim — Bachelor & Master",
-    description: "Germaniya universitetlarida o'qish imkoniyati",
+    description:
+      "Universitetga qabul, talablari va stipendiya imkoniyatlari haqida to'liq yo'l xaritasi.",
     icon: GraduationCap,
     href: "/afzalliklar/bachelor-master",
   },
   {
     title: "Weiterbildung — Malaka oshirish",
-    description: "Professional malaka oshirish dasturlari",
+    description:
+      "Ish faoliyati yonida qisqa kurslar orqali kasbiy malaka va sertifikat olish yo'llari.",
     icon: Briefcase,
     href: "/afzalliklar/weiterbildung",
   },
   {
     title: "Ausbildung — Dual Ta'lim",
-    description: "Ish va o'qishni bir vaqtda olib borish",
+    description:
+      "Nazariya + amaliyot: o'qish bilan birga oylik maosh to'lanadigan kasb-hunar tayyorlash.",
     icon: Wrench,
     href: "/afzalliklar/ausbildung",
   },
   {
     title: "FSJ/BFD — volontiyorlik dasturi",
-    description: "Ijtimoiy faoliyat va volontiyorlik",
+    description:
+      "Ijtimoiy sohada ko'ngilli faoliyat, madaniy almashinuv va tilni amalda rivojlantirish.",
     icon: Heart,
     href: "/afzalliklar/fsj-bfd",
   },
   {
     title: "Aupair — Enagalik dasturi",
-    description: "Oilada yashash va til o'rganish",
+    description:
+      "Nemis oilasida yashab, bolalar parvarishi bilan tilni kundalik hayotda o'rganish.",
     icon: Home,
     href: "/afzalliklar/aupair",
   },
   {
     title: "Ferienjob — 3 oylik ta'til ishi",
-    description: "Yozgi ta'tilda ishlash imkoniyati",
+    description:
+      "Talabalar uchun yozgi mavsumda qisqa muddatli ish, tajriba va daromad imkoniyati.",
     icon: Sun,
     href: "/afzalliklar/ferienjob",
   },
   {
     title: "Mutaxassisligingiz bo'yicha ish",
-    description: "Kasbiy faoliyatni Germaniyada davom ettirish",
+    description:
+      "Diplomni tan oldirish, ish beruvchi topish va kasbiy migratsiya jarayonlari.",
     icon: Briefcase,
     href: "/afzalliklar/mutaxassis-ishi",
   },
   {
     title: "Saisonarbeit — Mavsumiy ish",
-    description: "Mavsumiy ish o'rinlari",
+    description:
+      "Qishloq xo'jaligi va xizmat ko'rsatishda mavsumiy ishlar uchun rasmiy yo'l.",
     icon: Coffee,
     href: "/afzalliklar/saisonarbeit",
   },
@@ -173,6 +183,36 @@ export default function AdvantagesSection() {
               </Card>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Consulting suggestion */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="mt-10 flex items-center justify-center gap-3"
+        >
+          <Button asChild size="lg" variant="outline" className="gap-2">
+            <a
+              href="https://t.me/Consulting_UZB"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Maslahat kerakmi? Telegramga o'ting
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="gap-2">
+            <a
+              href="https://t.me/dafferganaadmin"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Nemis tili bo'yicha bog'lanish
+              <Send className="w-4 h-4" />
+            </a>
+          </Button>
         </motion.div>
       </div>
     </section>

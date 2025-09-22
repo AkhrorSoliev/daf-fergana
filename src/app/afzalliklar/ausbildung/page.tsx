@@ -3,7 +3,16 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Wrench } from "lucide-react";
+import {
+  Wrench,
+  FileText,
+  Factory,
+  ShieldCheck,
+  Euro,
+  Send,
+  Handshake,
+} from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { LeadModal } from "@/components/LeadModal";
 
 export default function AusbildungPage() {
@@ -25,22 +34,72 @@ export default function AusbildungPage() {
             Dual ta’lim: haftaning bir qismi kollejda nazariya, bir qismi esa
             ishxonada amaliyot. O‘qish davomida oylik maosh to‘lanadi.
           </p>
+          <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/20 text-foreground/80 text-sm">
+            <Handshake className="w-4 h-4 text-accent" /> ConsultingUz bilan
+            xamkorlikda
+          </div>
         </motion.div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-sm">
-          <button
-            onClick={() => setOpen(true)}
-            className="px-3 py-1 rounded-full bg-secondary/20 hover:bg-secondary/30 transition-colors flex items-center"
-          >
-            <Wrench className="w-4 h-4 mr-2" /> Ish beruvchi topishda yordam
-            oling
-          </button>
-          <a
-            href="#faq"
-            className="px-3 py-1 rounded-full bg-secondary/20 hover:bg-secondary/30 transition-colors flex items-center"
-          >
-            <MessageCircle className="w-4 h-4 mr-2" /> FAQ
-          </a>
+        {/* Nima bu? va afzalliklar */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card className="p-6 rounded-2xl border border-border/60 bg-white/80 dark:bg-secondary/5">
+            <div className="flex items-start gap-4">
+              <Factory className="w-6 h-6 text-accent mt-1" />
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Nima bu?</h3>
+                <p className="text-foreground/80 leading-relaxed">
+                  Dual ta’lim: o‘qish (Berufsschule) va amaliyot (ishxona)
+                  birga. Shartnoma asosida oylik maosh to‘lanadi.
+                </p>
+              </div>
+            </div>
+          </Card>
+          <Card className="p-6 rounded-2xl border border-border/60 bg-white/80 dark:bg-secondary/5">
+            <div className="flex items-start gap-4">
+              <ShieldCheck className="w-6 h-6 text-accent mt-1" />
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Afzalliklar</h3>
+                <p className="text-foreground/80 leading-relaxed">
+                  Ish tajribasi + diplom. Bitirgach doimiy ishga kirish va
+                  yashash ruxsatini uzaytirish imkoniyati.
+                </p>
+              </div>
+            </div>
+          </Card>
+          <Card className="p-6 rounded-2xl border border-border/60 bg-white/80 dark:bg-secondary/5">
+            <div className="flex items-start gap-4">
+              <Euro className="w-6 h-6 text-accent mt-1" />
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Maosh</h3>
+                <p className="text-foreground/80 leading-relaxed">
+                  1-kurs: ~800–1100 €, keyingi kurslarda oshadi; soha va
+                  mintaqaga bog‘liq.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Hujjatlar */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card className="p-6 rounded-2xl border border-border/60 bg-white/80 dark:bg-secondary/5">
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-accent" /> Hujjatlar ro‘yxati
+            </h3>
+            <ul className="list-disc pl-5 text-foreground/80 space-y-2">
+              <li>Maktab diplomi yoki kollej/litsey</li>
+              <li>CV, motivatsion xat, pasport</li>
+              <li>Til sertifikati (odatda B1–B2, yo‘nalishga qarab)</li>
+            </ul>
+          </Card>
+          <Card className="p-6 rounded-2xl border border-border/60 bg-white/80 dark:bg-secondary/5">
+            <h3 className="text-xl font-semibold mb-3">Yo‘nalishlar</h3>
+            <ul className="list-disc pl-5 text-foreground/80 space-y-2">
+              <li>IT, logistika, me’morchilik va qurilish</li>
+              <li>Tibbiyot parvarish (Pflege), retsepsiya, mehmondo‘stlik</li>
+              <li>Mexatronika, avtomexanika, elektr</li>
+            </ul>
+          </Card>
         </div>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -67,7 +126,7 @@ export default function AusbildungPage() {
             </ul>
           </div>
 
-          <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5 md:col-span-2">
+          <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5">
             <h3 className="text-xl font-semibold mb-3">Jarayon</h3>
             <ol className="list-decimal pl-5 text-foreground/80 space-y-2">
               <li>
@@ -102,10 +161,28 @@ export default function AusbildungPage() {
           </div>
         </div>
 
+        {/* Dual CTA: our modal + Consulting UZ Telegram */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <Button className="h-11 px-6" onClick={() => setOpen(true)}>
+            <Wrench className="w-4 h-4 mr-2" /> Nemis tili bo'yicha bog'lanish
+          </Button>
+          <Button asChild variant="outline" className="h-11 px-6">
+            <a
+              href="https://t.me/Consulting_UZB"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center"
+            >
+              <Send className="w-4 h-4 mr-2" /> Consulting UZ Telegram
+            </a>
+          </Button>
+        </div>
+
         <LeadModal
           open={open}
           onClose={() => setOpen(false)}
           source="Ausbildung"
+          redirectUrlAfterSuccess="https://t.me/daffergana_bot"
         />
       </div>
     </div>

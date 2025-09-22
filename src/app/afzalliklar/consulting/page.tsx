@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, MessageCircle } from "lucide-react";
+import { Users, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 import { LeadModal } from "@/components/LeadModal";
 
@@ -101,7 +101,7 @@ export default function ConsultingPage() {
 
           <div
             id="jarayon"
-            className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5 md:col-span-2"
+            className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5"
           >
             <h3 className="text-xl font-semibold mb-3">Jarayon bosqichlari</h3>
             <ol className="list-decimal pl-5 text-foreground/80 space-y-2">
@@ -150,9 +150,13 @@ export default function ConsultingPage() {
             <Users className="w-4 h-4 mr-2" /> Bepul maslahat oling
           </Button>
           <Button asChild variant="outline" className="h-11 px-6">
-            <a href="#faq" className="flex items-center">
-              <MessageCircle className="w-4 h-4 mr-2" /> Tez-tez so‘raladigan
-              savollar
+            <a
+              href="https://t.me/Consulting_UZB"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center"
+            >
+              <Send className="w-4 h-4 mr-2" /> Consulting UZ Telegram
             </a>
           </Button>
         </div>
@@ -161,6 +165,7 @@ export default function ConsultingPage() {
           open={open}
           onClose={() => setOpen(false)}
           source="Consulting"
+          redirectUrlAfterSuccess="https://t.me/daffergana_bot"
         />
 
         {/* FAQ */}
