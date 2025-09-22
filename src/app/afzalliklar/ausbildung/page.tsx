@@ -11,6 +11,8 @@ import {
   Euro,
   Send,
   Handshake,
+  BookOpenCheck,
+  CalendarDays,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { LeadModal } from "@/components/LeadModal";
@@ -93,7 +95,9 @@ export default function AusbildungPage() {
             </ul>
           </Card>
           <Card className="p-6 rounded-2xl border border-border/60 bg-white/80 dark:bg-secondary/5">
-            <h3 className="text-xl font-semibold mb-3">Yo‘nalishlar</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <Wrench className="w-5 h-5 text-accent" /> Yo‘nalishlar
+            </h3>
             <ul className="list-disc pl-5 text-foreground/80 space-y-2">
               <li>IT, logistika, me’morchilik va qurilish</li>
               <li>Tibbiyot parvarish (Pflege), retsepsiya, mehmondo‘stlik</li>
@@ -104,7 +108,9 @@ export default function AusbildungPage() {
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5">
-            <h3 className="text-xl font-semibold mb-3">Til talabi</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <BookOpenCheck className="w-5 h-5 text-accent" /> Til talabi
+            </h3>
             <ul className="list-disc pl-5 text-foreground/80 space-y-2">
               <li>Ko‘pchilik yo‘nalishlar: nemis B1–B2</li>
               <li>Tibbiyot parvarish (Pflege): odatda B2</li>
@@ -116,7 +122,9 @@ export default function AusbildungPage() {
           </div>
 
           <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5">
-            <h3 className="text-xl font-semibold mb-3">Kirish talablari</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-accent" /> Kirish talablari
+            </h3>
             <ul className="list-disc pl-5 text-foreground/80 space-y-2">
               <li>Maktab diplomi (11-sinf) yoki kollej/litsey</li>
               <li>CV, motivatsion xat, pasport va sertifikatlar</li>
@@ -127,7 +135,9 @@ export default function AusbildungPage() {
           </div>
 
           <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5">
-            <h3 className="text-xl font-semibold mb-3">Jarayon</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <CalendarDays className="w-5 h-5 text-accent" /> Jarayon
+            </h3>
             <ol className="list-decimal pl-5 text-foreground/80 space-y-2">
               <li>
                 Yo‘nalish tanlash (IT, logistika, parvarish, texnika va h.k.)
@@ -139,7 +149,9 @@ export default function AusbildungPage() {
           </div>
 
           <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5">
-            <h3 className="text-xl font-semibold mb-3">Maosh va davomiylik</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <Euro className="w-5 h-5 text-accent" /> Maosh va davomiylik
+            </h3>
             <ul className="list-disc pl-5 text-foreground/80 space-y-2">
               <li>Davomiylik: 2–3,5 yil</li>
               <li>
@@ -152,7 +164,9 @@ export default function AusbildungPage() {
           </div>
 
           <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5">
-            <h3 className="text-xl font-semibold mb-3">Bizning yordam</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <Handshake className="w-5 h-5 text-accent" /> Bizning yordam
+            </h3>
             <ul className="list-disc pl-5 text-foreground/80 space-y-2">
               <li>Yo‘nalish va ish beruvchi izlash strategiyasi</li>
               <li>Hujjatlarni tayyorlash, intervyuga tayyorlash</li>

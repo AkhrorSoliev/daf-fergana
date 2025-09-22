@@ -12,6 +12,7 @@ import {
   Euro,
   Send,
   Handshake,
+  CalendarDays,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -65,7 +66,9 @@ export default function FerienjobPage() {
           </div>
 
           <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5">
-            <h3 className="text-xl font-semibold mb-3">Jarayon</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <CalendarDays className="w-5 h-5 text-accent" /> Jarayon
+            </h3>
             <ol className="list-decimal pl-5 text-foreground/80 space-y-2">
               <li>Ish joyi topish va ariza topshirish</li>
               <li>Shartnoma va turar joy masalasini hal qilish</li>
@@ -86,7 +89,9 @@ export default function FerienjobPage() {
           </div>
 
           <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5">
-            <h3 className="text-xl font-semibold mb-3">Bizning yordam</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <Handshake className="w-5 h-5 text-accent" /> Bizning yordam
+            </h3>
             <ul className="list-disc pl-5 text-foreground/80 space-y-2">
               <li>Ish joyi va turar joy bo‘yicha yo‘riqnoma</li>
               <li>Hujjatlar va viza maslahati</li>

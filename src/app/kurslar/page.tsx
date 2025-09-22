@@ -22,7 +22,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-const categories: CourseCategory[] = ["Individual", "Intensive", "Standard"];
+const categories: CourseCategory[] = ["Standard", "Intensive", "Individual"];
 
 const categoryInfo = {
   Individual: {

@@ -1,6 +1,7 @@
 export type Branch = {
   id: string;
   city: string;
+  name?: string;
   address: string;
   phones: string[];
   email?: string;
@@ -26,6 +27,13 @@ export const branches: Branch[] = [
     address: "Turkiston ko‘chasi 22",
     phones: ["+99 890 535 10 99"],
     email: "fergana@daf-fergana.uz",
+  },
+  {
+    id: "fergana-texnopark",
+    city: "Farg‘ona",
+    name: "DaF Texnopark",
+    address: "Texnopark, Farg‘ona",
+    phones: ["+99 890 535 10 99"],
   },
   {
     id: "namangan",
