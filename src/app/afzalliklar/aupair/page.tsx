@@ -4,7 +4,15 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { LeadModal } from "@/components/LeadModal";
-import { Home, HeartHandshake, FileText, Send, Handshake } from "lucide-react";
+import {
+  Home,
+  HeartHandshake,
+  FileText,
+  Send,
+  Handshake,
+  CalendarDays,
+  BookOpenCheck,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export default function AupairPage() {
@@ -60,7 +68,9 @@ export default function AupairPage() {
           </div>
 
           <div className="p-6 rounded-2xl border border-border/60 bg-white/70 dark:bg-secondary/5 md:col-span-2">
-            <h3 className="text-xl font-semibold mb-3">Jarayon</h3>
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <CalendarDays className="w-5 h-5 text-accent" /> Jarayon
+            </h3>
             <ol className="list-decimal pl-5 text-foreground/80 space-y-2">
               <li>Profil yaratish va mos oila bilan match qilish</li>
               <li>Intervyu va shartnomani kelishish</li>

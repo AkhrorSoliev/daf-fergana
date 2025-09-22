@@ -22,7 +22,7 @@ export const courses: Course[] = [
     level: "A1",
     duration: "2 oy",
     hours: 48,
-    price: "Narxni aniqlash uchun bog'laning",
+    price: "100$",
     description: "Shaxsiy darslar orqali nemis tilining asoslarini o'rganing",
     features: [
       "1:1 darslar",
@@ -39,7 +39,7 @@ export const courses: Course[] = [
     level: "A2",
     duration: "2.5 oy",
     hours: 60,
-    price: "Narxni aniqlash uchun bog'laning",
+    price: "100$",
     description: "A1 asosida nemis tilini chuqurroq o'rganing",
     features: [
       "1:1 darslar",
@@ -56,7 +56,7 @@ export const courses: Course[] = [
     level: "B1",
     duration: "3 oy",
     hours: 72,
-    price: "Narxni aniqlash uchun bog'laning",
+    price: "100$",
     description: "O'rta daraja nemis tili individual darslar",
     features: [
       "1:1 darslar",
@@ -73,7 +73,7 @@ export const courses: Course[] = [
     level: "B2",
     duration: "3.5 oy",
     hours: 84,
-    price: "Narxni aniqlash uchun bog'laning",
+    price: "100$",
     description: "Yuqori o'rta daraja individual ta'lim",
     features: [
       "1:1 darslar",
@@ -92,7 +92,7 @@ export const courses: Course[] = [
     level: "A1",
     duration: "1.5 oy",
     hours: 60,
-    price: "1,200,000 so'm",
+    price: "690 000 so'm",
     description: "Tezkor nemis tili o'rganish dasturi",
     features: [
       "Kuniga 3 soat",
@@ -109,7 +109,7 @@ export const courses: Course[] = [
     level: "A2",
     duration: "2 oy",
     hours: 80,
-    price: "1,500,000 so'm",
+    price: "690 000 so'm",
     description: "A2 darajasini tez va samarali o'zlashtiring",
     features: [
       "Kuniga 3 soat",
@@ -126,7 +126,7 @@ export const courses: Course[] = [
     level: "B1",
     duration: "2.5 oy",
     hours: 100,
-    price: "1,800,000 so'm",
+    price: "690 000 so'm",
     description: "O'rta daraja intensive kurs",
     features: [
       "Kuniga 3 soat",
@@ -143,7 +143,7 @@ export const courses: Course[] = [
     level: "B2",
     duration: "3 oy",
     hours: 120,
-    price: "2,100,000 so'm",
+    price: "690 000 so'm",
     description: "Yuqori o'rta daraja intensive dastur",
     features: [
       "Kuniga 3 soat",
@@ -162,7 +162,7 @@ export const courses: Course[] = [
     level: "A1",
     duration: "3 oy",
     hours: 72,
-    price: "900,000 so'm",
+    price: "400 000 so'm",
     description: "Oddiy tempda nemis tilini o'rganing",
     features: [
       "Haftada 3 marta",
@@ -179,7 +179,7 @@ export const courses: Course[] = [
     level: "A2",
     duration: "4 oy",
     hours: 96,
-    price: "1,100,000 so'm",
+    price: "400 000 so'm",
     description: "A2 darajasini puxta o'zlashtiring",
     features: [
       "Haftada 3 marta",
@@ -196,7 +196,7 @@ export const courses: Course[] = [
     level: "B1",
     duration: "5 oy",
     hours: 120,
-    price: "1,400,000 so'm",
+    price: "400 000 so'm",
     description: "O'rta daraja standard kurs",
     features: [
       "Haftada 3 marta",
@@ -213,7 +213,7 @@ export const courses: Course[] = [
     level: "B2",
     duration: "6 oy",
     hours: 144,
-    price: "1,700,000 so'm",
+    price: "400 000 so'm",
     description: "Yuqori o'rta daraja standard dastur",
     features: [
       "Haftada 3 marta",
