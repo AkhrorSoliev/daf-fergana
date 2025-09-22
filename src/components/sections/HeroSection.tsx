@@ -144,7 +144,7 @@ export default function HeroSection() {
             {/* Main Heading */}
             <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
               <div className="flex flex-col items-center gap-1 sm:gap-2">
-                <span className="text-white/95">DaF bilan</span>
+                <span className="text-white/95">DaF Sprachzentrum</span>
                 <div className="relative overflow-hidden h-[1.2em] flex items-center justify-center w-full">
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.span

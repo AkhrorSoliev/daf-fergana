@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -10,11 +11,30 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "DaF Fergana - Nemis tili o'qitish markazi",
+  metadataBase: new URL("https://dafzentrum.uz"),
+  title: {
+    default: "DaF Zentrum – German Courses in Uzbekistan",
+    template: "%s | DaF Zentrum",
+  },
   description:
-    "DaF Sprachzentrum M.CH.J — nemis tilini o'qitishga ixtisoslashgan til markazi. O'zbekiston bo'ylab 8 ta filial.",
-  keywords:
-    "nemis tili, o'qish, til markazi, Farg'ona, DaF, Goethe, sertifikat",
+    "German language courses, exam prep, and resources in Uzbekistan. A1–B2 classes, experienced teachers, and practice materials.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://dafzentrum.uz",
+    title: "DaF Zentrum",
+    description: "German language courses and resources.",
+    images: ["/og-image.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DaF Zentrum",
+    description: "German language courses and resources.",
+    images: ["/og-image.png"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -30,6 +50,21 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        {/* Organization JSON-LD (can be overridden per-locale in future) */}
+        <Script
+          id="org-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "DaF Zentrum",
+              url: "https://dafzentrum.uz",
+              logo: "https://dafzentrum.uz/logo.png",
+              sameAs: ["https://t.me/your_channel_or_profile"],
+            }),
+          }}
+        />
       </body>
     </html>
   );

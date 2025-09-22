@@ -1,3 +1,25 @@
+## Search Console & Analytics Setup (dafzentrum.uz)
+
+1. Google Search Console
+
+- Ochish: https://search.google.com/search-console
+- Add property → tanlang: Domain (tavsiya) yoki URL-prefix.
+- Domain uchun: DNS provider orqali TXT yozuv qo‘shing (Google beradigan qiymatni kiritib, saqlang). 5–30 daqiqa ichida verifikatsiya bo‘ladi.
+- URL-prefix uchun: quyidagilardan birini tanlang:
+  - HTML fayl: berilgan `googleXXXX.html` faylni `public/` ga joylang va tasdiqlang.
+  - Meta teg: `<meta name="google-site-verification" content="XXXX" />` ni `app/layout.tsx` `<head>` ichiga qo‘shing.
+
+2. Sitemap topshirish
+
+- Search Console → Sitemaps bo‘limi → `https://dafzentrum.uz/sitemap.xml` ni yuboring.
+- URL Inspection orqali muhim sahifalar uchun “Request Indexing” bosing.
+
+3. Google Analytics 4
+
+- GA4 property yarating.
+- `gtag.js` yoki Next integratsiyasini qo‘shing (UIga ta’sir qilmasdan `<Script>` orqali). O‘lchov ID (G-XXXX) ni `.env` orqali boshqaring.
+
+Eslatma: sayt keyinchalik 2 tilda (uz/en) bo‘lishi rejalashtirilgan. Lokalizatsiya qo‘shilganda `alternates.languages` (hreflang) va har til uchun to‘g‘ri canonical sozlamalarini kengaytiring.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

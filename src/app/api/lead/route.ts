@@ -50,7 +50,17 @@ export async function POST(request: NextRequest) {
     const safePhone = escapeHtml(phone);
     const safeLevel = escapeHtml(level);
     const safeSource = escapeHtml(inferredSource);
-    const formattedTime = new Date().toLocaleString("uz-UZ");
+    // Ensure Uzbekistan time (Asia/Tashkent, UTC+5)
+    const formattedTime = new Intl.DateTimeFormat("uz-UZ", {
+      timeZone: "Asia/Tashkent",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    }).format(new Date());
 
     const lines: string[] = [
       `<b>🆕 Yangi lead</b> — <i>${safeSource}</i>`,
@@ -60,7 +70,7 @@ export async function POST(request: NextRequest) {
     if (safeLevel) {
       lines.push(`<b>📚 Kurs:</b> ${safeLevel}`);
     }
-    lines.push(`<b>⏰ Vaqt:</b> ${escapeHtml(formattedTime)}`);
+    lines.push(`<b>⏰ Vaqt (UZT):</b> ${escapeHtml(formattedTime)}`);
 
     const text = lines.join("\n");
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin, Send, Instagram, Sparkles } from "lucide-react";
 
 const navigation = [
@@ -26,10 +27,19 @@ export default function Footer() {
           {/* Logo & Description */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary-foreground rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">D</span>
-              </div>
-              <span className="text-xl font-bold">DaF Fergana</span>
+              <Image
+                src="/assets/daf-logo-white.png"
+                alt="DaF Fergana logo"
+                width={65}
+                height={65}
+                priority
+                className="w-auto h-15 object-contain "
+                unoptimized={true}
+              />
+              <span className="text-xl font-bold relative -left-10 -top-4">
+                {" "}
+                Fergana
+              </span>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed">
               DaF Sprachzentrum M.CH.J — nemis tilini o'qitishga ixtisoslashgan

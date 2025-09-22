@@ -19,6 +19,7 @@ type LeadModalProps = {
   onClose: () => void;
   source: string;
   levelOptions?: string[];
+  redirectUrlAfterSuccess?: string;
 };
 
 export function LeadModal({
@@ -26,6 +27,7 @@ export function LeadModal({
   onClose,
   source,
   levelOptions = [],
+  redirectUrlAfterSuccess,
 }: LeadModalProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -91,7 +93,10 @@ export function LeadModal({
         setPhone("");
         setLevel(undefined);
         setSubmitting(false);
-      }, 1500);
+        if (redirectUrlAfterSuccess) {
+          window.location.href = redirectUrlAfterSuccess;
+        }
+      }, 1200);
     } catch (e: any) {
       setSubmitStatus("error");
       setError(e?.message || "Xatolik yuz berdi");

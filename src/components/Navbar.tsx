@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
@@ -62,13 +63,17 @@ export default function Navbar() {
             className="flex items-center space-x-2 group"
             onClick={() => setIsOpen(false)}
           >
-            <div className="w-8 h-8 lg:w-9 lg:h-9 bg-primary rounded-lg flex items-center justify-center group-hover:bg-primary/90 transition-colors">
-              <span className="text-primary-foreground font-bold text-lg lg:text-xl">
-                D
-              </span>
-            </div>
-            <span className="text-lg lg:text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-              DaF Fergana
+            <Image
+              src="/assets/daf-logo-black.png"
+              alt="DaF Fergana logo"
+              width={65}
+              height={65}
+              priority
+              className="w-auto h-15 object-contain"
+              unoptimized={true}
+            />
+            <span className="hidden lg:block text-lg lg:text-xl font-bold text-foreground group-hover:text-primary transition-colors relative -ml-10">
+              Fergana
             </span>
           </Link>
 
