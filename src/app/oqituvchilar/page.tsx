@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { teachers } from "@/data/teachers";
-import { ArrowRight, Award, BookOpen } from "lucide-react";
+import { ArrowRight, Crown } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -69,47 +69,68 @@ export default function TeachersPage() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-flow-row-dense gap-6 md:gap-8 auto-rows-[20rem] sm:auto-rows-[24rem] lg:auto-rows-[28rem]"
         >
           {teachers.map((teacher, index) => {
-            const imageSrc = `/lehrer/${teacher.slug}.jpg`;
+            const isFeatured = teacher.slug === "herr-jamsher";
+            const imageSrc =
+              teacher.slug === "herr-umarov"
+                ? "/lehrer/herr-musinjon.png"
+                : `/lehrer/${teacher.slug}.png`;
             return (
-              <motion.div key={teacher.slug} variants={itemVariants}>
+              <motion.div
+                key={teacher.slug}
+                variants={itemVariants}
+                className={isFeatured ? "row-span-2" : undefined}
+              >
                 <Link
                   href={`/oqituvchilar/${teacher.slug}`}
-                  className="group block"
+                  aria-label={`O'qituvchi: ${teacher.name}`}
+                  className="group block h-full"
                 >
-                  <Card className="relative aspect-square overflow-hidden rounded-2xl ring-1 ring-border/60 bg-white/80 dark:bg-card shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2">
-                    {/* Background pattern */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <Card
+                    className={`relative h-full overflow-hidden rounded-3xl bg-transparent shadow-none transition-transform duration-500 group-hover:-translate-y-2 ring-0 ${
+                      isFeatured ? "" : ""
+                    }`}
+                  >
+                    {isFeatured && (
+                      <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-accent text-white text-sm md:text-base font-bold shadow-lg border border-white/20">
+                        <Crown className="w-4 h-4 md:w-5 md:h-5" />
+                        Rahbar
+                      </div>
+                    )}
+                    {/* Background pattern removed for cleaner look */}
 
                     <Image
                       src={imageSrc}
                       alt={teacher.name}
                       fill
-                      className="object-cover object-center w-full h-full transition-transform duration-700 group-hover:scale-110"
+                      className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-110 ${
+                        teacher.slug === "herr-jamsher"
+                          ? "object-[25%_center]"
+                          : teacher.slug === "herr-ulugbek"
+                          ? "object-top"
+                          : "object-top md:object-center"
+                      }`}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       priority={index < 3}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/90 via-black/70 to-transparent pointer-events-none" />
 
-                    {/* Floating info overlay */}
-                    <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
-                      <div className="bg-black/60 backdrop-blur-md rounded-xl p-4 border border-white/10">
-                        <h3 className="text-white text-lg md:text-xl font-bold drop-shadow mb-3">
+                    {/* Bottom info overlay with hover lift */}
+                    <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 transition-transform duration-500 ease-out group-hover:-translate-y-2 md:group-hover:-translate-y-3">
+                      <div className={isFeatured ? "pb-2 md:pb-3" : "pb-1.5"}>
+                        <h3
+                          className={`text-white font-semibold tracking-tight mb-2 transition-transform duration-500 ease-out group-hover:-translate-y-1 ${
+                            isFeatured
+                              ? "text-3xl md:text-4xl"
+                              : "text-xl md:text-2xl"
+                          }`}
+                        >
                           {teacher.name}
                         </h3>
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="inline-flex items-center rounded-lg bg-white/20 px-3 py-1 text-xs font-medium text-white border border-white/20">
-                            <BookOpen className="w-3 h-3 mr-1" />
-                            {teacher.degree}
-                          </span>
-                          <span className="inline-flex items-center rounded-lg bg-accent px-3 py-1 text-xs font-bold text-white">
-                            <Award className="w-3 h-3 mr-1" />
-                            {teacher.level}
-                          </span>
-                        </div>
-                        <div className="flex items-center text-white/80 text-sm group-hover:text-white transition-colors">
+                        <div className="inline-flex items-center px-3.5 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white/90 text-sm opacity-0 translate-y-2 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:bg-white/15 group-hover:text-white">
                           <span>Batafsil ma'lumot</span>
                           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                         </div>
