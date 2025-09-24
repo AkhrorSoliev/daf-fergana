@@ -26,7 +26,11 @@ export default function TeacherDetailPage({ params }: PageProps) {
   const teacher = getTeacherBySlug(slug);
   if (!teacher) return notFound();
 
-  const imageSrc = `/lehrer/${teacher.slug}.jpg`;
+  const imageSrc =
+    teacher.slug === "herr-umarov"
+      ? "/lehrer/herr-musinjon.png"
+      : `/lehrer/${teacher.slug}.png`;
+  const isJamsher = teacher.slug === "herr-jamsher";
   const bioLines = teacher.bio
     .split(/\n+/)
     .map((s) => s.trim())
@@ -36,6 +40,14 @@ export default function TeacherDetailPage({ params }: PageProps) {
       l
     )
   );
+  const highlightSet = new Set(highlights);
+  const biographyLines = isJamsher
+    ? bioLines.filter((line) => {
+        const lowerLine = line.toLowerCase();
+        // Remove any biography paragraph that contains a highlight snippet (case-insensitive)
+        return !highlights.some((h) => lowerLine.includes(h.toLowerCase()));
+      })
+    : bioLines;
 
   return (
     <div className="min-h-screen pt-16 bg-gradient-to-br from-muted/20 via-background to-secondary/10 relative overflow-hidden">
@@ -75,7 +87,11 @@ export default function TeacherDetailPage({ params }: PageProps) {
                 src={imageSrc}
                 alt={teacher.name}
                 fill
-                className="object-cover object-center w-full h-full"
+                className={`object-cover w-full h-full ${
+                  teacher.slug === "herr-jamsher"
+                    ? "object-[25%_center]"
+                    : "object-center"
+                }`}
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
               />
@@ -161,7 +177,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
                     transition={{ duration: 0.6, delay: 0.6 }}
                     className="prose prose-zinc max-w-none prose-p:text-base prose-p:md:text-lg prose-p:leading-relaxed prose-p:mb-4 prose-strong:text-foreground text-foreground/90"
                   >
-                    {bioLines.map((para, idx) => (
+                    {biographyLines.map((para, idx) => (
                       <motion.p
                         key={idx}
                         initial={{ opacity: 0, y: 10 }}

@@ -9,6 +9,13 @@ export type Teacher = {
 
 export const teachers: Teacher[] = [
   {
+    slug: "herr-jamsher",
+    name: "Herr Jamsher Murtazoxonov",
+    degree: "Master",
+    level: "C1",
+    bio: "Fargʻona Davlat Universiteti magistranti.\nTil bilish darajasi: C1.\n5 yil davomida Germaniyada yashab, xorijiy tajriba orttirgan.\n2022-yildan buyon markazimizda faoliyat yuritib kelmoqda. Bugungi kunda markaz rahbari.\n1994-yil 9-avgust kuni Fargʻonada tug‘ilgan. O‘zining mehnatsevarligi, qat’iyati va til o‘rganishga bo‘lgan cheksiz qiziqishi bilan nafaqat markazimiz, balki butun jamoamiz uchun ilhom manbai bo‘lib kelmoqda.\nO‘qishni tugatgach, Fargʻona Davlat Universitetida magistr darajasini olgan. Shundan so‘ng 5 yil davomida Germaniyada istiqomat qilib, u yerdagi tajribalarni chuqur o‘zlashtirdi va bugun o‘quvchilarimizga nafaqat tilni, balki Yevropa madaniyatini ham yaqinroq his qilish imkonini bermoqda.\nMarkazimiz rahbari sifatida 2022-yildan buyon ta’lim jarayonlarini boshqarib kelmoqda. U kishining rahbarligi ostida markazimizda nafaqat samarali ta’lim, balki o‘quvchilar uchun iliq muhit ham yaratilgan.\nO‘qituvchimizdan ta’lim olish — bu nemis tilini mukammal o‘rganish bilan birga, Germaniyada yashash tajribasidan ham bahramand bo‘lish demakdir. 🌍✨",
+  },
+  {
     slug: "herr-eldor",
     name: "Herr Eldor Khaydaraliyev",
     degree: "Bachelor",
