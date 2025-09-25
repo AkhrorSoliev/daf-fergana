@@ -21,19 +21,29 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground dark:bg-card dark:text-foreground">
+    <footer className="bg-white text-foreground dark:bg-card dark:text-foreground border-t border-border/60">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo & Description */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
+              {/* Light/Dark logo */}
+              <Image
+                src="/assets/daf-logo-black.png"
+                alt="DaF Fergana logo"
+                width={65}
+                height={65}
+                priority
+                className="w-auto h-15 object-contain block dark:hidden"
+                unoptimized={true}
+              />
               <Image
                 src="/assets/daf-logo-white.png"
                 alt="DaF Fergana logo"
                 width={65}
                 height={65}
                 priority
-                className="w-auto h-15 object-contain "
+                className="w-auto h-15 object-contain hidden dark:block"
                 unoptimized={true}
               />
               <span className="text-xl font-bold relative -left-10 -top-4">
@@ -130,10 +140,10 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-foreground/10 border border-foreground/20 text-foreground hover:bg-foreground/20 transition-colors"
-                aria-label="Telegramda muallif profili — Ahro Soliyev"
+                aria-label="Telegramda muallif profili — Ahror Soliyev"
               >
                 <Sparkles className="w-3.5 h-3.5 text-accent" />
-                Ahro Soliyev
+                Ahror Soliyev
               </a>
               <span>tomonidan tayyorlandi.</span>
             </p>

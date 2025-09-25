@@ -20,13 +20,6 @@ import {
 
 const advantages = [
   {
-    title: "Consulting xizmatlari",
-    description:
-      "Profil tahlili, yo'nalish tanlash, hujjatlar va viza jarayonida yo'l-yo'riq.",
-    icon: Users,
-    href: "/afzalliklar/consulting",
-  },
-  {
     title: "Germaniyada Ta'lim — Bachelor & Master",
     description:
       "Universitetga qabul, talablari va stipendiya imkoniyatlari haqida to'liq yo'l xaritasi.",
@@ -81,6 +74,13 @@ const advantages = [
       "Qishloq xo'jaligi va xizmat ko'rsatishda mavsumiy ishlar uchun rasmiy yo'l.",
     icon: Coffee,
     href: "/afzalliklar/saisonarbeit",
+  },
+  {
+    title: "Consulting xizmatlari",
+    description:
+      "Profil tahlili, yo'nalish tanlash, hujjatlar va viza jarayonida yo'l-yo'riq.",
+    icon: Users,
+    href: "/afzalliklar/consulting",
   },
 ];
 
