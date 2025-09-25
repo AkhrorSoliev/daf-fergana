@@ -6,10 +6,8 @@ import { Button } from "@/components/ui/button";
 import { LeadModal } from "@/components/LeadModal";
 import {
   Coffee,
-  MessageCircle,
   FileText,
   Sprout,
-  Euro,
   Send,
   Handshake,
   CalendarDays,

@@ -67,7 +67,7 @@ export default function HeroSection() {
   }, [images.length]);
 
   useEffect(() => {
-    const phrases: string[] = t("hero.phrases");
+    const phrases = t("hero.phrases") as string[];
     const timer = setInterval(() => {
       setPhraseIndex((prev) => (prev + 1) % phrases.length);
     }, 2600);

@@ -6,10 +6,8 @@ import { Button } from "@/components/ui/button";
 import { LeadModal } from "@/components/LeadModal";
 import {
   Sun,
-  MessageCircle,
   FileText,
   Clock8,
-  Euro,
   Send,
   Handshake,
   CalendarDays,

@@ -44,7 +44,6 @@ export default function TeacherDetailPage({ params }: PageProps) {
       l
     )
   );
-  const highlightSet = new Set(highlights);
   const biographyLines =
     isJamsher ||
     teacher.slug === "frau-saida" ||

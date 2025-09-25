@@ -13,7 +13,7 @@ import {
   Phone,
   ExternalLink,
 } from "lucide-react";
-import { branches, mapSearchUrl, mapEmbedUrl } from "@/data/branches";
+import { branches, mapSearchUrl } from "@/data/branches";
 
 const cityIconMap: Record<
   string,
