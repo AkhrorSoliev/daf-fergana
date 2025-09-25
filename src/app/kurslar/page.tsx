@@ -312,7 +312,7 @@ export default function CoursesPage() {
           viewport={{ once: true }}
           className="text-center mt-16 md:mt-20"
         >
-          <div className="inline-flex flex-col sm:flex-row items-center gap-4 px-6 py-6 bg-white/90 backdrop-blur border border-border/60 rounded-2xl shadow-xl">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 px-6 py-6 bg-white/90 dark:bg-card/90 backdrop-blur border border-border/60 dark:border-border rounded-2xl shadow-xl">
             <div className="text-center sm:text-left">
               <p className="text-lg font-bold text-foreground mb-1">
                 Qaysi kurs sizga mos?
