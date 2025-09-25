@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, MessageCircle, Send } from "lucide-react";
+import { Users, Send } from "lucide-react";
 import { useState } from "react";
 import { LeadModal } from "@/components/LeadModal";
 

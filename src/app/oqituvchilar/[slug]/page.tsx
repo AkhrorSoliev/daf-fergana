@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getTeacherBySlug } from "@/data/teachers";
+import { useI18n } from "@/i18n/I18nProvider";
 import { use as usePromise } from "react";
 import {
   ArrowLeft,
@@ -22,6 +23,7 @@ type PageProps = {
 };
 
 export default function TeacherDetailPage({ params }: PageProps) {
+  const { t } = useI18n();
   const { slug } = usePromise(params);
   const teacher = getTeacherBySlug(slug);
   if (!teacher) return notFound();
@@ -29,6 +31,8 @@ export default function TeacherDetailPage({ params }: PageProps) {
   const imageSrc =
     teacher.slug === "herr-umarov"
       ? "/lehrer/herr-musinjon.png"
+      : teacher.slug === "herr-doston"
+      ? "/lehrer/herr-doston.jpg"
       : `/lehrer/${teacher.slug}.png`;
   const isJamsher = teacher.slug === "herr-jamsher";
   const bioLines = teacher.bio
@@ -109,7 +113,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
             className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground text-sm md:text-base font-medium p-2 rounded-lg hover:bg-muted/50 transition-all duration-200 mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
-            Barcha o'qituvchilarga qaytish
+            {t("teachers.backToTeachers")}
           </Link>
         </motion.div>
 
@@ -169,7 +173,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
                   transition={{ duration: 0.6, delay: 0.3 }}
                 >
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-6">
-                    To'liq biografiya
+                    {t("teachers.fullBiography")}
                   </h2>
 
                   {/* Enhanced Highlights Section */}
@@ -182,7 +186,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
                     >
                       <h3 className="flex items-center gap-2 text-lg font-bold text-foreground/90 mb-4">
                         <CheckCircle className="w-5 h-5 text-accent" />
-                        Asosiy ma'lumotlar
+                        {t("teachers.mainInfo")}
                       </h3>
                       <div className="bg-muted/30 rounded-xl p-4 md:p-6 border border-border/40">
                         <ul className="space-y-3 text-foreground/90">
@@ -247,7 +251,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
                           className="flex items-center justify-center gap-3"
                         >
                           <Globe className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-                          <span>Bepul konsultatsiya olish</span>
+                          <span>{t("teachers.consultation")}</span>
                           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                         </Link>
                       </Button>
@@ -264,7 +268,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
                             className="flex items-center justify-center gap-2"
                           >
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
-                            <span>O'qituvchilar</span>
+                            <span>{t("teachers.title")}</span>
                           </Link>
                         </Button>
 
@@ -278,7 +282,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
                             className="flex items-center justify-center gap-2"
                           >
                             <BookOpen className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-                            <span>Kurslar</span>
+                            <span>{t("navbar.courses")}</span>
                           </Link>
                         </Button>
                       </div>
@@ -286,9 +290,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
                       {/* Additional Info */}
                       <div className="mt-6 p-4 bg-muted/40 rounded-xl border border-border/40">
                         <p className="text-sm text-foreground/70 text-center leading-relaxed">
-                          Bu o'qituvchi haqida savollaringiz bormi? Bepul
-                          konsultatsiya orqali barcha savollaringizga javob
-                          oling.
+                          {t("teachers.additionalInfo")}
                         </p>
                       </div>
                     </div>

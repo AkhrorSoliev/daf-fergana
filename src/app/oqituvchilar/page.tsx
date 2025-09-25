@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { teachers } from "@/data/teachers";
+import { useI18n } from "@/i18n/I18nProvider";
 import { ArrowRight, Crown } from "lucide-react";
 
 const containerVariants = {
@@ -31,6 +32,8 @@ const itemVariants = {
 };
 
 export default function TeachersPage() {
+  const { t } = useI18n();
+
   return (
     <div className="min-h-screen pt-16 bg-gradient-to-br from-muted/20 via-background to-secondary/10 relative overflow-hidden">
       {/* Background decorative elements */}
@@ -53,15 +56,14 @@ export default function TeachersPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4"
           >
-            👨‍🏫 Professional jamoa
+            {t("teachers.badge")}
           </motion.div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            O'qituvchilarimiz
+            {t("teachers.title")}
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-accent to-secondary mx-auto mb-6" />
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
-            Tajribali ustozlarimiz bilan nemis tilini samarali va zavq bilan
-            o'rganing
+            {t("teachers.subtitle")}
           </p>
         </motion.div>
 
@@ -76,6 +78,8 @@ export default function TeachersPage() {
             const imageSrc =
               teacher.slug === "herr-umarov"
                 ? "/lehrer/herr-musinjon.png"
+                : teacher.slug === "herr-doston"
+                ? "/lehrer/herr-doston.jpg"
                 : `/lehrer/${teacher.slug}.png`;
             return (
               <motion.div
@@ -96,7 +100,7 @@ export default function TeachersPage() {
                     {isFeatured && (
                       <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-accent text-white text-sm md:text-base font-bold shadow-lg border border-white/20">
                         <Crown className="w-4 h-4 md:w-5 md:h-5" />
-                        Rahbar
+                        {t("teachers.featured")}
                       </div>
                     )}
                     {/* Background pattern removed for cleaner look */}
@@ -131,7 +135,7 @@ export default function TeachersPage() {
                           {teacher.name}
                         </h3>
                         <div className="inline-flex items-center px-3.5 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white/90 text-sm opacity-0 translate-y-2 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:bg-white/15 group-hover:text-white">
-                          <span>Batafsil ma'lumot</span>
+                          <span>{t("teachers.details")}</span>
                           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                         </div>
                       </div>
@@ -154,17 +158,17 @@ export default function TeachersPage() {
           <div className="inline-flex flex-col sm:flex-row items-center gap-4 px-6 py-4 bg-white/80 dark:bg-card backdrop-blur border border-border/60 rounded-2xl shadow-lg">
             <div className="text-center sm:text-left">
               <p className="text-base font-semibold text-foreground">
-                O'qituvchi bilan tanishing?
+                {t("teachers.meetTeacher")}
               </p>
               <p className="text-sm text-foreground/70">
-                Bepul konsultatsiya uchun bog'laning
+                {t("teachers.consultationSubtitle")}
               </p>
             </div>
             <Link
               href="/#consultation"
               className="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent/90 text-accent-foreground rounded-xl font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
             >
-              Konsultatsiya olish
+              {t("teachers.consultation")}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </div>

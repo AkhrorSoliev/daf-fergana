@@ -8,17 +8,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const navigation = [
-  { name: "Asosiy sahifa", href: "/" },
-  { name: "Oqituvchilar", href: "/oqituvchilar" },
-  { name: "Kurslar", href: "/kurslar" },
-  { name: "Filallar", href: "/filiallar" },
-  { name: "Natijalar", href: "/natijalar" },
-  { name: "Kutubxona", href: "/library" },
+  { key: "navbar.home", href: "/" },
+  { key: "navbar.teachers", href: "/oqituvchilar" },
+  { key: "navbar.courses", href: "/kurslar" },
+  { key: "navbar.branches", href: "/filiallar" },
+  { key: "navbar.results", href: "/natijalar" },
+  { key: "navbar.library", href: "/library" },
 ];
 
 export default function Navbar() {
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -92,7 +95,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-1">
             {navigation.map((item) => (
               <Link
-                key={item.name}
+                key={item.key}
                 href={item.href}
                 aria-current={pathname === item.href ? "page" : undefined}
                 className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-muted/60 ${
@@ -101,7 +104,7 @@ export default function Navbar() {
                     : "text-foreground/70 hover:text-foreground"
                 }`}
               >
-                {item.name}
+                {t(item.key)}
                 {pathname === item.href && (
                   <motion.div
                     layoutId="activeTab"
@@ -116,6 +119,7 @@ export default function Navbar() {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-2">
+            <LanguageToggle />
             <ThemeToggle />
             <Button
               asChild
@@ -124,7 +128,7 @@ export default function Navbar() {
             >
               <Link href="/#consultation" className="inline-flex items-center">
                 <Phone className="w-4 h-4 mr-2" />
-                Bepul konsultatsiya
+                {t("navbar.cta")}
               </Link>
             </Button>
           </div>
@@ -162,7 +166,7 @@ export default function Navbar() {
               <div className="py-4 space-y-1">
                 {navigation.map((item) => (
                   <Link
-                    key={item.name}
+                    key={item.key}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={`block px-4 py-3 mx-2 rounded-lg text-base font-medium transition-all duration-200 ${
@@ -171,13 +175,14 @@ export default function Navbar() {
                         : "text-foreground hover:text-primary hover:bg-muted/60"
                     }`}
                   >
-                    {item.name}
+                    {t(item.key)}
                   </Link>
                 ))}
 
                 {/* Mobile actions */}
                 <div className="px-2 pt-4">
                   <div className="flex items-center gap-2 px-2 pb-3">
+                    <LanguageToggle />
                     <ThemeToggle />
                   </div>
                   <Button
@@ -190,7 +195,7 @@ export default function Navbar() {
                       className="inline-flex items-center justify-center"
                     >
                       <Phone className="w-4 h-4 mr-2" />
-                      Bepul konsultatsiya
+                      {t("navbar.cta")}
                     </Link>
                   </Button>
                 </div>

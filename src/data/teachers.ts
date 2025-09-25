@@ -48,7 +48,7 @@ export const teachers: Teacher[] = [
     name: "Frau Saida Mustafoyeva",
     degree: "Bachelor",
     level: "C1",
-    bio: " Bugun esa Saida opa 2 yildan buyon DaF Sprachzentrum jamoasining faol a’zosi sifatida o‘quvchilarimizga nafaqat nemis tilini, balki bilim olishga bo‘lgan ishtiyoq va intilishning naqadar muhimligini ham o‘rgatmoqda.\n\nUstozimizdan ta’lim olish — bu tilni mukammal o‘rganish, Germaniyadagi hayotni his etish va o‘z orzularingiz sari dadil qadam tashlash demakdir. 🌍✨",
+    bio: "Fargʻona Davlat Universiteti Xorijiy til va adabiyoti (nemis tili) yoʻnalishi 4-bosqich talabasi.\n\nTil darajasi: C1.\n\n“Oʻzbekiston Respublikasi Prezidenti Granti” hamda universitet ichki stipendiyalari sohibasi.\n\n2022–2023 yillarda 2 marta Germaniyada Ferienjob dasturida ishtirok etgan.\n\n2 yildan buyon DaF Sprachzentrumda faoliyat yuritib kelmoqda.\n\nTanishaylik — iqtidorli va faol ustozimiz Saida Mustafoyeva.\nU Fargʻona Davlat Universitetining nemis tili yoʻnalishi 4-bosqich talabasi bo‘lishiga qaramay, qisqa vaqt ichida katta muvaffaqiyatlarga erishgan. Til bilish darajasi C1 bo‘lgan Saida, nafaqat o‘qishda, balki ilmiy va amaliy faoliyatda ham o‘zini ko‘rsatib kelmoqda.\n\nYoshligidan bilimga chanqoqligi uni Respublika miqyosida oʻtkazilgan “Prezident Granti” va universitet miqyosidagi stipendiyalar sohibasiga aylantirdi. Bundan tashqari, 2022–2023 yillarda ikki marta Germaniyaga borib, Ferienjob dasturi orqali bevosita tajriba orttirgan.\n\nBugun esa Saida opa 2 yildan buyon DaF Sprachzentrum jamoasining faol a’zosi sifatida o‘quvchilarimizga nafaqat nemis tilini, balki bilim olishga bo‘lgan ishtiyoq va intilishning naqadar muhimligini ham o‘rgatmoqda.\n\nUstozimizdan ta’lim olish — bu tilni mukammal o‘rganish, Germaniyadagi hayotni his etish va o‘z orzularingiz sari dadil qadam tashlash demakdir. 🌍✨",
   },
   {
     slug: "herr-umarov",
@@ -70,6 +70,13 @@ export const teachers: Teacher[] = [
     degree: "Bachelor",
     level: "C1",
     bio: "",
+  },
+  {
+    slug: "herr-doston",
+    name: "Herr Dostonjon Ruzimatov",
+    degree: "Bachelor",
+    level: "C1 (DSD 2-Stufe)",
+    bio: "FarDU Xorijiy til va adabiyoti (nemis tili) fakulteti talabasi.\n\nTil darajasi: C1 (DSD 2-Stufe).\n\nGermaniyada 2 oy davomida Ferienjob dasturida qatnashgan.\n\n1,5 yil davomida O‘zbekistonda nemis tili ustozlik tajribasiga ega.\n\n2024-yildan buyon markazimizda faoliyat olib kelmoqda.\n\nTanishaylik — bizning yosh va istiqbolli ustozimiz Herr Dostonjon Ruzimatov.\n2007-yil 14-yanvar kuni Qo‘qonda tug‘ilgan Dostonjon, yoshlikdan chet tillariga bo‘lgan qiziqishi bilan ajralib turgan. O‘zining izlanishlari va tirishqoqligi natijasida bugun u nafaqat talaba, balki o‘quvchilarga dars berayotgan ustoz sifatida ham faoliyat yuritmoqda.\n\nU FarDU Xorijiy til va adabiyoti (nemis tili) fakultetida tahsil olmoqda va shu bilan birga tilni amaliy jihatdan mustahkamlash uchun Germaniyada ham bo‘lib qaytgan. U yerda Ferienjob dasturi orqali qisqa muddatli tajriba orttirib, Yevropa madaniyatini ham yaqindan his qilish imkoniyatiga ega bo‘lgan.\n\nNemis tilidan tashqari, ingliz tilini B1 darajada, rus tilini esa ona tili darajasida biladi. Shuning uchun ham darslari o‘quvchilar uchun yanada boy, qiziqarli va ko‘p tilli muhitda o‘tadi.\n\n2024-yilning kuzidan boshlab markazimizda faoliyat yuritayotgan Dostonjon, qisqa vaqt ichida o‘zining energiyasi, zamonaviy yondashuvi va til bilishdagi mustahkam poydevori bilan o‘quvchilarning mehrini qozonishga ulgurgan.\n\nO‘qituvchimizdan ta’lim olish — bu nemis tilini o‘rganish bilan birga, yosh va ilhomli ustozdan hayotiy tajribalarni ham olish demakdir. 🌍✨",
   },
 ];
 

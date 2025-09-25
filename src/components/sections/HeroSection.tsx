@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Play, ArrowRight } from "lucide-react";
 
 const desktopTabletImages = [
@@ -21,18 +22,10 @@ const mobileImages = [
   "/assets/hero-image-mobile-4.jpg",
 ];
 
-const rotatingPhrases = [
-  "Kuchli start 💪",
-  "Ravon yo'l 🛣️",
-  "Cheksiz imkoniyatlar ✨",
-  "Tez natija ⚡",
-  "Samarali tayyorgarlik 🎯",
-  "Ishonchli yo'l-yo'riq 🧭",
-  "Yuqori motivatsiya 🚀",
-  "Amaliy tajriba 🧩",
-];
+// phrases from i18n
 
 export default function HeroSection() {
+  const { t, locale } = useI18n();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -74,11 +67,12 @@ export default function HeroSection() {
   }, [images.length]);
 
   useEffect(() => {
+    const phrases: string[] = t("hero.phrases");
     const timer = setInterval(() => {
-      setPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length);
+      setPhraseIndex((prev) => (prev + 1) % phrases.length);
     }, 2600);
     return () => clearInterval(timer);
-  }, []);
+  }, [t]);
 
   const scrollToConsultation = () => {
     const element = document.getElementById("consultation");
@@ -142,7 +136,11 @@ export default function HeroSection() {
             className="w-full max-w-4xl mx-auto text-center text-white"
           >
             {/* Main Heading */}
-            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
+            <h1
+              className={`text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight ${
+                locale === "de" ? "lg:text-[3.0rem] xl:text-[3.5rem]" : ""
+              }`}
+            >
               <div className="flex flex-col items-center gap-1 sm:gap-2">
                 <span className="text-white/95">DaF Sprachzentrum</span>
                 <div className="relative overflow-hidden h-[1.2em] flex items-center justify-center w-full">
@@ -156,7 +154,7 @@ export default function HeroSection() {
                       className="absolute text-accent leading-none will-change-transform text-center"
                       aria-live="polite"
                     >
-                      {rotatingPhrases[phraseIndex]}
+                      {(t("hero.phrases") as string[])[phraseIndex]}
                     </motion.span>
                   </AnimatePresence>
                 </div>
@@ -165,8 +163,7 @@ export default function HeroSection() {
 
             {/* Subtitle */}
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed px-2">
-              Nemis tili sizni universitetlar, ish va yangi hayot sari
-              yetaklaydi.
+              {t("hero.subtitle")}
             </p>
 
             {/* Action Buttons */}
@@ -180,7 +177,7 @@ export default function HeroSection() {
                     href="/kurslar"
                     className="flex items-center justify-center gap-2"
                   >
-                    <span>Kurslarni ko'rish</span>
+                    <span>{t("hero.ctaPrimary")}</span>
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Link>
                 </Button>
@@ -192,7 +189,7 @@ export default function HeroSection() {
                 >
                   <span className="flex items-center justify-center gap-2">
                     <Play className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>Bepul konsultatsiya</span>
+                    <span>{t("hero.ctaSecondary")}</span>
                   </span>
                 </Button>
               </div>

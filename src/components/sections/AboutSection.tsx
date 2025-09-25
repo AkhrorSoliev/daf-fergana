@@ -3,36 +3,39 @@
 import { motion } from "framer-motion";
 import { useCountUp } from "@/hooks/useCountUp";
 import { Card } from "@/components/ui/card";
+import { useI18n } from "@/i18n/I18nProvider";
 import { GraduationCap, Users, Calendar, Award } from "lucide-react";
 
-const stats = [
-  {
-    icon: GraduationCap,
-    label: "Filiallar",
-    value: 8,
-    suffix: "",
-  },
-  {
-    icon: Calendar,
-    label: "Boshlangan yil",
-    value: 2022,
-    suffix: "",
-  },
-  {
-    icon: Users,
-    label: "Tayyorgarlik olgan yoshlar",
-    value: 650,
-    suffix: "+",
-  },
-  {
-    icon: Award,
-    label: "Xalqaro imtihonlar",
-    value: 5,
-    suffix: "+",
-  },
-];
-
 export default function AboutSection() {
+  const { t } = useI18n();
+
+  const stats = [
+    {
+      icon: GraduationCap,
+      label: t("about.stats.branches"),
+      value: 8,
+      suffix: "",
+    },
+    {
+      icon: Calendar,
+      label: t("about.stats.startedYear"),
+      value: 2022,
+      suffix: "",
+    },
+    {
+      icon: Users,
+      label: t("about.stats.preparedYouth"),
+      value: 650,
+      suffix: "+",
+    },
+    {
+      icon: Award,
+      label: t("about.stats.internationalExams"),
+      value: 5,
+      suffix: "+",
+    },
+  ];
+
   const { count: branchesCount, countRef: branchesRef } = useCountUp({
     end: 8,
   });
@@ -68,14 +71,14 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4"
           >
-            📚 Bizning markaz
+            {t("about.badge")}
           </motion.div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Markaz haqida
+            {t("about.title")}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-accent to-secondary mx-auto mb-6" />
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
-            Professional nemis tili ta'limi va Germaniya imkoniyatlari
+            {t("about.subtitle")}
           </p>
         </motion.div>
 
@@ -96,13 +99,7 @@ export default function AboutSection() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 viewport={{ once: true }}
               >
-                <strong className="text-primary">
-                  DaF Sprachzentrum M.CH.J
-                </strong>{" "}
-                — nemis tilini o'qitishga ixtisoslashgan til markazi.
-                O'zbekiston bo'ylab 8 ta filial. 2022-yildan beri yoshlarga
-                Germaniya ta'lim standartlari asosida zamonaviy nemis tili
-                ta'limi.
+                {t("about.p1")}
               </motion.p>
 
               <motion.p
@@ -112,9 +109,7 @@ export default function AboutSection() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                Farg'ona filialida 650+ yosh Goethe, ECL, ÖSD, TELC, TestDaF
-                kabi xalqaro sertifikat imtihonlariga tayyorlanmoqda va
-                muvaffaqiyat qozonmoqda.
+                {t("about.p2")}
               </motion.p>
             </div>
 
