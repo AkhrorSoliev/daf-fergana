@@ -40,14 +40,6 @@ export default function Navbar() {
     setIsOpen(false);
   }, [pathname]);
 
-  const scrollToConsultation = () => {
-    const element = document.getElementById("consultation");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsOpen(false);
-  };
-
   return (
     <motion.nav
       initial={{ y: -100 }}

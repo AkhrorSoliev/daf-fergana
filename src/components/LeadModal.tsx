@@ -36,7 +36,7 @@ export function LeadModal({
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
 
   const PHONE_PREFIX = "+998 ";
   const PHONE_PATTERN = /^\+998\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
@@ -97,9 +97,9 @@ export function LeadModal({
           window.location.href = redirectUrlAfterSuccess;
         }
       }, 1200);
-    } catch (e: any) {
+    } catch (e: unknown) {
       setSubmitStatus("error");
-      setError(e?.message || "Xatolik yuz berdi");
+      setError(e instanceof Error ? e.message : "Xatolik yuz berdi");
       setSubmitting(false);
     }
   };
@@ -217,7 +217,10 @@ export function LeadModal({
                     <label className="block text-sm font-medium text-foreground mb-2">
                       Yo‘nalish
                     </label>
-                    <Select value={level} onValueChange={setLevel as any}>
+                    <Select
+                      value={level}
+                      onValueChange={(value) => setLevel(value)}
+                    >
                       <SelectTrigger className="w-full h-12 border-border/60">
                         <SelectValue placeholder="Tanlang" />
                       </SelectTrigger>

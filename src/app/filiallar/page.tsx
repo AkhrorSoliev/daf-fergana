@@ -153,7 +153,7 @@ export default function BranchesPage() {
                 Boshqa filiallar
               </h3>
               <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-                {others.map(({ city, name, address, phones }) => {
+                {others.map(({ city, name, address }) => {
                   const mapsUrl = mapSearchUrl(city, address);
                   return (
                     <li key={`${city}-${address}`} className="text-sm">
