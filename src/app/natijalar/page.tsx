@@ -161,9 +161,18 @@ export default function ResultsPage() {
             <motion.button
               key={src + idx}
               onClick={() => open(idx)}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 24,
+                mass: 0.8,
+              }}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
-              className="mb-4 block w-full overflow-hidden rounded-xl border border-border/60 bg-white/60 dark:bg-card/40 shadow-sm hover:shadow-md transition-all relative group"
+              className="mb-4 block w-full overflow-hidden rounded-xl border border-border/60 bg-white/60 dark:bg-card/40 shadow-sm hover:shadow-md transition-all relative group transform-gpu will-change-transform"
               style={{ breakInside: "avoid" }}
             >
               <Image
@@ -173,7 +182,7 @@ export default function ResultsPage() {
                 height={1600}
                 quality={90}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                className="w-full h-auto transition-transform duration-300 group-hover:scale-[1.01]"
+                className="w-full h-auto transition-transform duration-300 group-hover:scale-[1.01] transform-gpu will-change-transform"
                 priority={idx < 6}
               />
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-xl bg-black/0 group-hover:bg-black/25 transition-colors">

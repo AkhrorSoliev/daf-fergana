@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const navigation = [
   { name: "Asosiy sahifa", href: "/" },
@@ -63,13 +64,23 @@ export default function Navbar() {
             className="flex items-center space-x-2 group"
             onClick={() => setIsOpen(false)}
           >
+            {/* Light/Dark logo */}
             <Image
               src="/assets/daf-logo-black.png"
               alt="DaF Fergana logo"
               width={65}
               height={65}
               priority
-              className="w-auto h-15 object-contain"
+              className="w-auto h-15 object-contain block dark:hidden"
+              unoptimized={true}
+            />
+            <Image
+              src="/assets/daf-logo-white.png"
+              alt="DaF Fergana logo"
+              width={65}
+              height={65}
+              priority
+              className="w-auto h-15 object-contain hidden dark:block"
               unoptimized={true}
             />
             <span className="hidden lg:block text-lg lg:text-xl font-bold text-foreground group-hover:text-primary transition-colors relative -ml-10">
@@ -103,8 +114,9 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Desktop CTA Button */}
-          <div className="hidden lg:flex items-center">
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center gap-2">
+            <ThemeToggle />
             <Button
               asChild
               size="sm"
@@ -163,8 +175,11 @@ export default function Navbar() {
                   </Link>
                 ))}
 
-                {/* Mobile CTA */}
+                {/* Mobile actions */}
                 <div className="px-2 pt-4">
+                  <div className="flex items-center gap-2 px-2 pb-3">
+                    <ThemeToggle />
+                  </div>
                   <Button
                     asChild
                     className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
