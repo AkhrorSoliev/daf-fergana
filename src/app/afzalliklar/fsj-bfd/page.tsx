@@ -6,10 +6,8 @@ import { Button } from "@/components/ui/button";
 import { LeadModal } from "@/components/LeadModal";
 import {
   Heart,
-  MessageCircle,
   Handshake,
   FileText,
-  Users,
   BookOpenCheck,
   Star,
   Send,

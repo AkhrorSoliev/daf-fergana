@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useI18n } from "@/i18n/I18nProvider";
 
 export default function LanguageToggle() {
-  const { locale, setLocale, t } = useI18n();
+  const { locale, setLocale } = useI18n();
   const next = locale === "uz" ? "de" : "uz";
 
   return (
