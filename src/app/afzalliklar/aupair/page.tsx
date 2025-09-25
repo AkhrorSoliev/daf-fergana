@@ -11,7 +11,6 @@ import {
   Send,
   Handshake,
   CalendarDays,
-  BookOpenCheck,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
