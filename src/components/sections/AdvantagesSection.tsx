@@ -9,7 +9,6 @@ import {
   ArrowRight,
   Send,
   Users,
-  BookOpen,
   GraduationCap,
   Briefcase,
   Heart,

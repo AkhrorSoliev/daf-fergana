@@ -1,6 +1,6 @@
 export type Locale = "uz" | "de";
 
-type Dict = Record<string, any>;
+type Dict = Record<string, unknown>;
 
 export const dictionaries: Record<Locale, Dict> = {
   uz: {
@@ -427,12 +427,15 @@ export const dictionaries: Record<Locale, Dict> = {
   },
 };
 
-export function getFromDict(dict: any, path: string): string {
+export function getFromDict(dict: unknown, path: string): string {
   return (
     path
       .split(".")
       .reduce(
-        (acc: any, key: string) => (acc && acc[key] != null ? acc[key] : null),
+        (acc: unknown, key: string) =>
+          acc && typeof acc === "object" && acc !== null && key in acc
+            ? (acc as Record<string, unknown>)[key]
+            : null,
         dict
       ) ?? path
   );
