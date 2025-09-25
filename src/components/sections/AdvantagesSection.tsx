@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   ArrowRight,
   Send,
@@ -17,72 +18,6 @@ import {
   Wrench,
   Sun,
 } from "lucide-react";
-
-const advantages = [
-  {
-    title: "Germaniyada Ta'lim — Bachelor & Master",
-    description:
-      "Universitetga qabul, talablari va stipendiya imkoniyatlari haqida to'liq yo'l xaritasi.",
-    icon: GraduationCap,
-    href: "/afzalliklar/bachelor-master",
-  },
-  {
-    title: "Weiterbildung — Malaka oshirish",
-    description:
-      "Ish faoliyati yonida qisqa kurslar orqali kasbiy malaka va sertifikat olish yo'llari.",
-    icon: Briefcase,
-    href: "/afzalliklar/weiterbildung",
-  },
-  {
-    title: "Ausbildung — Dual Ta'lim",
-    description:
-      "Nazariya + amaliyot: o'qish bilan birga oylik maosh to'lanadigan kasb-hunar tayyorlash.",
-    icon: Wrench,
-    href: "/afzalliklar/ausbildung",
-  },
-  {
-    title: "FSJ/BFD — volontiyorlik dasturi",
-    description:
-      "Ijtimoiy sohada ko'ngilli faoliyat, madaniy almashinuv va tilni amalda rivojlantirish.",
-    icon: Heart,
-    href: "/afzalliklar/fsj-bfd",
-  },
-  {
-    title: "Aupair — Enagalik dasturi",
-    description:
-      "Nemis oilasida yashab, bolalar parvarishi bilan tilni kundalik hayotda o'rganish.",
-    icon: Home,
-    href: "/afzalliklar/aupair",
-  },
-  {
-    title: "Ferienjob — 3 oylik ta'til ishi",
-    description:
-      "Talabalar uchun yozgi mavsumda qisqa muddatli ish, tajriba va daromad imkoniyati.",
-    icon: Sun,
-    href: "/afzalliklar/ferienjob",
-  },
-  {
-    title: "Mutaxassisligingiz bo'yicha ish",
-    description:
-      "Diplomni tan oldirish, ish beruvchi topish va kasbiy migratsiya jarayonlari.",
-    icon: Briefcase,
-    href: "/afzalliklar/mutaxassis-ishi",
-  },
-  {
-    title: "Saisonarbeit — Mavsumiy ish",
-    description:
-      "Qishloq xo'jaligi va xizmat ko'rsatishda mavsumiy ishlar uchun rasmiy yo'l.",
-    icon: Coffee,
-    href: "/afzalliklar/saisonarbeit",
-  },
-  {
-    title: "Consulting xizmatlari",
-    description:
-      "Profil tahlili, yo'nalish tanlash, hujjatlar va viza jarayonida yo'l-yo'riq.",
-    icon: Users,
-    href: "/afzalliklar/consulting",
-  },
-];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -106,6 +41,64 @@ const itemVariants = {
 };
 
 export default function AdvantagesSection() {
+  const { t } = useI18n();
+
+  const advantages = [
+    {
+      title: t("advantages.items.bachelor.title"),
+      description: t("advantages.items.bachelor.desc"),
+      icon: GraduationCap,
+      href: "/afzalliklar/bachelor-master",
+    },
+    {
+      title: t("advantages.items.weiterbildung.title"),
+      description: t("advantages.items.weiterbildung.desc"),
+      icon: Briefcase,
+      href: "/afzalliklar/weiterbildung",
+    },
+    {
+      title: t("advantages.items.ausbildung.title"),
+      description: t("advantages.items.ausbildung.desc"),
+      icon: Wrench,
+      href: "/afzalliklar/ausbildung",
+    },
+    {
+      title: t("advantages.items.fsj.title"),
+      description: t("advantages.items.fsj.desc"),
+      icon: Heart,
+      href: "/afzalliklar/fsj-bfd",
+    },
+    {
+      title: t("advantages.items.aupair.title"),
+      description: t("advantages.items.aupair.desc"),
+      icon: Home,
+      href: "/afzalliklar/aupair",
+    },
+    {
+      title: t("advantages.items.ferienjob.title"),
+      description: t("advantages.items.ferienjob.desc"),
+      icon: Sun,
+      href: "/afzalliklar/ferienjob",
+    },
+    {
+      title: t("advantages.items.specialist.title"),
+      description: t("advantages.items.specialist.desc"),
+      icon: Briefcase,
+      href: "/afzalliklar/mutaxassis-ishi",
+    },
+    {
+      title: t("advantages.items.saisonarbeit.title"),
+      description: t("advantages.items.saisonarbeit.desc"),
+      icon: Coffee,
+      href: "/afzalliklar/saisonarbeit",
+    },
+    {
+      title: t("advantages.items.consulting.title"),
+      description: t("advantages.items.consulting.desc"),
+      icon: Users,
+      href: "/afzalliklar/consulting",
+    },
+  ];
   return (
     <section className="py-20">
       <div className="container">
@@ -117,12 +110,11 @@ export default function AdvantagesSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-            O'quv markazi afzalliklari
+            {t("advantages.title")}
           </h2>
           <div className="w-24 h-1 bg-accent mx-auto mb-8" />
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            Bizning xizmatlarimiz orqali Germaniyada ta'lim, ish va yashash
-            imkoniyatlarini o'rganing
+            {t("advantages.subtitle")}
           </p>
         </motion.div>
 

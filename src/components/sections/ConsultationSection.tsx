@@ -8,16 +8,18 @@ import { z } from "zod";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Phone, Mail, CheckCircle, AlertCircle, Send } from "lucide-react";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Ism kamida 2 ta harfdan iborat bo'lishi kerak"),
-  phone: z.string().min(1, "Telefon raqam kiritish majburiy"),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  phone: z.string().min(1, "Phone number is required"),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 export default function ConsultationSection() {
+  const { t } = useI18n();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
@@ -110,15 +112,14 @@ export default function ConsultationSection() {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4"
           >
-            📞 Bepul maslahat
+            {t("consultation.badge")}
           </motion.div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Bepul konsultatsiya
+            {t("consultation.title")}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-accent to-secondary mx-auto mb-6" />
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
-            Nemis tilini o'rganish yoki Germaniyada ta'lim olish haqida maslahat
-            oling. Mutaxassislarimiz sizga yordam berishga tayyor!
+            {t("consultation.subtitle")}
           </p>
         </motion.div>
 
@@ -145,12 +146,12 @@ export default function ConsultationSection() {
                       htmlFor="name"
                       className="block text-sm font-semibold text-foreground mb-3"
                     >
-                      Ism Familiya *
+                      {t("consultation.form.name")} *
                     </label>
                     <Input
                       id="name"
                       {...register("name")}
-                      placeholder="Ismingizni kiriting"
+                      placeholder={t("consultation.form.namePlaceholder")}
                       className="h-12 md:h-14 text-base border-border/60 focus:border-accent focus:ring-accent/20 transition-all duration-200"
                     />
                     {errors.name && (
@@ -175,7 +176,7 @@ export default function ConsultationSection() {
                       htmlFor="phone"
                       className="block text-sm font-semibold text-foreground mb-3"
                     >
-                      Telefon raqam *
+                      {t("consultation.form.phone")} *
                     </label>
                     <Input
                       id="phone"
@@ -225,7 +226,7 @@ export default function ConsultationSection() {
                       }}
                       inputMode="numeric"
                       pattern={PHONE_PATTERN.source}
-                      placeholder="+998 XXX XX XX XX"
+                      placeholder={t("consultation.form.phonePlaceholder")}
                       className="h-12 md:h-14 text-base border-border/60 focus:border-accent focus:ring-accent/20 transition-all duration-200"
                     />
                     {errors.phone && (
@@ -235,7 +236,7 @@ export default function ConsultationSection() {
                         className="mt-2 text-sm text-destructive flex items-center"
                       >
                         <AlertCircle className="w-4 h-4 mr-1" />
-                        Telefon raqam formati: +998 XXX XX XX XX
+                        {t("consultation.form.phoneFormatError")}
                       </motion.p>
                     )}
                     {errors.phone && (
@@ -272,12 +273,12 @@ export default function ConsultationSection() {
                             }}
                             className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full mr-2"
                           />
-                          Yuborilmoqda...
+                          {t("consultation.form.sending")}
                         </span>
                       ) : (
                         <span className="flex items-center justify-center">
                           <Phone className="w-5 h-5 mr-2" />
-                          Konsultatsiya so'rang
+                          {t("consultation.form.submit")}
                         </span>
                       )}
                     </Button>
@@ -295,8 +296,7 @@ export default function ConsultationSection() {
                       >
                         <CheckCircle className="w-5 h-5 mr-3 text-green-600" />
                         <span className="font-medium">
-                          Muvaffaqiyatli yuborildi! Tez orada siz bilan
-                          bog'lanamiz.
+                          {t("consultation.form.success")}
                         </span>
                       </motion.div>
                     )}
@@ -311,7 +311,7 @@ export default function ConsultationSection() {
                       >
                         <AlertCircle className="w-5 h-5 mr-3 text-red-600" />
                         <span className="font-medium">
-                          Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.
+                          {t("consultation.form.error")}
                         </span>
                       </motion.div>
                     )}

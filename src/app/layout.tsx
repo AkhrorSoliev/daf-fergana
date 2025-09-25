@@ -4,6 +4,7 @@ import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { I18nProvider } from "@/i18n/I18nProvider";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -73,11 +74,13 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased" suppressHydrationWarning>
-        <Navbar />
-        <main className="min-h-screen [&_.hero-container]:px-0">
-          {children}
-        </main>
-        <Footer />
+        <I18nProvider>
+          <Navbar />
+          <main className="min-h-screen [&_.hero-container]:px-0">
+            {children}
+          </main>
+          <Footer />
+        </I18nProvider>
         {/* Organization JSON-LD (can be overridden per-locale in future) */}
         <Script
           id="org-ld"

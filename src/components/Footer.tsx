@@ -1,14 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Phone, Mail, MapPin, Send, Instagram, Sparkles } from "lucide-react";
-
-const navigation = [
-  { name: "Asosiy sahifa", href: "/" },
-  { name: "Oqituvchilar", href: "/oqituvchilar" },
-  { name: "Kurslar", href: "/kurslar" },
-  { name: "Filallar", href: "/filiallar" },
-  { name: "Natijalar", href: "/natijalar" },
-];
 
 const socialLinks = [
   { name: "Telegram", href: "https://t.me/daffergana", icon: Send },
@@ -20,6 +15,15 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { t } = useI18n();
+
+  const navigation = [
+    { name: t("navbar.home"), href: "/" },
+    { name: t("navbar.teachers"), href: "/oqituvchilar" },
+    { name: t("navbar.courses"), href: "/kurslar" },
+    { name: t("navbar.branches"), href: "/filiallar" },
+    { name: t("navbar.results"), href: "/natijalar" },
+  ];
   return (
     <footer className="bg-white text-foreground dark:bg-card dark:text-foreground border-t border-border/60">
       <div className="container py-12">
@@ -52,14 +56,13 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-foreground/80 text-sm leading-relaxed">
-              DaF Sprachzentrum M.CH.J — nemis tilini o'qitishga ixtisoslashgan
-              til markazi. O'zbekiston bo'ylab 8 ta filial.
+              {t("footer.desc1")} {t("footer.desc2")}
             </p>
           </div>
 
           {/* Navigation */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Navigatsiya</h3>
+            <h3 className="text-lg font-semibold">{t("footer.navigation")}</h3>
             <nav className="space-y-2">
               {navigation.map((item) => (
                 <Link
@@ -75,7 +78,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Aloqa</h3>
+            <h3 className="text-lg font-semibold">{t("footer.contact")}</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="w-4 h-4 text-accent" />
@@ -108,7 +111,7 @@ export default function Footer() {
 
           {/* Social Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Ijtimoiy tarmoqlar</h3>
+            <h3 className="text-lg font-semibold">{t("footer.social")}</h3>
             <div className="flex space-x-4">
               {socialLinks.map((item) => (
                 <a
