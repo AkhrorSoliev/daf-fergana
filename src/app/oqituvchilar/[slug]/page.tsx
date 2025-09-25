@@ -41,13 +41,52 @@ export default function TeacherDetailPage({ params }: PageProps) {
     )
   );
   const highlightSet = new Set(highlights);
-  const biographyLines = isJamsher
-    ? bioLines.filter((line) => {
-        const lowerLine = line.toLowerCase();
-        // Remove any biography paragraph that contains a highlight snippet (case-insensitive)
-        return !highlights.some((h) => lowerLine.includes(h.toLowerCase()));
-      })
-    : bioLines;
+  const biographyLines =
+    isJamsher ||
+    teacher.slug === "frau-saida" ||
+    teacher.slug === "frau-iroda" ||
+    teacher.slug === "herr-umarov"
+      ? bioLines.filter((line) => {
+          const lowerLine = line.toLowerCase();
+          // Remove any biography paragraph that contains a highlight snippet (case-insensitive)
+          if (highlights.some((h) => lowerLine.includes(h.toLowerCase()))) {
+            return false;
+          }
+          // Additionally, for Frau Saida, remove specific summary lines from biography
+          if (teacher.slug === "frau-saida") {
+            const removePhrases = [
+              "2 yildan buyon daf sprachzentrumda",
+              "tanishaylik",
+            ];
+            const containsSpecific = removePhrases.some((p) =>
+              lowerLine.includes(p)
+            );
+            if (containsSpecific) return false;
+          }
+          // Additionally, for Frau Iroda, remove introductory line from biography
+          if (teacher.slug === "frau-iroda") {
+            const removePhrasesIroda = ["tanishaylik"];
+            if (removePhrasesIroda.some((p) => lowerLine.includes(p))) {
+              return false;
+            }
+          }
+          // Additionally, for Herr Umarov (Musinjon), remove introductory line from biography
+          if (teacher.slug === "herr-umarov") {
+            const removePhrasesUmarov = ["tanishaylik"];
+            if (removePhrasesUmarov.some((p) => lowerLine.includes(p))) {
+              return false;
+            }
+          }
+          // Additionally, for Herr Jamsher, remove introductory line from biography
+          if (teacher.slug === "herr-jamsher") {
+            const removePhrasesJamsher = ["tanishaylik"];
+            if (removePhrasesJamsher.some((p) => lowerLine.includes(p))) {
+              return false;
+            }
+          }
+          return true;
+        })
+      : bioLines;
 
   return (
     <div className="min-h-screen pt-16 bg-gradient-to-br from-muted/20 via-background to-secondary/10 relative overflow-hidden">
@@ -82,7 +121,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
         >
           {/* Enhanced Teacher Image Card */}
           <div className="lg:col-span-2">
-            <Card className="relative aspect-[4/5] lg:aspect-[3/4] xl:aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-border/60 bg-white/5 shadow-xl lg:sticky lg:top-24">
+            <Card className="relative aspect-[4/5] lg:aspect-[3/4] xl:aspect-[4/5] overflow-hidden rounded-3xl bg-transparent shadow-none ring-0 lg:sticky lg:top-24">
               <Image
                 src={imageSrc}
                 alt={teacher.name}
@@ -95,24 +134,23 @@ export default function TeacherDetailPage({ params }: PageProps) {
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/90 via-black/70 to-transparent pointer-events-none" />
 
               {/* Teacher info overlay */}
-              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-                <div className="bg-black/70 backdrop-blur-md rounded-xl p-4 md:p-6 border border-white/10">
-                  <h1 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold drop-shadow mb-4">
-                    {teacher.name}
-                  </h1>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="inline-flex items-center rounded-lg bg-white/20 px-3 py-2 text-sm font-medium text-white border border-white/20">
-                      <BookOpen className="w-4 h-4 mr-2" />
-                      {teacher.degree}
-                    </span>
-                    <span className="inline-flex items-center rounded-lg bg-accent px-3 py-2 text-sm font-bold text-white">
-                      <Award className="w-4 h-4 mr-2" />
-                      {teacher.level}
-                    </span>
-                  </div>
+              <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+                <h1 className="text-white font-semibold tracking-tight text-3xl md:text-4xl lg:text-5xl mb-3">
+                  {teacher.name}
+                </h1>
+                <div className="inline-flex flex-wrap items-center gap-3">
+                  <span className="inline-flex items-center px-3.5 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white/90 text-sm">
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    {teacher.degree}
+                  </span>
+                  <span className="inline-flex items-center px-3.5 py-1.5 rounded-lg bg-accent text-white text-sm font-bold">
+                    <Award className="w-4 h-4 mr-2" />
+                    {teacher.level}
+                  </span>
                 </div>
               </div>
             </Card>

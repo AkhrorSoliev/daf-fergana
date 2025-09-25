@@ -21,7 +21,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="bg-primary text-primary-foreground dark:bg-card dark:text-foreground">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo & Description */}
@@ -41,7 +41,7 @@ export default function Footer() {
                 Fergana
               </span>
             </div>
-            <p className="text-primary-foreground/80 text-sm leading-relaxed">
+            <p className="text-foreground/80 text-sm leading-relaxed">
               DaF Sprachzentrum M.CH.J — nemis tilini o'qitishga ixtisoslashgan
               til markazi. O'zbekiston bo'ylab 8 ta filial.
             </p>
@@ -55,7 +55,7 @@ export default function Footer() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                  className="block text-foreground/80 hover:text-foreground transition-colors text-sm"
                 >
                   {item.name}
                 </Link>
@@ -71,7 +71,7 @@ export default function Footer() {
                 <Phone className="w-4 h-4 text-accent" />
                 <a
                   href="tel:+998905351099"
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                  className="text-foreground/80 hover:text-foreground transition-colors text-sm"
                 >
                   +998 90 535 10 99
                 </a>
@@ -80,14 +80,14 @@ export default function Footer() {
                 <Mail className="w-4 h-4 text-accent" />
                 <a
                   href="mailto:info@daf-fergana.uz"
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                  className="text-foreground/80 hover:text-foreground transition-colors text-sm"
                 >
                   info@daf-fergana.uz
                 </a>
               </div>
               <div className="flex items-start space-x-3">
                 <MapPin className="w-4 h-4 text-accent mt-0.5" />
-                <span className="text-primary-foreground/80 text-sm">
+                <span className="text-foreground/80 text-sm">
                   Ma'rifat ko'chasi 73,
                   <br />
                   Farg'ona shahri, 150100
@@ -106,7 +106,7 @@ export default function Footer() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-primary-foreground/20 transition-colors"
+                  className="p-2 bg-foreground/10 rounded-lg hover:bg-foreground/20 transition-colors"
                   aria-label={item.name}
                 >
                   <item.icon className="w-5 h-5" />
@@ -117,19 +117,19 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-primary-foreground/20 mt-8 pt-8">
+        <div className="border-t border-border mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-primary-foreground/60 text-sm flex items-center flex-wrap gap-2">
+            <p className="text-foreground/70 text-sm flex items-center flex-wrap gap-2">
               <span>
                 © {new Date().getFullYear()} DaF Sprachzentrum Fergana. Barcha
                 huquqlar himoyalangan.
               </span>
-              <span className="mx-1 text-primary-foreground/40">•</span>
+              <span className="mx-1 text-foreground/40">•</span>
               <a
                 href="https://t.me/akhror_soliev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-foreground/10 border border-foreground/20 text-foreground hover:bg-foreground/20 transition-colors"
                 aria-label="Telegramda muallif profili — Ahro Soliyev"
               >
                 <Sparkles className="w-3.5 h-3.5 text-accent" />
@@ -140,13 +140,13 @@ export default function Footer() {
             <div className="flex space-x-6 text-sm">
               <Link
                 href="#"
-                className="text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                className="text-foreground/70 hover:text-foreground transition-colors"
               >
                 Maxfiylik siyosati
               </Link>
               <Link
                 href="#"
-                className="text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                className="text-foreground/70 hover:text-foreground transition-colors"
               >
                 Foydalanish shartlari
               </Link>

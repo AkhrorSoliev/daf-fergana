@@ -44,6 +44,34 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="uz" className={bricolage.variable} suppressHydrationWarning>
+      <head>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+  (function() {
+    try {
+      var storageKey = 'theme';
+      var root = document.documentElement;
+      var mql = window.matchMedia('(prefers-color-scheme: dark)');
+      var saved = localStorage.getItem(storageKey);
+      function apply(mode) {
+        var dark = mode === 'dark' || (mode !== 'light' && mql.matches);
+        root.classList.toggle('dark', dark);
+        root.style.colorScheme = dark ? 'dark' : 'light';
+      }
+      var mode = saved || 'system';
+      apply(mode);
+      if (mode === 'system') {
+        try { mql.addEventListener('change', function(){ apply('system'); }); } catch(e) { try { mql.addListener(function(){ apply('system'); }); } catch(_) {} }
+      }
+    } catch (e) {}
+  })();
+            `,
+          }}
+        />
+      </head>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <Navbar />
         <main className="min-h-screen [&_.hero-container]:px-0">
