@@ -24,14 +24,14 @@ export default function ThemeToggle() {
       m.addEventListener("change", onChange);
     } catch {
       // Safari
-      // @ts-expect-error - Safari compatibility
+      // @ts-ignore - Safari compatibility
       m.addListener(onChange);
     }
     return () => {
       try {
         m.removeEventListener("change", onChange);
       } catch {
-        // @ts-expect-error - Safari compatibility
+        // @ts-ignore - Safari compatibility
         m.removeListener(onChange);
       }
     };

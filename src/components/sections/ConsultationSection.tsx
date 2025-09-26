@@ -212,7 +212,6 @@ export default function ConsultationSection() {
                       }}
                       onKeyDown={(e) => {
                         // Prevent deleting the fixed prefix
-                        const _current = watch("phone") || "";
                         const caret =
                           (e.target as HTMLInputElement).selectionStart ?? 0;
                         const isBackspace = e.key === "Backspace";
