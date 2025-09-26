@@ -28,6 +28,7 @@ export default function HeroSection() {
   const { t, locale } = useI18n();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [phraseIndex, setPhraseIndex] = useState(0);
+  const [phrases, setPhrases] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
 
   // Decide which image set to use based on viewport (phones use mobile images)
@@ -36,18 +37,10 @@ export default function HeroSection() {
     const onChange = (event: MediaQueryListEvent) => setIsMobile(event.matches);
     // Set initial state
     setIsMobile(mediaQuery.matches);
-    // Listen for changes (modern and legacy Safari)
-    if (typeof mediaQuery.addEventListener === "function") {
-      mediaQuery.addEventListener("change", onChange);
-    } else if (typeof mediaQuery.addListener === "function") {
-      mediaQuery.addListener(onChange);
-    }
+    // Listen for changes (modern browsers)
+    mediaQuery.addEventListener("change", onChange);
     return () => {
-      if (typeof mediaQuery.removeEventListener === "function") {
-        mediaQuery.removeEventListener("change", onChange);
-      } else if (typeof mediaQuery.removeListener === "function") {
-        mediaQuery.removeListener(onChange);
-      }
+      mediaQuery.removeEventListener("change", onChange);
     };
   }, []);
 
@@ -67,20 +60,29 @@ export default function HeroSection() {
   }, [images.length]);
 
   useEffect(() => {
-    const phrases = t("hero.phrases") as string[];
+    // Get phrases array from translation (assuming t("hero.phrases") returns string[])
+    const translatedPhrases = t("hero.phrases") as unknown as string[];
+    setPhrases(Array.isArray(translatedPhrases) ? translatedPhrases : []);
+    setPhraseIndex(0);
+  }, [t]);
+
+  useEffect(() => {
+    if (phrases.length === 0) return;
     const timer = setInterval(() => {
       setPhraseIndex((prev) => (prev + 1) % phrases.length);
     }, 2600);
     return () => clearInterval(timer);
-  }, [t]);
+  }, [phrases]);
 
-  const scrollToConsultation = () => {
-    const element = document.getElementById("consultation");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  function scrollToConsultation(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    event.preventDefault();
+    const section = document.getElementById("consultation");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
     }
-  };
-
+  }
   return (
     <section className="hero-container relative h-screen overflow-hidden">
       {/* Background Images */}
@@ -154,7 +156,7 @@ export default function HeroSection() {
                       className="absolute text-accent leading-none will-change-transform text-center"
                       aria-live="polite"
                     >
-                      {(t("hero.phrases") as string[])[phraseIndex]}
+                      {phrases[phraseIndex]}
                     </motion.span>
                   </AnimatePresence>
                 </div>
