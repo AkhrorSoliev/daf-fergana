@@ -60,9 +60,13 @@ export default function HeroSection() {
   }, [images.length]);
 
   useEffect(() => {
-    // Get phrases array from translation (assuming t("hero.phrases") returns string[])
-    const translatedPhrases = t("hero.phrases") as unknown as string[];
-    setPhrases(Array.isArray(translatedPhrases) ? translatedPhrases : []);
+    // Get phrases as a single string and split by delimiter (e.g., "|")
+    const phrasesString = t("hero.phrases");
+    const translatedPhrases = phrasesString
+      .split("|")
+      .map((p) => p.trim())
+      .filter(Boolean);
+    setPhrases(translatedPhrases);
     setPhraseIndex(0);
   }, [t]);
 
