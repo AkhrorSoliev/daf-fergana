@@ -427,16 +427,19 @@ export const dictionaries: Record<Locale, Dict> = {
   },
 };
 
-export function getFromDict(dict: unknown, path: string): string {
-  return (
-    path
-      .split(".")
-      .reduce(
-        (acc: unknown, key: string) =>
-          acc && typeof acc === "object" && acc !== null && key in acc
-            ? (acc as Record<string, unknown>)[key]
-            : null,
-        dict
-      ) ?? path
-  );
+export function getFromDict(dict: unknown, path: string): string | string[] {
+  const value = path
+    .split(".")
+    .reduce(
+      (acc, key) =>
+        acc && typeof acc === "object" && acc !== null && key in acc
+          ? (acc as Record<string, unknown>)[key]
+          : undefined,
+      dict
+    );
+  // Only return string, array, or fallback to empty string
+  if (typeof value === "string" || Array.isArray(value)) {
+    return value;
+  }
+  return "";
 }
