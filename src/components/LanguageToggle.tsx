@@ -21,6 +21,7 @@ export default function LanguageToggle() {
           alt={`${next === "uz" ? "Uzbek" : "German"} flag`}
           width={24}
           height={18}
+          unoptimized={true}
           className="rounded-sm"
         />
       </button>
