@@ -17,12 +17,14 @@ export default function LanguageToggle() {
         title={`Switch to ${next === "uz" ? "O'zbek" : "Deutsch"}`}
       >
         <Image
-          src={`/flags/${next}-flag.png`}
+          src={`/flags/${
+            next === "uz" ? "Flag_of_Uzbekistan.svg" : "Flag_of_Germany.svg"
+          }`}
           alt={`${next === "uz" ? "Uzbek" : "German"} flag`}
           width={24}
           height={18}
           unoptimized={true}
-          className="rounded-sm"
+          className="object-cover w-6 h-4"
         />
       </button>
     </div>
