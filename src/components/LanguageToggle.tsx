@@ -1,5 +1,6 @@
 "use client";
 
+// update 07.10.2025
 import Image from "next/image";
 import { useI18n } from "@/i18n/I18nProvider";
 
