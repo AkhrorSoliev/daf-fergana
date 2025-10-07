@@ -114,7 +114,7 @@ export const courses: Course[] = [
     features: [
       "Kuniga 3 soat",
       "Amaliy mashqlar",
-      "Gapirish klubи",
+      "Gapirish klublari",
       "Haftalik test",
     ],
     icon: "🔥",
