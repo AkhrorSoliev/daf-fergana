@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Star, Quote } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const testimonials = [
   {
@@ -80,6 +81,7 @@ const marqueeImages = [
 ];
 
 export default function MediaSection() {
+  const { t } = useI18n();
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-muted/40 via-background to-muted/20 relative overflow-hidden">
       {/* Background decorative elements */}
@@ -106,15 +108,14 @@ export default function MediaSection() {
               viewport={{ once: true }}
               className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4"
             >
-              ⭐ Bizning natijalar
+              ⭐ {t("about.resultsBadge")}
             </motion.div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-foreground mb-4">
-              Bizning muvaffaqiyatlarimiz
+              {t("about.resultsTitle")}
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-accent to-secondary mx-auto mb-6" />
             <p className="text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
-              O'quvchilarimizning yutuqlari va muvaffaqiyatlari bizning
-              g'ururimiz
+              {t("about.resultsSubtitle")}
             </p>
           </div>
 
@@ -231,7 +232,7 @@ export default function MediaSection() {
           className="mb-16"
         >
           <h3 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-12">
-            O'quvchilarning fikrlari
+            {t("about.testimonialsTitle")}
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -291,7 +292,7 @@ export default function MediaSection() {
           viewport={{ once: true }}
         >
           <h3 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-12">
-            Bitiruvchilarimiz ish joylari
+            {t("about.workplacesTitle")}
           </h3>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

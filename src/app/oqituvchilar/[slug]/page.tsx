@@ -33,6 +33,8 @@ export default function TeacherDetailPage({ params }: PageProps) {
       ? "/lehrer/herr-musinjon.png"
       : teacher.slug === "herr-doston"
       ? "/lehrer/herr-doston.jpg"
+      : teacher.slug === "frau-sakina"
+      ? "/lehrer/frau-sakina.jpg"
       : `/lehrer/${teacher.slug}.png`;
   const isJamsher = teacher.slug === "herr-jamsher";
   const bioLines = teacher.bio
@@ -40,7 +42,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
     .map((s) => s.trim())
     .filter(Boolean);
   const highlights = bioLines.filter((l) =>
-    /\b(201\d|202\d|yil|yillar)\b|DAAD|Aupair|magistr|bakalavr|universitet|C1|C2|B1|B2/i.test(
+    /\b(201\d|202\d|yil|yillar)\b|DAAD|Aupair|magistr|bakalavr|universitet|C1|C2|B1|B2|Sommerschule|Akyıldız|Harvard|mutaxassisligi|FarDU|FDU|Ferienjob/i.test(
       l
     )
   );
@@ -48,7 +50,9 @@ export default function TeacherDetailPage({ params }: PageProps) {
     isJamsher ||
     teacher.slug === "frau-saida" ||
     teacher.slug === "frau-iroda" ||
-    teacher.slug === "herr-umarov"
+    teacher.slug === "herr-umarov" ||
+    teacher.slug === "frau-sakina" ||
+    teacher.slug === "herr-doston"
       ? bioLines.filter((line) => {
           const lowerLine = line.toLowerCase();
           // Remove any biography paragraph that contains a highlight snippet (case-insensitive)
@@ -129,6 +133,7 @@ export default function TeacherDetailPage({ params }: PageProps) {
                 src={imageSrc}
                 alt={teacher.name}
                 fill
+                unoptimized={true}
                 className={`object-cover w-full h-full ${
                   teacher.slug === "herr-jamsher"
                     ? "object-[25%_center]"

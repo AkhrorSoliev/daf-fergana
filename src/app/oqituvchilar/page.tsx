@@ -80,6 +80,8 @@ export default function TeachersPage() {
                 ? "/lehrer/herr-musinjon.png"
                 : teacher.slug === "herr-doston"
                 ? "/lehrer/herr-doston.jpg"
+                : teacher.slug === "frau-sakina"
+                ? "/lehrer/frau-sakina.jpg"
                 : `/lehrer/${teacher.slug}.png`;
             return (
               <motion.div
@@ -109,6 +111,7 @@ export default function TeachersPage() {
                       src={imageSrc}
                       alt={teacher.name}
                       fill
+                      unoptimized={true}
                       className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-110 ${
                         teacher.slug === "herr-jamsher"
                           ? "object-[25%_center]"
