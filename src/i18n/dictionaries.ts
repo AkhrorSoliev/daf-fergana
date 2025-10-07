@@ -427,7 +427,7 @@ export const dictionaries: Record<Locale, Dict> = {
   },
 };
 
-export function getFromDict(dict: unknown, path: string): string | string[] {
+export function getFromDict(dict: unknown, path: string): string {
   const value = path
     .split(".")
     .reduce(
@@ -437,9 +437,5 @@ export function getFromDict(dict: unknown, path: string): string | string[] {
           : undefined,
       dict
     );
-  // Only return string, array, or fallback to empty string
-  if (typeof value === "string" || Array.isArray(value)) {
-    return value;
-  }
-  return "";
+  return typeof value === "string" ? value : "";
 }

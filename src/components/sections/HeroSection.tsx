@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/i18n/I18nProvider";
+import { dictionaries } from "@/i18n/dictionaries";
 import { Play, ArrowRight } from "lucide-react";
 
 const desktopTabletImages = [
@@ -60,11 +61,12 @@ export default function HeroSection() {
   }, [images.length]);
 
   useEffect(() => {
-    // Get phrases array from translation (assuming t("hero.phrases") returns string[])
-    const translatedPhrases = t("hero.phrases") as unknown as string[];
-    setPhrases(Array.isArray(translatedPhrases) ? translatedPhrases : []);
+    const translated = (dictionaries as any)[locale]?.hero?.phrases as
+      | string[]
+      | undefined;
+    setPhrases(Array.isArray(translated) ? translated : []);
     setPhraseIndex(0);
-  }, [t]);
+  }, [locale]);
 
   useEffect(() => {
     if (phrases.length === 0) return;
@@ -146,19 +148,21 @@ export default function HeroSection() {
               <div className="flex flex-col items-center gap-1 sm:gap-2">
                 <span className="text-white/95">DaF Sprachzentrum</span>
                 <div className="relative overflow-hidden h-[1.2em] flex items-center justify-center w-full">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.span
-                      key={phraseIndex}
-                      initial={{ y: "100%", opacity: 0 }}
-                      animate={{ y: "0%", opacity: 1 }}
-                      exit={{ y: "-100%", opacity: 0 }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
-                      className="absolute text-accent leading-none will-change-transform text-center"
-                      aria-live="polite"
-                    >
-                      {phrases[phraseIndex]}
-                    </motion.span>
-                  </AnimatePresence>
+                  {phrases.length > 0 && (
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.span
+                        key={phraseIndex}
+                        initial={{ y: "100%", opacity: 0 }}
+                        animate={{ y: "0%", opacity: 1 }}
+                        exit={{ y: "-100%", opacity: 0 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        className="absolute inset-x-0 text-accent leading-none will-change-transform text-center"
+                        aria-live="polite"
+                      >
+                        {phrases[phraseIndex] || ""}
+                      </motion.span>
+                    </AnimatePresence>
+                  )}
                 </div>
               </div>
             </h1>

@@ -43,7 +43,16 @@ function detectInitialLocale(): Locale {
 }
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(detectInitialLocale());
+  // Ensure the initial render matches SSR to avoid hydration mismatch.
+  // We default to "uz" on the server and first client render, then detect the
+  // actual preferred locale after mount.
+  const [locale, setLocaleState] = useState<Locale>("uz");
+
+  useEffect(() => {
+    setLocaleState(detectInitialLocale());
+    // run once on mount to align client with saved/navigator locale
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     try {
