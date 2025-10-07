@@ -8,11 +8,17 @@ const nextConfig = {
       "avatars.mds.yandex.net",
       "res.cloudinary.com",
       "images.uzum.uz",
+      "flagsapi.com",
     ],
     remotePatterns: [
       {
         protocol: "https",
         hostname: "json-api.uz",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "flagsapi.com",
         pathname: "/**",
       },
     ],
