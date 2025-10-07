@@ -134,8 +134,8 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-foreground/70 text-sm flex items-center flex-wrap gap-2">
               <span>
-                © {new Date().getFullYear()} DaF Sprachzentrum Fergana. Barcha
-                huquqlar himoyalangan.
+                © {new Date().getFullYear()} DaF Sprachzentrum Fergana.{" "}
+                {t("footer.rights")}
               </span>
               <span className="mx-1 text-foreground/40">•</span>
               <a
@@ -148,20 +148,20 @@ export default function Footer() {
                 <Sparkles className="w-3.5 h-3.5 text-accent" />
                 Ahror Soliyev
               </a>
-              <span>tomonidan tayyorlandi.</span>
+              <span>{t("footer.madeBy")}</span>
             </p>
             <div className="flex space-x-6 text-sm">
               <Link
                 href="#"
                 className="text-foreground/70 hover:text-foreground transition-colors"
               >
-                Maxfiylik siyosati
+                {t("footer.privacy")}
               </Link>
               <Link
                 href="#"
                 className="text-foreground/70 hover:text-foreground transition-colors"
               >
-                Foydalanish shartlari
+                {t("footer.terms")}
               </Link>
             </div>
           </div>

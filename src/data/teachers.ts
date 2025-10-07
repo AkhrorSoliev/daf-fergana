@@ -76,7 +76,14 @@ export const teachers: Teacher[] = [
     name: "Herr Dostonjon Ruzimatov",
     degree: "Bachelor",
     level: "C1 (DSD 2-Stufe)",
-    bio: "FarDU Xorijiy til va adabiyoti (nemis tili) fakulteti talabasi.\n\nTil darajasi: C1 (DSD 2-Stufe).\n\nGermaniyada 2 oy davomida Ferienjob dasturida qatnashgan.\n\n1,5 yil davomida O‘zbekistonda nemis tili ustozlik tajribasiga ega.\n\n2024-yildan buyon markazimizda faoliyat olib kelmoqda.\n\nTanishaylik — bizning yosh va istiqbolli ustozimiz Herr Dostonjon Ruzimatov.\n2007-yil 14-yanvar kuni Qo‘qonda tug‘ilgan Dostonjon, yoshlikdan chet tillariga bo‘lgan qiziqishi bilan ajralib turgan. O‘zining izlanishlari va tirishqoqligi natijasida bugun u nafaqat talaba, balki o‘quvchilarga dars berayotgan ustoz sifatida ham faoliyat yuritmoqda.\n\nU FarDU Xorijiy til va adabiyoti (nemis tili) fakultetida tahsil olmoqda va shu bilan birga tilni amaliy jihatdan mustahkamlash uchun Germaniyada ham bo‘lib qaytgan. U yerda Ferienjob dasturi orqali qisqa muddatli tajriba orttirib, Yevropa madaniyatini ham yaqindan his qilish imkoniyatiga ega bo‘lgan.\n\nNemis tilidan tashqari, ingliz tilini B1 darajada, rus tilini esa ona tili darajasida biladi. Shuning uchun ham darslari o‘quvchilar uchun yanada boy, qiziqarli va ko‘p tilli muhitda o‘tadi.\n\n2024-yilning kuzidan boshlab markazimizda faoliyat yuritayotgan Dostonjon, qisqa vaqt ichida o‘zining energiyasi, zamonaviy yondashuvi va til bilishdagi mustahkam poydevori bilan o‘quvchilarning mehrini qozonishga ulgurgan.\n\nO‘qituvchimizdan ta’lim olish — bu nemis tilini o‘rganish bilan birga, yosh va ilhomli ustozdan hayotiy tajribalarni ham olish demakdir. 🌍✨",
+    bio: "- FarDU Xorijiy til va adabiyoti (nemis tili) talabasi.\n- Til darajasi: C1 (DSD 2-Stufe).\n- Germaniyada 2 oy Ferienjob tajribasi.\n- 1,5 yil O‘zbekistonda ustozlik tajribasi.\n- 2024-yildan DaF Sprachzentrumda faoliyat yuritadi.\n\nYosh, energiyali va zamonaviy yondashuvga ega ustoz. Darslarida real hayotiy misollar va ko‘p tilli muhit orqali motivatsiya beradi. 🌍✨",
+  },
+  {
+    slug: "frau-sakina",
+    name: "Frau Sakina Nomozova",
+    degree: "Bachelor",
+    level: "B2",
+    bio: "- Jahon tillari universiteti — Roman-German filologiyasi (nemis filologiyasi).\n- Mutaxassisligi: filolog, nemis va ingliz tili o‘qituvchisi.\n- Til darajasi: B2 (xalqaro va milliy sertifikatlar).\n- Sommerschule dasturida tarjimon.\n- Akyıldız, Hong Kong, Blitz Olmon akademiyasi va Ata Education loyihalarida ustoz/tarjimon.\n- Harvard online: Teaching and Teacher Leadership yo‘nalishi bitiruvchisi.\n- 2025-yildan DaF Sprachzentrum jamoasida.\n\nUstozamiz — bilimli, zamonaviy metodlarni puxta egallagan va xalqaro tajribaga ega. O‘quvchilarga til bilan birga o‘rganishga muhabbat va motivatsiya ulashadi.",
   },
 ];
 

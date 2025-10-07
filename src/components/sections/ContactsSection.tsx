@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/select";
 import { Phone, Mail, MapPin, Send, ExternalLink } from "lucide-react";
 import { branches as sharedBranches, mapEmbedUrl } from "@/data/branches";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function ContactsSection() {
+  const { t } = useI18n();
   const [selectedBranchId, setSelectedBranchId] = useState(
     sharedBranches[0].id
   );
@@ -51,14 +53,14 @@ export default function ContactsSection() {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-4"
           >
-            📍 Bizning manzillar
+            {t("contactsSection.badge")}
           </motion.div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Manzillar & Filiallar
+            {t("contactsSection.title")}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-accent to-secondary mx-auto mb-6" />
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto leading-relaxed">
-            Bizning filiallarimizni tanlang va aloqa ma'lumotlarini ko'ring
+            {t("contactsSection.subtitle")}
           </p>
         </motion.div>
 
@@ -77,7 +79,7 @@ export default function ContactsSection() {
 
               <div className="relative">
                 <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6">
-                  Filialni tanlang
+                  {t("contactsSection.selectBranch")}
                 </h3>
 
                 <motion.div
@@ -89,7 +91,9 @@ export default function ContactsSection() {
                     onValueChange={handleBranchChange}
                   >
                     <SelectTrigger className="w-full h-12 md:h-14 text-base border-border/60 focus:border-accent">
-                      <SelectValue placeholder="Filialni tanlang" />
+                      <SelectValue
+                        placeholder={t("contactsSection.selectBranch")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {sharedBranches.map((branch) => (
@@ -118,7 +122,7 @@ export default function ContactsSection() {
                     </div>
                     <div className="flex-1">
                       <p className="font-semibold text-foreground mb-1">
-                        Manzil
+                        {t("contactsSection.address")}
                       </p>
                       <p className="text-foreground/70 text-sm md:text-base leading-relaxed">
                         {selectedBranch.address}
@@ -132,7 +136,7 @@ export default function ContactsSection() {
                     </div>
                     <div>
                       <p className="font-semibold text-foreground mb-1">
-                        Telefon
+                        {t("contactsSection.phone")}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {selectedBranch.phones.map((phone) => {
@@ -158,7 +162,7 @@ export default function ContactsSection() {
                       </div>
                       <div>
                         <p className="font-semibold text-foreground mb-1">
-                          Email
+                          {t("contactsSection.email")}
                         </p>
                         <a
                           href={`mailto:${selectedBranch.email}`}
@@ -186,7 +190,7 @@ export default function ContactsSection() {
                         className="flex items-center justify-center"
                       >
                         <Phone className="w-4 h-4 mr-2" />
-                        Qo'ng'iroq qiling
+                        {t("contactsSection.call")}
                       </a>
                     </Button>
 
@@ -204,7 +208,7 @@ export default function ContactsSection() {
                         className="flex items-center justify-center"
                       >
                         <Mail className="w-4 h-4 mr-2" />
-                        Email yuboring
+                        {t("contactsSection.sendEmail")}
                       </a>
                     </Button>
                   </div>
@@ -221,7 +225,7 @@ export default function ContactsSection() {
                       className="flex items-center justify-center"
                     >
                       <Send className="w-4 h-4 mr-2" />
-                      Telegram orqali yozing
+                      {t("contactsSection.messageTelegram")}
                     </a>
                   </Button>
                 </div>
@@ -244,7 +248,7 @@ export default function ContactsSection() {
               <div className="relative">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl md:text-2xl font-bold text-foreground">
-                    Joylashuv
+                    {t("contactsSection.location")}
                   </h3>
                   <motion.a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -256,7 +260,7 @@ export default function ContactsSection() {
                     className="flex items-center gap-1 text-sm text-accent hover:text-accent/80 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    Katta xaritada ko'rish
+                    {t("contactsSection.viewLargeMap")}
                   </motion.a>
                 </div>
 
