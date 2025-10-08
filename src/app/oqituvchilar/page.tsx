@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { teachers } from "@/data/teachers";
 import { useI18n } from "@/i18n/I18nProvider";
 import { ArrowRight, Crown } from "lucide-react";
+import { useMemo } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -33,6 +34,20 @@ const itemVariants = {
 
 export default function TeachersPage() {
   const { t } = useI18n();
+  const orderedTeachers = useMemo(() => {
+    const moveSlugs = new Set(["herr-doston", "frau-sakina"]);
+    const list = [...teachers];
+    const umarovIndex = list.findIndex((t) => t.slug === "herr-umarov");
+    if (umarovIndex === -1) return list;
+    const toMove = list.filter((t) => moveSlugs.has(t.slug));
+    const without = list.filter((t) => !moveSlugs.has(t.slug));
+    const insertAt = Math.min(umarovIndex + 1, without.length);
+    return [
+      ...without.slice(0, insertAt),
+      ...toMove,
+      ...without.slice(insertAt),
+    ];
+  }, []);
 
   return (
     <div className="min-h-screen pt-16 bg-gradient-to-br from-muted/20 via-background to-secondary/10 relative overflow-hidden">
@@ -73,7 +88,7 @@ export default function TeachersPage() {
           animate="visible"
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-flow-row-dense gap-6 md:gap-8 auto-rows-[20rem] sm:auto-rows-[24rem] lg:auto-rows-[28rem]"
         >
-          {teachers.map((teacher, index) => {
+          {orderedTeachers.map((teacher, index) => {
             const isFeatured = teacher.slug === "herr-jamsher";
             const imageSrc =
               teacher.slug === "herr-umarov"
@@ -115,6 +130,10 @@ export default function TeachersPage() {
                       className={`object-cover w-full h-full transition-transform duration-700 group-hover:scale-110 ${
                         teacher.slug === "herr-jamsher"
                           ? "object-[25%_center]"
+                          : teacher.slug === "herr-doston"
+                          ? "object-[center_calc(100%_-_-160px)] sm:object-center"
+                          : teacher.slug === "frau-sakina"
+                          ? "object-[center_calc(100%_-_-300px)] sm:object-center"
                           : teacher.slug === "herr-ulugbek"
                           ? "object-top"
                           : "object-top md:object-center"
