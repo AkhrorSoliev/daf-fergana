@@ -149,6 +149,30 @@ export const dictionaries: Record<Locale, Dict> = {
       library: "Kutubxona",
       cta: "Bepul konsultatsiya",
     },
+    library: {
+      badge: "📚 Kutubxona",
+      title: "Kitoblar va materiallar",
+      subtitle:
+        "Quyidagi roʻyxatdan kerakli kitobni tanlang. Koʻrish yoki yuklab olish mumkin.",
+      telegramNotice:
+        "Agar kitoblarni Telegram orqali ko'rmoqchi yoki yuklab olmoqchi bo'lsangiz, quyidagi havola orqali kanalimizga o'ting.",
+      telegramCta: "Telegramdagi kutubxona",
+      searchPlaceholder: "Qidirish: nomi, daraja, turi...",
+      levelPlaceholder: "Daraja",
+      levelAll: "Barcha darajalar",
+      typePlaceholder: "Turi",
+      typeAll: "Barchasi",
+      types: {
+        kursbuch: "Kursbuch",
+        übungsbuch: "Übungsbuch",
+        wörterbuch: "Wörterbuch",
+        dictionary: "Lugʻat",
+        grammar: "Grammatika",
+      },
+      view: "Ko'rish",
+      download: "Yuklab olish",
+      audioMedia: "Audio & Media",
+    },
     footer: {
       navigation: "Navigatsiya",
       contact: "Aloqa",
@@ -374,6 +398,30 @@ export const dictionaries: Record<Locale, Dict> = {
       results: "Ergebnisse",
       library: "Bibliothek",
       cta: "Kostenlose Beratung",
+    },
+    library: {
+      badge: "📚 Bibliothek",
+      title: "Bücher und Materialien",
+      subtitle:
+        "Wählen Sie ein gewünschtes Buch aus der Liste. Sie können es ansehen oder herunterladen.",
+      telegramNotice:
+        "Wenn Sie die Bücher über Telegram ansehen oder herunterladen möchten, betreten Sie unseren Kanal über den folgenden Link.",
+      telegramCta: "Bibliothek auf Telegram",
+      searchPlaceholder: "Suchen: Titel, Niveau, Typ...",
+      levelPlaceholder: "Niveau",
+      levelAll: "Alle Niveaus",
+      typePlaceholder: "Typ",
+      typeAll: "Alle",
+      types: {
+        kursbuch: "Kursbuch",
+        übungsbuch: "Übungsbuch",
+        wörterbuch: "Wörterbuch",
+        dictionary: "Dictionary",
+        grammar: "Grammatik",
+      },
+      view: "Ansehen",
+      download: "Herunterladen",
+      audioMedia: "Audio & Medien",
     },
     footer: {
       navigation: "Navigation",

@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMemo, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Book = {
   title: string;
@@ -132,6 +133,7 @@ const books: Book[] = [
 ];
 
 export default function LibraryPage() {
+  const { t } = useI18n();
   const [query, setQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
@@ -188,14 +190,13 @@ export default function LibraryPage() {
       <div className="container py-12 md:py-20">
         <div className="text-center mb-10 md:mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">
-            📚 Kutubxona
+            {t("library.badge")}
           </div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3">
-            Kitoblar va materiallar
+            {t("library.title")}
           </h1>
           <p className="text-foreground/70 max-w-2xl mx-auto">
-            Quyidagi roʻyxatdan kerakli kitobni tanlang. Koʻrish yoki yuklab
-            olish mumkin.
+            {t("library.subtitle")}
           </p>
         </div>
 
@@ -203,8 +204,7 @@ export default function LibraryPage() {
         <div className="mb-8">
           <div className="flex flex-col items-center gap-3 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 p-4 text-center">
             <p className="text-sm md:text-base text-blue-800 dark:text-blue-200">
-              Agar kitoblarni Telegram orqali ko'rmoqchi yoki yuklab olmoqchi
-              bo'lsangiz, quyidagi havola orqali kanalimizga o'ting.
+              {t("library.telegramNotice")}
             </p>
             <Button
               asChild
@@ -218,7 +218,7 @@ export default function LibraryPage() {
                 className="inline-flex items-center gap-2"
               >
                 <Send className="w-4 h-4" />
-                <span>Telegramdagi kutubxona</span>
+                <span>{t("library.telegramCta")}</span>
               </a>
             </Button>
           </div>
@@ -229,18 +229,18 @@ export default function LibraryPage() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Qidirish: nomi, daraja, turi..."
+              placeholder={t("library.searchPlaceholder")}
               className="h-10 w-full"
             />
           </div>
           <div>
             <Select value={levelFilter} onValueChange={setLevelFilter}>
               <SelectTrigger className="h-10 w-full">
-                <SelectValue placeholder="Daraja" />
+                <SelectValue placeholder={t("library.levelPlaceholder")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="all">Barcha darajalar</SelectItem>
+                  <SelectItem value="all">{t("library.levelAll")}</SelectItem>
                   <SelectItem value="a1">A1</SelectItem>
                   <SelectItem value="a2">A2</SelectItem>
                   <SelectItem value="b1">B1</SelectItem>
@@ -253,16 +253,26 @@ export default function LibraryPage() {
           <div>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
               <SelectTrigger className="h-10 w-full">
-                <SelectValue placeholder="Turi" />
+                <SelectValue placeholder={t("library.typePlaceholder")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="all">Barchasi</SelectItem>
-                  <SelectItem value="kursbuch">Kursbuch</SelectItem>
-                  <SelectItem value="übungsbuch">Übungsbuch</SelectItem>
-                  <SelectItem value="wörterbuch">Wörterbuch</SelectItem>
-                  <SelectItem value="dictionary">Dictionary</SelectItem>
-                  <SelectItem value="grammar">Grammar</SelectItem>
+                  <SelectItem value="all">{t("library.typeAll")}</SelectItem>
+                  <SelectItem value="kursbuch">
+                    {t("library.types.kursbuch")}
+                  </SelectItem>
+                  <SelectItem value="übungsbuch">
+                    {t("library.types.übungsbuch")}
+                  </SelectItem>
+                  <SelectItem value="wörterbuch">
+                    {t("library.types.wörterbuch")}
+                  </SelectItem>
+                  <SelectItem value="dictionary">
+                    {t("library.types.dictionary")}
+                  </SelectItem>
+                  <SelectItem value="grammar">
+                    {t("library.types.grammar")}
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -330,7 +340,7 @@ export default function LibraryPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Ko'rish
+                      {t("library.view")}
                     </a>
                   </Button>
                   <Button
@@ -344,7 +354,7 @@ export default function LibraryPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Yuklab olish
+                      {t("library.download")}
                     </a>
                   </Button>
                   {book.media && (
@@ -356,7 +366,7 @@ export default function LibraryPage() {
                         aria-label={`${book.title} Audio and Media`}
                       >
                         <Headphones className="w-4 h-4" />
-                        <span>Audio & Media</span>
+                        <span>{t("library.audioMedia")}</span>
                         <ExternalLink className="w-3.5 h-3.5 opacity-60" />
                       </a>
                     </Button>

@@ -21,6 +21,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const categories: CourseCategory[] = ["Standard", "Intensive", "Individual"];
 
@@ -49,6 +50,7 @@ const categoryInfo = {
 };
 
 export default function CoursesPage() {
+  const { t, locale } = useI18n();
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -149,16 +151,14 @@ export default function CoursesPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-600 rounded-full text-sm font-medium mb-4"
           >
-            📚 Nemis tili kurslari
+            {t("courses.badge")}
           </motion.div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Bizning kurslarimiz
+            {t("courses.title")}
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-orange-500 mx-auto mb-6" />
           <p className="text-lg text-foreground/70 max-w-3xl mx-auto leading-relaxed">
-            A1 dan C1 gacha barcha darajalar uchun individual, intensiv va
-            standart kurslar. O'zingizga mos yo'nalishni tanlang va nemis tilini
-            professional darajada o'rganing.
+            {t("courses.subtitle")} {t("courses.subtitle2")}
           </p>
         </motion.div>
 
@@ -166,7 +166,12 @@ export default function CoursesPage() {
         <div className="space-y-12 md:space-y-16">
           {categories.map((category, categoryIndex) => {
             const coursesInCategory = getCoursesByCategory(category);
-            const info = categoryInfo[category];
+            const info = {
+              title: t(`courses.category.${category}.title`),
+              description: t(`courses.category.${category}.desc`),
+              badge: t(`courses.category.${category}.badge`),
+              gradient: categoryInfo[category].gradient,
+            };
 
             return (
               <motion.div
@@ -228,10 +233,10 @@ export default function CoursesPage() {
                             {course.icon}
                           </div>
                           <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
-                            {course.category}
+                            {t(`courses.category.${course.category}.title`)}
                           </h3>
                           <div className="text-sm text-foreground/60 font-medium">
-                            {course.level} daraja
+                            {course.level} {t("courses.levelLabel")}
                           </div>
                         </div>
 
@@ -242,7 +247,7 @@ export default function CoursesPage() {
                               <div className="flex items-center gap-2">
                                 <Clock className="w-4 h-4 text-blue-600" />
                                 <span className="font-medium">
-                                  {course.duration}
+                                  {course.duration[locale]}
                                 </span>
                               </div>
                               <div className="flex items-center gap-2">
@@ -254,20 +259,22 @@ export default function CoursesPage() {
                             </div>
 
                             <p className="text-foreground/70 text-sm leading-relaxed">
-                              {course.description}
+                              {course.description[locale]}
                             </p>
 
                             {/* Features - Fixed height */}
                             <div className="space-y-2 min-h-[72px]">
-                              {course.features.slice(0, 3).map((feature, i) => (
-                                <div
-                                  key={i}
-                                  className="flex items-center gap-2 text-xs text-foreground/60"
-                                >
-                                  <Star className="w-3 h-3 text-blue-500 flex-shrink-0" />
-                                  <span>{feature}</span>
-                                </div>
-                              ))}
+                              {course.features[locale]
+                                .slice(0, 3)
+                                .map((feature, i) => (
+                                  <div
+                                    key={i}
+                                    className="flex items-center gap-2 text-xs text-foreground/60"
+                                  >
+                                    <Star className="w-3 h-3 text-blue-500 flex-shrink-0" />
+                                    <span>{feature}</span>
+                                  </div>
+                                ))}
                             </div>
 
                             {/* Price */}
@@ -284,7 +291,7 @@ export default function CoursesPage() {
                               onClick={() => openModal(course)}
                               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 group"
                             >
-                              <span>Ro'yxatdan o'tish</span>
+                              <span>{t("courses.register")}</span>
                               <motion.div
                                 className="ml-2"
                                 whileHover={{ x: 3 }}
@@ -315,10 +322,10 @@ export default function CoursesPage() {
           <div className="inline-flex flex-col sm:flex-row items-center gap-4 px-6 py-6 bg-white/90 dark:bg-card/90 backdrop-blur border border-border/60 dark:border-border rounded-2xl shadow-xl">
             <div className="text-center sm:text-left">
               <p className="text-lg font-bold text-foreground mb-1">
-                Qaysi kurs sizga mos?
+                {t("courses.ctaTitle")}
               </p>
               <p className="text-sm text-foreground/70">
-                Bepul konsultatsiya orqali eng yaxshi variantni tanlang
+                {t("courses.ctaSubtitle")}
               </p>
             </div>
             <Button
@@ -328,7 +335,7 @@ export default function CoursesPage() {
             >
               <Link href="/#consultation" className="flex items-center gap-2">
                 <Phone className="w-5 h-5" />
-                Konsultatsiya olish
+                {t("courses.ctaButton")}
               </Link>
             </Button>
           </div>
@@ -366,10 +373,11 @@ export default function CoursesPage() {
                 <div className="text-center mb-6">
                   <div className="text-4xl mb-3">{selectedCourse?.icon}</div>
                   <h3 className="text-2xl font-bold text-foreground mb-2">
-                    Kursga yozilish
+                    {t("courses.modal.title")}
                   </h3>
                   <p className="text-sm text-foreground/70">
-                    {selectedCourse?.category} - {selectedCourse?.level} daraja
+                    {t(`courses.category.${selectedCourse?.category}.title`)} -{" "}
+                    {selectedCourse?.level} {t("courses.levelLabel")}
                   </p>
                 </div>
 
@@ -377,7 +385,7 @@ export default function CoursesPage() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Ism Familiya *
+                      {t("courses.modal.name")}
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-foreground/40" />
@@ -389,7 +397,7 @@ export default function CoursesPage() {
                             name: e.target.value,
                           }))
                         }
-                        placeholder="Ismingizni kiriting"
+                        placeholder={t("consultation.form.namePlaceholder")}
                         className="pl-10 h-12 border-border/60 focus:border-blue-500"
                         required
                       />
@@ -398,7 +406,7 @@ export default function CoursesPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Telefon raqam *
+                      {t("courses.modal.phone")}
                     </label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-foreground/40" />
@@ -442,7 +450,7 @@ export default function CoursesPage() {
                         }}
                         inputMode="numeric"
                         pattern={PHONE_PATTERN.source}
-                        placeholder="+998 XX XXX XX XX"
+                        placeholder={"+998 XXX XX XX XX"}
                         className="pl-10 h-12 border-border/60 focus:border-blue-500"
                         required
                       />
@@ -451,7 +459,7 @@ export default function CoursesPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Tanlangan kurs
+                      {t("courses.modal.selected")}
                     </label>
                     <Input
                       value={formData.level}
@@ -468,7 +476,7 @@ export default function CoursesPage() {
                       className="p-4 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-800"
                     >
                       <CheckCircle className="w-5 h-5 mr-2" />
-                      Muvaffaqiyat! Tez orada siz bilan bog'lanamiz.
+                      {t("courses.modal.success")}
                     </motion.div>
                   )}
 
@@ -479,7 +487,7 @@ export default function CoursesPage() {
                       className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-800"
                     >
                       <AlertCircle className="w-5 h-5 mr-2" />
-                      Xatolik yuz berdi. Qaytadan urinib ko'ring.
+                      {t("courses.modal.error")}
                     </motion.div>
                   )}
 
@@ -505,10 +513,10 @@ export default function CoursesPage() {
                           }}
                           className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full mr-2"
                         />
-                        Yuborilmoqda...
+                        {t("courses.modal.sending")}
                       </span>
                     ) : (
-                      "Ro'yxatdan o'tish"
+                      t("courses.register")
                     )}
                   </Button>
                 </form>

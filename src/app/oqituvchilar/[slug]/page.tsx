@@ -23,7 +23,7 @@ type PageProps = {
 };
 
 export default function TeacherDetailPage({ params }: PageProps) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { slug } = usePromise(params);
   const teacher = getTeacherBySlug(slug);
   if (!teacher) return notFound();
@@ -37,7 +37,8 @@ export default function TeacherDetailPage({ params }: PageProps) {
       ? "/lehrer/frau-sakina.jpg"
       : `/lehrer/${teacher.slug}.png`;
   const isJamsher = teacher.slug === "herr-jamsher";
-  const bioLines = teacher.bio
+  const localizedBio = teacher.bio[locale] || teacher.bio.uz;
+  const bioLines = localizedBio
     .split(/\n+/)
     .map((s) => s.trim())
     .filter(Boolean);
