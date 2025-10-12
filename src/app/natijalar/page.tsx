@@ -181,6 +181,8 @@ export default function ResultsPage() {
                 width={1200}
                 height={1600}
                 quality={90}
+                unoptimized
+                referrerPolicy="no-referrer"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                 className="w-full h-auto transition-transform duration-300 group-hover:scale-[1.01] transform-gpu will-change-transform"
                 priority={idx < 6}
@@ -255,6 +257,8 @@ export default function ResultsPage() {
                   src={images[lightboxIndex]}
                   alt={`Natijalar ${lightboxIndex + 1}`}
                   fill
+                  unoptimized
+                  referrerPolicy="no-referrer"
                   className="object-contain select-none rounded-xl"
                   onLoadingComplete={() => setIsImageLoading(false)}
                 />
