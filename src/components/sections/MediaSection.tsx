@@ -146,6 +146,7 @@ export default function MediaSection() {
                       }
                       width={273}
                       height={273}
+                      unoptimized={true}
                       className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
                       sizes="(max-width: 640px) 180px, (max-width: 768px) 220px, 273px"
                     />
@@ -267,6 +268,7 @@ export default function MediaSection() {
                       alt={testimonial.name}
                       width={40}
                       height={40}
+                      unoptimized={true}
                       className="rounded-full"
                     />
                     <div>
