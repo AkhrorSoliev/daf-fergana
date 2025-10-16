@@ -147,7 +147,16 @@ export const dictionaries: Record<Locale, Dict> = {
       branches: "Filallar",
       results: "Natijalar",
       library: "Kutubxona",
+      blog: "Blog",
       cta: "Bepul konsultatsiya",
+    },
+    blog: {
+      badge: "📝 Blog",
+      title: "Blog maqolalari",
+      subtitle: "Ustozlarimizdan foydali maqolalar va maslahatlar",
+      readMore: "Batafsil o'qish",
+      back: "Blogga qaytish",
+      shareCta: "Maqolani ulashing",
     },
     library: {
       badge: "📚 Kutubxona",
@@ -397,7 +406,16 @@ export const dictionaries: Record<Locale, Dict> = {
       branches: "Filialen",
       results: "Ergebnisse",
       library: "Bibliothek",
+      blog: "Blog",
       cta: "Kostenlose Beratung",
+    },
+    blog: {
+      badge: "📝 Blog",
+      title: "Blog-Artikel",
+      subtitle: "Nützliche Artikel und Tipps unserer Lehrer",
+      readMore: "Weiterlesen",
+      back: "Zurück zum Blog",
+      shareCta: "Artikel teilen",
     },
     library: {
       badge: "📚 Bibliothek",

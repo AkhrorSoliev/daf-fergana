@@ -1,4 +1,9 @@
+# *
 User-agent: *
 Allow: /
-Sitemap: https://dafzentrum.uz/sitemap.xml
 
+# Host
+Host: https://dafzentrum.uz
+
+# Sitemaps
+Sitemap: https://dafzentrum.uz/sitemap.xml
