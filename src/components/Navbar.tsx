@@ -18,7 +18,6 @@ const navigation = [
   { key: "navbar.branches", href: "/filiallar" },
   { key: "navbar.results", href: "/natijalar" },
   { key: "navbar.library", href: "/library" },
-  { key: "navbar.blog", href: "/blog" },
 ];
 
 export default function Navbar() {
