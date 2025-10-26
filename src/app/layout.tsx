@@ -14,25 +14,40 @@ const bricolage = Bricolage_Grotesque({
 export const metadata: Metadata = {
   metadataBase: new URL("https://dafzentrum.uz"),
   title: {
-    default: "DaF Zentrum – German Courses in Uzbekistan",
+    default: "DaF Zentrum – O'zbekistonda nemis tili kurslari",
     template: "%s | DaF Zentrum",
   },
   description:
-    "German language courses, exam prep, and resources in Uzbekistan. A1–B2 classes, experienced teachers, and practice materials.",
+    "O'zbekistonda nemis tili kurslari, imtihonlarga tayyorgarlik va materiallar. A1–B2 darslar, tajribali o'qituvchilar va amaliy materiallar.",
+  keywords: [
+    "nemis tili",
+    "nemis tili kurslari",
+    "o'zbekistan",
+    "goethe",
+    "testdaf",
+    "imtihon",
+    "ta'lim",
+    "daf zentrum",
+    "fergana",
+  ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     url: "https://dafzentrum.uz",
-    title: "DaF Zentrum",
-    description: "German language courses and resources.",
+    title: "DaF Zentrum – O'zbekistonda nemis tili kurslari",
+    description:
+      "O'zbekistonda nemis tili kurslari, imtihonlarga tayyorgarlik va materiallar. A1–B2 darslar, tajribali o'qituvchilar va amaliy materiallar.",
+    locale: "uz_UZ",
+    siteName: "DaF Zentrum",
     images: ["/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "DaF Zentrum",
-    description: "German language courses and resources.",
+    title: "DaF Zentrum – O'zbekistonda nemis tili kurslari",
+    description:
+      "O'zbekistonda nemis tili kurslari, imtihonlarga tayyorgarlik va materiallar. A1–B2 darslar, tajribali o'qituvchilar va amaliy materiallar.",
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
@@ -89,10 +104,15 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "DaF Zentrum",
+              name: "DaF Sprachzentrum Fergana",
               url: "https://dafzentrum.uz",
-              logo: "https://dafzentrum.uz/logo.png",
-              sameAs: ["https://t.me/your_channel_or_profile"],
+              logo: "https://dafzentrum.uz/assets/daf-logo-black.png",
+              description:
+                "O'zbekistonda nemis tili kurslari, imtihonlarga tayyorgarlik va materiallar.",
+              sameAs: [
+                "https://t.me/daffergana",
+                "https://www.instagram.com/daf_fergana/",
+              ],
             }),
           }}
         />
