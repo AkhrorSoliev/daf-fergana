@@ -51,6 +51,9 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: [{ url: "/assets/graduation-icon.png", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
