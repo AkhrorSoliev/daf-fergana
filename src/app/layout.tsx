@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { I18nProvider } from "@/i18n/I18nProvider";
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -95,6 +96,7 @@ export default function RootLayout({
         <I18nProvider>
           <Navbar />
           <main className="min-h-screen [&_.hero-container]:px-0">
+            <SmoothCursor />
             {children}
           </main>
           <Footer />

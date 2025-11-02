@@ -2,6 +2,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+* {
+  cursor: none !important;
+}
+
+input,
+textarea,
+select,
+iframe {
+  cursor: text !important;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
