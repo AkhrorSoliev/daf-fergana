@@ -25,7 +25,7 @@ export default function LanguageToggle() {
           width={24}
           height={18}
           unoptimized={true}
-          className="object-cover w-6 h-4"
+          className="object-cover w-6 h-auto"
         />
       </button>
     </div>
