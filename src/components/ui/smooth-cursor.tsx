@@ -25,7 +25,7 @@ const DefaultCursorSVG: FC = () => {
       width={50}
       height={54}
       viewBox="0 0 50 54"
-      fill="#fff"
+      fill="none"
       style={{ scale: 0.5 }}
     >
       <g filter="url(#filter0_d_91_7928)">
