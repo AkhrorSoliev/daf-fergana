@@ -12,22 +12,67 @@ export function useCountUp({ end, duration = 2000, startOnMount = false }: UseCo
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(startOnMount);
   const countRef = useRef<HTMLDivElement>(null);
+  const hasStartedRef = useRef(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (countRef.current) {
-      observer.observe(countRef.current);
+    if (startOnMount) {
+      hasStartedRef.current = true;
+      setIsVisible(true);
+      return;
     }
 
-    return () => observer.disconnect();
+    const element = countRef.current;
+
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window && element) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !hasStartedRef.current) {
+            hasStartedRef.current = true;
+            setIsVisible(true);
+            if (element) observer.unobserve(element);
+          }
+        },
+        {
+          root: null,
+          rootMargin: '0px 0px -20% 0px',
+          threshold: 0.1,
+        }
+      );
+
+      observer.observe(element);
+      return () => observer.disconnect();
+    }
+
+    const checkInView = () => {
+      if (!countRef.current || hasStartedRef.current) return;
+      const rect = countRef.current.getBoundingClientRect();
+      const viewHeight = window.innerHeight || document.documentElement.clientHeight;
+      const viewWidth = window.innerWidth || document.documentElement.clientWidth;
+
+      const verticallyInView = rect.top < viewHeight * 0.9 && rect.bottom > viewHeight * 0.1;
+      const horizontallyInView = rect.left < viewWidth && rect.right > 0;
+
+      if (verticallyInView && horizontallyInView) {
+        hasStartedRef.current = true;
+        setIsVisible(true);
+        window.removeEventListener('scroll', checkInView, { passive: true } as any);
+        window.removeEventListener('resize', checkInView);
+        window.removeEventListener('load', checkInView);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', checkInView, { passive: true } as any);
+      window.addEventListener('resize', checkInView);
+      window.addEventListener('load', checkInView);
+      checkInView();
+
+      return () => {
+        window.removeEventListener('scroll', checkInView, { passive: true } as any);
+        window.removeEventListener('resize', checkInView);
+        window.removeEventListener('load', checkInView);
+      };
+    }
   }, []);
 
   useEffect(() => {
@@ -47,6 +92,8 @@ export function useCountUp({ end, duration = 2000, startOnMount = false }: UseCo
 
       if (progress < 1) {
         animationFrame = requestAnimationFrame(animate);
+      } else {
+        setCount(end);
       }
     };
 
