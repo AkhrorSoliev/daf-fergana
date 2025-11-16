@@ -43,13 +43,10 @@ const testimonials = [
 
 const workplaces = [
   "/partners/partner-1.svg",
-  "/partners/partner-2.svg",
-  "/partners/partner-3.svg",
-  "/partners/partner-4.svg",
-  "/partners/partner-5.svg",
-  "/partners/partner-6.svg",
-  "/partners/partner-7.svg",
-  "/partners/partner-8.svg",
+  "/partners/partner-2.png",
+  "/partners/partner-3.png",
+  "/partners/partner-4.png",
+  "/partners/partner-5.png",
 ];
 
 // Provided image URLs for marquee (duplicated once for seamless loop)

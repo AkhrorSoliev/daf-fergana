@@ -19,7 +19,11 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export default function ConsultationSection() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const isDe = locale === "de";
+  const dePhone = "+49 176 238 97 113";
+  const dePhoneHref = "tel:+4917623897113";
+  const deEmail = "orif.ahmadaliyev@consultinguz.de";
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
@@ -327,39 +331,43 @@ export default function ConsultationSection() {
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center sm:text-left">
                     <motion.a
-                      href="tel:+998905351099"
+                      href={isDe ? dePhoneHref : "tel:+998905351099"}
                       whileHover={{ scale: 1.02 }}
                       className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     >
                       <Phone className="w-4 h-4 text-accent" />
                       <span className="text-sm font-medium text-foreground/70">
-                        +998 90 535 10 99
+                        {isDe ? dePhone : "+998 90 535 10 99"}
                       </span>
                     </motion.a>
 
                     <motion.a
-                      href="mailto:info@daf-fergana.uz"
+                      href={
+                        isDe ? `mailto:${deEmail}` : "mailto:info@daf-fergana.uz"
+                      }
                       whileHover={{ scale: 1.02 }}
                       className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     >
                       <Mail className="w-4 h-4 text-accent" />
                       <span className="text-sm font-medium text-foreground/70">
-                        info@daf-fergana.uz
+                        {isDe ? deEmail : "info@daf-fergana.uz"}
                       </span>
                     </motion.a>
 
-                    <motion.a
-                      href="https://t.me/daffergana"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.02 }}
-                      className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
-                    >
-                      <Send className="w-4 h-4 text-accent" />
-                      <span className="text-sm font-medium text-foreground/70">
-                        Telegram
-                      </span>
-                    </motion.a>
+                    {!isDe && (
+                      <motion.a
+                        href="https://t.me/daffergana"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.02 }}
+                        className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
+                      >
+                        <Send className="w-4 h-4 text-accent" />
+                        <span className="text-sm font-medium text-foreground/70">
+                          Telegram
+                        </span>
+                      </motion.a>
+                    )}
                   </div>
                 </motion.div>
               </div>

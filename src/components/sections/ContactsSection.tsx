@@ -16,7 +16,11 @@ import { branches as sharedBranches, mapEmbedUrl } from "@/data/branches";
 import { useI18n } from "@/i18n/I18nProvider";
 
 export default function ContactsSection() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const isDe = locale === "de";
+  const dePhone = "+49 176 238 97 113";
+  const dePhoneHref = "tel:+4917623897113";
+  const deEmail = "orif.ahmadaliyev@consultinguz.de";
   const [selectedBranchId, setSelectedBranchId] = useState(
     sharedBranches[0].id
   );
@@ -183,10 +187,14 @@ export default function ContactsSection() {
                       className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
                     >
                       <a
-                        href={`tel:${selectedBranch.phones[0].replace(
-                          /[^+\d]/g,
-                          ""
-                        )}`}
+                        href={
+                          isDe
+                            ? dePhoneHref
+                            : `tel:${selectedBranch.phones[0].replace(
+                                /[^+\d]/g,
+                                ""
+                              )}`
+                        }
                         className="flex items-center justify-center"
                       >
                         <Phone className="w-4 h-4 mr-2" />
@@ -201,7 +209,9 @@ export default function ContactsSection() {
                     >
                       <a
                         href={
-                          selectedBranch.email
+                          isDe
+                            ? `mailto:${deEmail}`
+                            : selectedBranch.email
                             ? `mailto:${selectedBranch.email}`
                             : "#"
                         }
@@ -213,21 +223,23 @@ export default function ContactsSection() {
                     </Button>
                   </div>
 
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full border-border/60 hover:border-secondary hover:bg-secondary/10 font-medium rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
-                  >
-                    <a
-                      href="https://t.me/daffergana"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center"
+                  {!isDe && (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full border-border/60 hover:border-secondary hover:bg-secondary/10 font-medium rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
                     >
-                      <Send className="w-4 h-4 mr-2" />
-                      {t("contactsSection.messageTelegram")}
-                    </a>
-                  </Button>
+                      <a
+                        href="https://t.me/daffergana"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center"
+                      >
+                        <Send className="w-4 h-4 mr-2" />
+                        {t("contactsSection.messageTelegram")}
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </div>
             </Card>
