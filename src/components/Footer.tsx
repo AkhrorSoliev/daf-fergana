@@ -15,7 +15,17 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const isDe = locale === "de";
+  const contactPhone = isDe ? "+49 176 238 97 113" : "+998 90 535 10 99";
+  const contactPhoneHref = isDe ? "tel:+4917623897113" : "tel:+998905351099";
+  const contactEmail = isDe
+    ? "orif.ahmadaliyev@consultinguz.de"
+    : "info@daf-fergana.uz";
+  const contactEmailHref = `mailto:${contactEmail}`;
+  const visibleSocialLinks = isDe
+    ? socialLinks.filter((l) => l.name !== "Telegram")
+    : socialLinks;
 
   const navigation = [
     { name: t("navbar.home"), href: "/" },
@@ -83,19 +93,19 @@ export default function Footer() {
               <div className="flex items-center space-x-3">
                 <Phone className="w-4 h-4 text-accent" />
                 <a
-                  href="tel:+998905351099"
+                  href={contactPhoneHref}
                   className="text-foreground/80 hover:text-foreground transition-colors text-sm"
                 >
-                  +998 90 535 10 99
+                  {contactPhone}
                 </a>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-accent" />
                 <a
-                  href="mailto:info@daf-fergana.uz"
+                  href={contactEmailHref}
                   className="text-foreground/80 hover:text-foreground transition-colors text-sm"
                 >
-                  info@daf-fergana.uz
+                  {contactEmail}
                 </a>
               </div>
               <div className="flex items-start space-x-3">
@@ -113,7 +123,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">{t("footer.social")}</h3>
             <div className="flex space-x-4">
-              {socialLinks.map((item) => (
+              {visibleSocialLinks.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
@@ -137,17 +147,21 @@ export default function Footer() {
                 © {new Date().getFullYear()} DaF Sprachzentrum Fergana.{" "}
                 {t("footer.rights")}
               </span>
-              <span className="mx-1 text-foreground/40">•</span>
-              <a
-                href="https://t.me/akhror_soliev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-foreground/10 border border-foreground/20 text-foreground hover:bg-foreground/20 transition-colors"
-                aria-label="Telegramda muallif profili — Ahror Soliyev"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-accent" />
-                Ahror Soliyev
-              </a>
+              {!isDe && (
+                <>
+                  <span className="mx-1 text-foreground/40">•</span>
+                  <a
+                    href="https://t.me/akhror_soliev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-foreground/10 border border-foreground/20 text-foreground hover:bg-foreground/20 transition-colors"
+                    aria-label="Telegramda muallif profili — Ahror Soliyev"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-accent" />
+                    Ahror Soliyev
+                  </a>
+                </>
+              )}
               <span>{t("footer.madeBy")}</span>
             </p>
             <div className="flex space-x-6 text-sm">

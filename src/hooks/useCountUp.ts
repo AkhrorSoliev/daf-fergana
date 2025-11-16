@@ -34,8 +34,8 @@ export function useCountUp({ end, duration = 2000, startOnMount = false }: UseCo
         },
         {
           root: null,
-          rootMargin: '0px 0px -20% 0px',
-          threshold: 0.1,
+          rootMargin: '0px',
+          threshold: 0,
         }
       );
 
@@ -49,7 +49,7 @@ export function useCountUp({ end, duration = 2000, startOnMount = false }: UseCo
       const viewHeight = window.innerHeight || document.documentElement.clientHeight;
       const viewWidth = window.innerWidth || document.documentElement.clientWidth;
 
-      const verticallyInView = rect.top < viewHeight * 0.9 && rect.bottom > viewHeight * 0.1;
+      const verticallyInView = rect.top < viewHeight && rect.bottom > 0;
       const horizontallyInView = rect.left < viewWidth && rect.right > 0;
 
       if (verticallyInView && horizontallyInView) {
