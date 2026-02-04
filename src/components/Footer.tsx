@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useI18n } from "@/i18n/I18nProvider";
-import { Phone, Mail, MapPin, Send, Instagram, Sparkles } from "lucide-react";
+import { Phone, Mail, MapPin, Send, Instagram } from "lucide-react";
 
 const socialLinks = [
   { name: "Telegram", href: "https://t.me/daffergana", icon: Send },
@@ -17,15 +17,11 @@ const socialLinks = [
 export default function Footer() {
   const { t, locale } = useI18n();
   const isDe = locale === "de";
-  const contactPhone = isDe ? "+49 176 238 97 113" : "+998 90 535 10 99";
-  const contactPhoneHref = isDe ? "tel:+4917623897113" : "tel:+998905351099";
-  const contactEmail = isDe
-    ? "orif.ahmadaliyev@consultinguz.de"
-    : "info@daf-fergana.uz";
+  const contactPhone = "+998 90 535 10 99";
+  const contactPhoneHref = "tel:+998905351099";
+  const contactEmail = "info@daf-sprachzentrum.uz";
   const contactEmailHref = `mailto:${contactEmail}`;
-  const visibleSocialLinks = isDe
-    ? socialLinks.filter((l) => l.name !== "Telegram")
-    : socialLinks;
+  const visibleSocialLinks = socialLinks;
 
   const navigation = [
     { name: t("navbar.home"), href: "/" },
@@ -142,27 +138,9 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-border mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-foreground/70 text-sm flex items-center flex-wrap gap-2">
-              <span>
-                © {new Date().getFullYear()} DaF Sprachzentrum Fergana.{" "}
-                {t("footer.rights")}
-              </span>
-              {!isDe && (
-                <>
-                  <span className="mx-1 text-foreground/40">•</span>
-                  <a
-                    href="https://t.me/akhror_soliev"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-foreground/10 border border-foreground/20 text-foreground hover:bg-foreground/20 transition-colors"
-                    aria-label="Telegramda muallif profili — Ahror Soliyev"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-accent" />
-                    Ahror Soliyev
-                  </a>
-                </>
-              )}
-              <span>{t("footer.madeBy")}</span>
+            <p className="text-foreground/70 text-sm">
+              © {new Date().getFullYear()} DaF Sprachzentrum Fergana.{" "}
+              {t("footer.rights")}
             </p>
             <div className="flex space-x-6 text-sm">
               <Link

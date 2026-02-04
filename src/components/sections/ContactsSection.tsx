@@ -21,9 +21,7 @@ export default function ContactsSection() {
   const dePhone = "+49 176 238 97 113";
   const dePhoneHref = "tel:+4917623897113";
   const deEmail = "orif.ahmadaliyev@consultinguz.de";
-  const [selectedBranchId, setSelectedBranchId] = useState(
-    sharedBranches[0].id
-  );
+  const [selectedBranchId, setSelectedBranchId] = useState("fergana");
   const selectedBranch = useMemo(() => {
     return (
       sharedBranches.find((b) => b.id === selectedBranchId) ?? sharedBranches[0]
@@ -187,14 +185,10 @@ export default function ContactsSection() {
                       className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
                     >
                       <a
-                        href={
-                          isDe
-                            ? dePhoneHref
-                            : `tel:${selectedBranch.phones[0].replace(
-                                /[^+\d]/g,
-                                ""
-                              )}`
-                        }
+                        href={`tel:${selectedBranch.phones[0].replace(
+                          /[^+\d]/g,
+                          "",
+                        )}`}
                         className="flex items-center justify-center"
                       >
                         <Phone className="w-4 h-4 mr-2" />
@@ -212,8 +206,8 @@ export default function ContactsSection() {
                           isDe
                             ? `mailto:${deEmail}`
                             : selectedBranch.email
-                            ? `mailto:${selectedBranch.email}`
-                            : "#"
+                              ? `mailto:${selectedBranch.email}`
+                              : "#"
                         }
                         className="flex items-center justify-center"
                       >
@@ -264,7 +258,7 @@ export default function ContactsSection() {
                   </h3>
                   <motion.a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      `${selectedBranch.city}, ${selectedBranch.address}`
+                      `${selectedBranch.city}, ${selectedBranch.address}`,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -286,7 +280,7 @@ export default function ContactsSection() {
                   <iframe
                     src={mapEmbedUrl(
                       selectedBranch.city,
-                      selectedBranch.address
+                      selectedBranch.address,
                     )}
                     width="100%"
                     height="100%"

@@ -17,7 +17,6 @@ const navigation = [
   { key: "navbar.courses", href: "/kurslar" },
   { key: "navbar.branches", href: "/filiallar" },
   { key: "navbar.results", href: "/natijalar" },
-  { key: "navbar.library", href: "/library" },
 ];
 
 export default function Navbar() {
