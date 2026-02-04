@@ -3,7 +3,7 @@
 @import "tw-animate-css";
 
 * {
-  cursor: none !important;
+  /* cursor: default !important; */
 }
 
 input,

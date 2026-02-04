@@ -1,13 +1,7 @@
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Kutubxona",
-  description:
-    "Nemis tili kitoblari va materiallari: Kursbuch, Übungsbuch, lugʻatlar va grammatikalar. Koʻrish va yuklab olish mumkin.",
-  alternates: { canonical: "/library" },
-};
+import { notFound } from "next/navigation";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  // Library page is temporarily private - return 404
+  notFound();
   return children as React.ReactNode;
 }
-
