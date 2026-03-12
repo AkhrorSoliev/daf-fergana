@@ -13,6 +13,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { X, Phone, User, CheckCircle, AlertCircle } from "lucide-react";
+import { formatUzbekPhone, PHONE_PREFIX, PHONE_PATTERN } from "@/utils/phone";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type LeadModalProps = {
   open: boolean;
@@ -29,6 +31,7 @@ export function LeadModal({
   levelOptions = [],
   redirectUrlAfterSuccess,
 }: LeadModalProps) {
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [level, setLevel] = useState<string | undefined>(undefined);
@@ -37,20 +40,6 @@ export function LeadModal({
     "idle" | "success" | "error"
   >("idle");
   const [, setError] = useState<string | null>(null);
-
-  const PHONE_PREFIX = "+998 ";
-  const PHONE_PATTERN = /^\+998\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
-  function formatUzbekPhone(input: string): string {
-    const digits = input.replace(/\D/g, "");
-    const afterPrefix = digits.startsWith("998") ? digits.slice(3) : digits;
-    const limited = afterPrefix.slice(0, 9);
-    const part1 = limited.slice(0, 2);
-    const part2 = limited.slice(2, 5);
-    const part3 = limited.slice(5, 7);
-    const part4 = limited.slice(7, 9);
-    const groups = [part1, part2, part3, part4].filter(Boolean);
-    return PHONE_PREFIX + groups.join(" ");
-  }
 
   useEffect(() => {
     if (!open) return;
@@ -71,7 +60,7 @@ export function LeadModal({
 
   const handleSubmit = async () => {
     if (!name.trim() || !phone.trim() || !PHONE_PATTERN.test(phone)) {
-      setError("Ism va telefon majburiy");
+      setError(t("leadModal.validationError"));
       return;
     }
     setSubmitting(true);
@@ -84,7 +73,7 @@ export function LeadModal({
       });
       if (!resp.ok) {
         const data = await resp.json().catch(() => ({}));
-        throw new Error(data?.error || "Yuborishda xatolik");
+        throw new Error(data?.error || t("leadModal.submitError"));
       }
       setSubmitStatus("success");
       setTimeout(() => {
@@ -99,7 +88,7 @@ export function LeadModal({
       }, 1200);
     } catch (e: unknown) {
       setSubmitStatus("error");
-      setError(e instanceof Error ? e.message : "Xatolik yuz berdi");
+      setError(e instanceof Error ? e.message : t("leadModal.generalError"));
       setSubmitting(false);
     }
   };
@@ -133,10 +122,10 @@ export function LeadModal({
 
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-foreground mb-2">
-                  Yordam oling
+                  {t("leadModal.title")}
                 </h3>
                 <p className="text-sm text-foreground/70">
-                  Kontaktlaringizni qoldiring — siz bilan tez orada bog‘lanamiz.
+                  {t("leadModal.subtitle")}
                 </p>
               </div>
 
@@ -149,14 +138,14 @@ export function LeadModal({
               >
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Ism Familiya *
+                    {t("leadModal.name")}
                   </label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-foreground/40" />
                     <Input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Ismingizni kiriting"
+                      placeholder={t("leadModal.namePlaceholder")}
                       className="pl-10 h-12 border-border/60"
                       disabled={submitting}
                       required
@@ -166,7 +155,7 @@ export function LeadModal({
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Telefon raqam *
+                    {t("leadModal.phone")}
                   </label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-foreground/40" />
@@ -215,14 +204,14 @@ export function LeadModal({
                 {levelOptions.length > 0 && (
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Yo‘nalish
+                      {t("leadModal.direction")}
                     </label>
                     <Select
                       value={level}
                       onValueChange={(value) => setLevel(value)}
                     >
                       <SelectTrigger className="w-full h-12 border-border/60">
-                        <SelectValue placeholder="Tanlang" />
+                        <SelectValue placeholder={t("leadModal.directionPlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {levelOptions.map((opt) => (
@@ -242,7 +231,7 @@ export function LeadModal({
                     className="p-4 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-800"
                   >
                     <CheckCircle className="w-5 h-5 mr-2" />
-                    Muvaffaqiyat! Tez orada siz bilan bog'lanamiz.
+                    {t("leadModal.success")}
                   </motion.div>
                 )}
                 {submitStatus === "error" && (
@@ -252,7 +241,7 @@ export function LeadModal({
                     className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-800"
                   >
                     <AlertCircle className="w-5 h-5 mr-2" />
-                    Xatolik yuz berdi. Qaytadan urinib ko'ring.
+                    {t("leadModal.error")}
                   </motion.div>
                 )}
 
@@ -277,10 +266,10 @@ export function LeadModal({
                         }}
                         className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full mr-2"
                       />
-                      Yuborilmoqda...
+                      {t("leadModal.sending")}
                     </span>
                   ) : (
-                    "Yuborish"
+                    t("leadModal.submit")
                   )}
                 </Button>
               </form>

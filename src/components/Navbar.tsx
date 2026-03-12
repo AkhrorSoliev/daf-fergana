@@ -61,7 +61,7 @@ export default function Navbar() {
             {/* Light/Dark logo */}
             <Image
               src="/assets/daf-logo-black.png"
-              alt="DaF Fergana logo"
+              alt="DaF Sprachzentrum logo"
               width={65}
               height={65}
               priority
@@ -70,16 +70,13 @@ export default function Navbar() {
             />
             <Image
               src="/assets/daf-logo-white.png"
-              alt="DaF Fergana logo"
+              alt="DaF Sprachzentrum logo"
               width={65}
               height={65}
               priority
               className="w-auto h-15 object-contain hidden dark:block"
               unoptimized={true}
             />
-            <span className="hidden lg:block text-lg lg:text-xl font-bold text-foreground group-hover:text-primary transition-colors relative -ml-10">
-              Fergana
-            </span>
           </Link>
 
           {/* Desktop Navigation */}

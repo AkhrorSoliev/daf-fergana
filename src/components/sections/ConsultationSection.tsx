@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,8 +8,47 @@ import { z } from "zod";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useI18n } from "@/i18n/I18nProvider";
-import { Phone, Mail, CheckCircle, AlertCircle, Send } from "lucide-react";
+import { Phone, Mail, CheckCircle, AlertCircle, Send, Info } from "lucide-react";
+import { formatUzbekPhone, PHONE_PREFIX, PHONE_PATTERN } from "@/utils/phone";
+import { branches, branchCity } from "@/data/branches";
+import { useBranchParam } from "@/hooks/useBranchParam";
+
+const STORAGE_KEY = "daf_consultation_leads";
+
+type StoredLead = { name: string; phone: string; branch: string; ts: number };
+
+function getStoredLeads(): StoredLead[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function isDuplicate(name: string, phone: string): boolean {
+  const leads = getStoredLeads();
+  const normPhone = phone.replace(/[^+\d]/g, "");
+  return leads.some(
+    (l) =>
+      l.name.trim().toLowerCase() === name.trim().toLowerCase() &&
+      l.phone.replace(/[^+\d]/g, "") === normPhone,
+  );
+}
+
+function storeLead(name: string, phone: string, branch: string) {
+  const leads = getStoredLeads();
+  leads.push({ name, phone, branch, ts: Date.now() });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
+}
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -26,8 +65,14 @@ export default function ConsultationSection() {
   const deEmail = "orif.ahmadaliyev@consultinguz.de";
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error"
+    "idle" | "success" | "error" | "duplicate"
   >("idle");
+  const [selectedBranchId, setSelectedBranchId] = useBranchParam();
+
+  const selectedBranch = useMemo(
+    () => branches.find((b) => b.id === selectedBranchId) ?? branches[0],
+    [selectedBranchId],
+  );
 
   const {
     register,
@@ -41,44 +86,32 @@ export default function ConsultationSection() {
     defaultValues: { phone: "+998 " },
   });
 
-  const PHONE_PREFIX = "+998 ";
-  const PHONE_PATTERN = /^\+998\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
-
-  function formatUzbekPhone(input: string): string {
-    // Keep digits only
-    const digits = input.replace(/\D/g, "");
-    // Remove leading country code if user typed it
-    const afterPrefix = digits.startsWith("998") ? digits.slice(3) : digits;
-    const limited = afterPrefix.slice(0, 9);
-    const part1 = limited.slice(0, 2); // operator code (2)
-    const part2 = limited.slice(2, 5); // next (3)
-    const part3 = limited.slice(5, 7); // next (2)
-    const part4 = limited.slice(7, 9); // last (2)
-    const groups = [part1, part2, part3, part4].filter(Boolean);
-    return PHONE_PREFIX + groups.join(" ");
-  }
-
   const onSubmit = async (data: FormData) => {
+    if (isDuplicate(data.name, data.phone)) {
+      setSubmitStatus("duplicate");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
     try {
       const response = await fetch("/api/lead", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: data.name,
           phone: data.phone,
+          branch: selectedBranch.city.uz,
           source: "Bepul konsultatsiya",
         }),
       });
 
       if (response.ok) {
+        storeLead(data.name, data.phone, selectedBranchId);
         setSubmitStatus("success");
         reset();
-        setTimeout(() => setSubmitStatus("idle"), 5000);
+        setValue("phone", "+998 ");
       } else {
         setSubmitStatus("error");
       }
@@ -150,7 +183,7 @@ export default function ConsultationSection() {
                       htmlFor="name"
                       className="block text-sm font-semibold text-foreground mb-3"
                     >
-                      {t("consultation.form.name")} *
+                      {t("consultation.form.name")}
                     </label>
                     <Input
                       id="name"
@@ -180,7 +213,7 @@ export default function ConsultationSection() {
                       htmlFor="phone"
                       className="block text-sm font-semibold text-foreground mb-3"
                     >
-                      {t("consultation.form.phone")} *
+                      {t("consultation.form.phone")}
                     </label>
                     <Input
                       id="phone"
@@ -202,7 +235,6 @@ export default function ConsultationSection() {
                             shouldValidate: true,
                           });
                         }
-                        // Move caret to end
                         const el = e.currentTarget;
                         const val = el.value;
                         requestAnimationFrame(() => {
@@ -215,7 +247,6 @@ export default function ConsultationSection() {
                         });
                       }}
                       onKeyDown={(e) => {
-                        // Prevent deleting the fixed prefix
                         const caret =
                           (e.target as HTMLInputElement).selectionStart ?? 0;
                         const isBackspace = e.key === "Backspace";
@@ -242,16 +273,39 @@ export default function ConsultationSection() {
                         {t("consultation.form.phoneFormatError")}
                       </motion.p>
                     )}
-                    {errors.phone && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mt-2 text-sm text-destructive flex items-center"
-                      >
-                        <AlertCircle className="w-4 h-4 mr-1" />
-                        {errors.phone.message}
-                      </motion.p>
-                    )}
+                  </motion.div>
+
+                  {/* Branch Select */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.25 }}
+                    viewport={{ once: true }}
+                  >
+                    <label className="block text-sm font-semibold text-foreground mb-3">
+                      {t("consultation.form.branch")}
+                    </label>
+                    <Select
+                      value={selectedBranchId}
+                      onValueChange={setSelectedBranchId}
+                    >
+                      <SelectTrigger className="w-full h-12 md:h-14 text-base border-border/60 focus:border-accent">
+                        <SelectValue
+                          placeholder={t("consultation.form.branchPlaceholder")}
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {branches.map((branch) => (
+                          <SelectItem
+                            key={branch.id}
+                            value={branch.id}
+                            className="text-base"
+                          >
+                            {branchCity(branch, locale)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </motion.div>
 
                   <motion.div
@@ -287,7 +341,7 @@ export default function ConsultationSection() {
                     </Button>
                   </motion.div>
 
-                  {/* Enhanced Status Messages */}
+                  {/* Status Messages */}
                   <AnimatePresence>
                     {submitStatus === "success" && (
                       <motion.div
@@ -295,12 +349,65 @@ export default function ConsultationSection() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-center text-green-800 dark:text-green-200"
+                        className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl space-y-3"
                       >
-                        <CheckCircle className="w-5 h-5 mr-3 text-green-600" />
-                        <span className="font-medium">
-                          {t("consultation.form.success")}
-                        </span>
+                        <div className="flex items-center text-green-800 dark:text-green-200">
+                          <CheckCircle className="w-5 h-5 mr-3 text-green-600" />
+                          <span className="font-medium">
+                            {t("consultation.form.success")}
+                          </span>
+                        </div>
+                        <div className="text-green-700 dark:text-green-300 text-sm">
+                          <p className="mb-2">{t("consultation.form.followTelegram")}</p>
+                          <div className="flex flex-wrap gap-2">
+                            {branches.map((b) => (
+                              <a
+                                key={b.id}
+                                href={b.telegramChannel}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-green-300 dark:border-green-700 bg-white/50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-800/40 text-green-800 dark:text-green-200 text-sm font-medium transition-colors"
+                              >
+                                <Send className="w-3.5 h-3.5" />
+                                {branchCity(b, locale)}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {submitStatus === "duplicate" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                        className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl space-y-3"
+                      >
+                        <div className="flex items-center text-blue-800 dark:text-blue-200">
+                          <Info className="w-5 h-5 mr-3 text-blue-600" />
+                          <span className="font-medium">
+                            {t("consultation.form.alreadySent")}
+                          </span>
+                        </div>
+                        <div className="text-blue-700 dark:text-blue-300 text-sm">
+                          <p className="mb-2">{t("consultation.form.followTelegram")}</p>
+                          <div className="flex flex-wrap gap-2">
+                            {branches.map((b) => (
+                              <a
+                                key={b.id}
+                                href={b.telegramChannel}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-blue-300 dark:border-blue-700 bg-white/50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-800/40 text-blue-800 dark:text-blue-200 text-sm font-medium transition-colors"
+                              >
+                                <Send className="w-3.5 h-3.5" />
+                                {branchCity(b, locale)}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
                       </motion.div>
                     )}
 
@@ -321,7 +428,7 @@ export default function ConsultationSection() {
                   </AnimatePresence>
                 </form>
 
-                {/* Enhanced Contact Info */}
+                {/* Contact Info */}
                 <motion.div
                   className="mt-8 pt-6 border-t border-border/60"
                   initial={{ opacity: 0, y: 20 }}
@@ -331,32 +438,32 @@ export default function ConsultationSection() {
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center sm:text-left">
                     <motion.a
-                      href={isDe ? dePhoneHref : "tel:+998905351099"}
+                      href={isDe ? dePhoneHref : `tel:${selectedBranch.phones[0].replace(/[^+\d]/g, "")}`}
                       whileHover={{ scale: 1.02 }}
                       className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     >
                       <Phone className="w-4 h-4 text-accent" />
                       <span className="text-sm font-medium text-foreground/70">
-                        {isDe ? dePhone : "+998 90 535 10 99"}
+                        {isDe ? dePhone : selectedBranch.phones[0]}
                       </span>
                     </motion.a>
 
                     <motion.a
                       href={
-                        isDe ? `mailto:${deEmail}` : "mailto:info@daf-fergana.uz"
+                        isDe ? `mailto:${deEmail}` : "mailto:info@daf-sprachzentrum.uz"
                       }
                       whileHover={{ scale: 1.02 }}
                       className="flex items-center justify-center sm:justify-start space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     >
                       <Mail className="w-4 h-4 text-accent" />
                       <span className="text-sm font-medium text-foreground/70">
-                        {isDe ? deEmail : "info@daf-fergana.uz"}
+                        {isDe ? deEmail : "info@daf-sprachzentrum.uz"}
                       </span>
                     </motion.a>
 
                     {!isDe && (
                       <motion.a
-                        href="https://t.me/daffergana"
+                        href={selectedBranch.telegramChannel}
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.02 }}

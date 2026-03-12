@@ -8,7 +8,8 @@ export async function POST(request: NextRequest) {
       phone,
       level,
       source,
-    }: { name?: string; phone?: string; level?: string; source?: string } =
+      branch,
+    }: { name?: string; phone?: string; level?: string; source?: string; branch?: string } =
       body ?? {};
 
     if (!name || !phone) {
@@ -50,6 +51,7 @@ export async function POST(request: NextRequest) {
     const safePhone = escapeHtml(phone);
     const safeLevel = escapeHtml(level);
     const safeSource = escapeHtml(inferredSource);
+    const safeBranch = escapeHtml(branch);
     // Ensure Uzbekistan time (Asia/Tashkent, UTC+5)
     const formattedTime = new Intl.DateTimeFormat("uz-UZ", {
       timeZone: "Asia/Tashkent",
@@ -67,6 +69,9 @@ export async function POST(request: NextRequest) {
       `<b>👤 Ism:</b> ${safeName}`,
       `<b>📞 Telefon:</b> <code>${safePhone}</code>`,
     ];
+    if (safeBranch) {
+      lines.push(`<b>🏢 Filial:</b> ${safeBranch}`);
+    }
     if (safeLevel) {
       lines.push(`<b>📚 Kurs:</b> ${safeLevel}`);
     }
