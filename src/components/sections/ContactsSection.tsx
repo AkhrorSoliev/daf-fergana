@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,8 +12,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Phone, Mail, MapPin, Send, ExternalLink } from "lucide-react";
-import { branches as sharedBranches, mapEmbedUrl } from "@/data/branches";
+import { branches as sharedBranches, branchCity, mapEmbedUrl } from "@/data/branches";
 import { useI18n } from "@/i18n/I18nProvider";
+import { useBranchParam } from "@/hooks/useBranchParam";
 
 export default function ContactsSection() {
   const { t, locale } = useI18n();
@@ -21,16 +22,12 @@ export default function ContactsSection() {
   const dePhone = "+49 176 238 97 113";
   const dePhoneHref = "tel:+4917623897113";
   const deEmail = "orif.ahmadaliyev@consultinguz.de";
-  const [selectedBranchId, setSelectedBranchId] = useState("fergana");
+  const [selectedBranchId, setSelectedBranchId] = useBranchParam();
   const selectedBranch = useMemo(() => {
     return (
       sharedBranches.find((b) => b.id === selectedBranchId) ?? sharedBranches[0]
     );
   }, [selectedBranchId]);
-
-  const handleBranchChange = (branchId: string) => {
-    setSelectedBranchId(branchId);
-  };
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-secondary/10 via-background to-muted/20 relative overflow-hidden">
@@ -90,7 +87,7 @@ export default function ContactsSection() {
                 >
                   <Select
                     value={selectedBranchId}
-                    onValueChange={handleBranchChange}
+                    onValueChange={setSelectedBranchId}
                   >
                     <SelectTrigger className="w-full h-12 md:h-14 text-base border-border/60 focus:border-accent">
                       <SelectValue
@@ -104,7 +101,7 @@ export default function ContactsSection() {
                           value={branch.id}
                           className="text-base"
                         >
-                          {branch.city}
+                          {branchCity(branch, locale)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -205,9 +202,7 @@ export default function ContactsSection() {
                         href={
                           isDe
                             ? `mailto:${deEmail}`
-                            : selectedBranch.email
-                              ? `mailto:${selectedBranch.email}`
-                              : "#"
+                            : "mailto:info@daf-sprachzentrum.uz"
                         }
                         className="flex items-center justify-center"
                       >
@@ -224,7 +219,7 @@ export default function ContactsSection() {
                       className="w-full border-border/60 hover:border-secondary hover:bg-secondary/10 font-medium rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
                     >
                       <a
-                        href="https://t.me/daffergana"
+                        href={selectedBranch.telegramAdmin}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center"
@@ -258,7 +253,7 @@ export default function ContactsSection() {
                   </h3>
                   <motion.a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      `${selectedBranch.city}, ${selectedBranch.address}`,
+                      `${branchCity(selectedBranch, locale)}, ${selectedBranch.address}`,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -279,7 +274,7 @@ export default function ContactsSection() {
                 >
                   <iframe
                     src={mapEmbedUrl(
-                      selectedBranch.city,
+                      branchCity(selectedBranch, locale),
                       selectedBranch.address,
                     )}
                     width="100%"

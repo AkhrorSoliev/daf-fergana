@@ -5,77 +5,7 @@ import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Star, Quote } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
-
-const testimonials = [
-  {
-    name: "Aziza Karimova",
-    role: "Goethe A2 sertifikati",
-    content:
-      "DaF markazida o'qiganim juda foydali bo'ldi. O'qituvchilar professional va do'stona.",
-    avatar: "https://picsum.photos/100/100?random=10",
-    rating: 5,
-  },
-  {
-    name: "Javohir Toshmatov",
-    role: "TestDaF sertifikati",
-    content:
-      "Germaniyada o'qish uchun kerakli bilimlarni oldim. Rahmat DaF markaziga!",
-    avatar: "https://picsum.photos/100/100?random=11",
-    rating: 5,
-  },
-  {
-    name: "Malika Yusupova",
-    role: "ECL B1 sertifikati",
-    content:
-      "Darslar juda qiziqarli va samarali. Nemis tilini tez o'rganishga yordam berdi.",
-    avatar: "https://picsum.photos/100/100?random=12",
-    rating: 5,
-  },
-  {
-    name: "Bobur Rahimov",
-    role: "ÖSD B2 sertifikati",
-    content:
-      "Professional o'qituvchilar va zamonaviy o'qitish usullari. Tavsiya qilaman!",
-    avatar: "https://picsum.photos/100/100?random=13",
-    rating: 5,
-  },
-];
-
-const workplaces = [
-  "/partners/partner-1.svg",
-  "/partners/partner-2.png",
-  "/partners/partner-3.png",
-  "/partners/partner-4.png",
-  "/partners/partner-5.png",
-];
-
-// Provided image URLs for marquee (duplicated once for seamless loop)
-const marqueeImages = [
-  "https://json-api.uz/mnt/file-1758128916037.jpg",
-  "https://json-api.uz/mnt/file-1758128916202.jpg",
-  "https://json-api.uz/mnt/file-1758128916041.jpg",
-  "https://json-api.uz/mnt/file-1758128916204.jpg",
-  "https://json-api.uz/mnt/file-1758128916200.jpg",
-  "https://json-api.uz/mnt/file-1758128916075.jpg",
-  "https://json-api.uz/mnt/file-1758128916184.jpg",
-  "https://json-api.uz/mnt/file-1758128916047.jpg",
-  "https://json-api.uz/mnt/file-1758128916055.jpg",
-  "https://json-api.uz/mnt/file-1758128916061.jpg",
-  "https://json-api.uz/mnt/file-1758128916074.jpg",
-  "https://json-api.uz/mnt/file-1758128916053.jpg",
-  "https://json-api.uz/mnt/file-1758128916073.jpg",
-  "https://json-api.uz/mnt/file-1758128916230.jpg",
-  "https://json-api.uz/mnt/file-1758128916072.jpg",
-  "https://json-api.uz/mnt/file-1758128916245.jpg",
-  "https://json-api.uz/mnt/file-1758128916067.jpg",
-  "https://json-api.uz/mnt/file-1758128916084.jpg",
-  "https://json-api.uz/mnt/file-1758128916205.jpg",
-  "https://json-api.uz/mnt/file-1758128916068.jpg",
-  "https://json-api.uz/mnt/file-1758128916077.jpg",
-  "https://json-api.uz/mnt/file-1758128916106.jpg",
-  "https://json-api.uz/mnt/file-1758128916206.jpg",
-  "https://json-api.uz/mnt/file-1758128916062.jpg",
-];
+import { testimonials, marqueeImages } from "@/data/testimonials";
 
 export default function MediaSection() {
   const { t } = useI18n();
@@ -180,7 +110,7 @@ export default function MediaSection() {
                     650+
                   </div>
                   <div className="text-sm font-medium text-foreground/70">
-                    Muvaffaqiyatli o'quvchilar
+                    {t("mediaStats.students")}
                   </div>
                 </motion.div>
 
@@ -192,10 +122,10 @@ export default function MediaSection() {
                   transition={{ duration: 0.2 }}
                 >
                   <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent mb-2">
-                    8
+                    3
                   </div>
                   <div className="text-sm font-medium text-foreground/70">
-                    Filiallar
+                    {t("mediaStats.branches")}
                   </div>
                 </motion.div>
 
@@ -210,7 +140,7 @@ export default function MediaSection() {
                     5+
                   </div>
                   <div className="text-sm font-medium text-foreground/70">
-                    Xalqaro sertifikatlar
+                    {t("mediaStats.certificates")}
                   </div>
                 </motion.div>
               </div>
@@ -283,47 +213,6 @@ export default function MediaSection() {
           </div>
         </motion.div>
 
-        {/* Workplaces Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h3 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-12">
-            {t("about.workplacesTitle")}
-          </h3>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {workplaces.map((workplace, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{
-                  scale: 1.02,
-                  rotate: 0,
-                  transition: { duration: 0.3 },
-                }}
-                className={`group cursor-pointer ${
-                  index % 2 === 0 ? "rotate-[-2deg]" : "rotate-[2deg]"
-                } hover:rotate-0 transition-transform duration-300`}
-              >
-                <div className="relative overflow-hidden rounded-lg shadow-lg bg-white dark:bg-secondary/10 border border-border flex items-center justify-center h-48">
-                  <Image
-                    src={workplace}
-                    alt={`Workplace ${index + 1}`}
-                    width={200}
-                    height={200}
-                    className="w-full h-full max-h-48 object-contain p-6 group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );

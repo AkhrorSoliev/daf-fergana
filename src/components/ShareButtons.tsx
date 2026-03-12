@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, Send, Facebook, Twitter } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type ShareButtonsProps = {
   url?: string; // if not provided, will use current location
@@ -17,6 +18,7 @@ export default function ShareButtons({
   text,
   className,
 }: ShareButtonsProps) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
   const shareUrl = useMemo(() => {
     if (url) return url;
@@ -46,7 +48,7 @@ export default function ShareButtons({
             href={`https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Telegramda ulashish"
+            aria-label={t("share.telegram")}
           >
             <Send className="w-4 h-4" /> Telegram
           </a>
@@ -62,7 +64,7 @@ export default function ShareButtons({
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Facebookda ulashish"
+            aria-label={t("share.facebook")}
           >
             <Facebook className="w-4 h-4" /> Facebook
           </a>
@@ -78,7 +80,7 @@ export default function ShareButtons({
             href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="X (Twitter) da ulashish"
+            aria-label={t("share.twitter")}
           >
             <Twitter className="w-4 h-4" /> X
           </a>
@@ -93,14 +95,14 @@ export default function ShareButtons({
               setCopied(true);
             } catch {}
           }}
-          aria-label={copied ? "Nusxalandi" : "Havolani nusxalash"}
+          aria-label={copied ? t("share.copied") : t("share.copyLink")}
         >
           {copied ? (
             <Check className="w-4 h-4" />
           ) : (
             <Copy className="w-4 h-4" />
           )}
-          <span className="ml-1">{copied ? "Nusxalandi" : "Nusxa olish"}</span>
+          <span className="ml-1">{copied ? t("share.copied") : t("share.copy")}</span>
         </Button>
       </div>
     </div>

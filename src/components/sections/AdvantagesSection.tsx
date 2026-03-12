@@ -8,7 +8,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import {
   ArrowRight,
   Send,
-  Users,
+
   GraduationCap,
   Briefcase,
   Heart,
@@ -91,12 +91,6 @@ export default function AdvantagesSection() {
       icon: Coffee,
       href: "/afzalliklar/saisonarbeit",
     },
-    {
-      title: t("advantages.items.consulting.title"),
-      description: t("advantages.items.consulting.desc"),
-      icon: Users,
-      href: "/afzalliklar/consulting",
-    },
   ];
   return (
     <section className="py-20">
@@ -160,13 +154,13 @@ export default function AdvantagesSection() {
                     asChild
                     variant="outline"
                     className="w-full group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-all duration-300"
-                    aria-label={`${advantage.title} haqida batafsil`}
+                    aria-label={`${advantage.title} — ${t("advantages.detail")}`}
                   >
                     <Link
                       href={advantage.href}
                       className="flex items-center justify-center"
                     >
-                      Batafsil
+                      {t("advantages.detail")}
                       <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </Button>
@@ -190,7 +184,7 @@ export default function AdvantagesSection() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Maslahat kerakmi? Telegramga o'ting
+              {t("advantages.consultCta")}
               <ArrowRight className="w-4 h-4" />
             </a>
           </Button>
@@ -200,7 +194,7 @@ export default function AdvantagesSection() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Nemis tili bo'yicha bog'lanish
+              {t("advantages.langCta")}
               <Send className="w-4 h-4" />
             </a>
           </Button>

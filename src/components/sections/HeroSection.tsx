@@ -102,7 +102,7 @@ export default function HeroSection() {
             >
               <Image
                 src={src}
-                alt="DaF Fergana Education Center"
+                alt="DaF Sprachzentrum Education Center"
                 fill
                 className="object-cover"
                 sizes="100vw"

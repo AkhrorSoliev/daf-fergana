@@ -107,7 +107,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "DaF Sprachzentrum Fergana",
+              name: "DaF Sprachzentrum",
               url: "https://dafzentrum.uz",
               logo: "https://dafzentrum.uz/assets/daf-logo-black.png",
               description:
