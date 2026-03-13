@@ -11,6 +11,7 @@ import {
   type Course,
   type CourseCategory,
 } from "@/data/courses";
+import { branches, branchCity } from "@/data/branches";
 import {
   Clock,
   Users,
@@ -18,6 +19,7 @@ import {
   X,
   Phone,
   User,
+  MapPin,
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
@@ -58,6 +60,7 @@ export default function CoursesPageClient() {
     name: "",
     phone: "+998 ",
     level: "",
+    branch: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
@@ -77,7 +80,7 @@ export default function CoursesPageClient() {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedCourse(null);
-    setFormData({ name: "", phone: "", level: "" });
+    setFormData({ name: "", phone: "", level: "", branch: "" });
     setSubmitStatus("idle");
   };
 
@@ -96,6 +99,7 @@ export default function CoursesPageClient() {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
           level: formData.level || undefined,
+          branch: formData.branch || undefined,
           source: "Kurslar",
         }),
       });
@@ -446,6 +450,35 @@ export default function CoursesPageClient() {
 
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
+                      {t("courses.modal.branch")}
+                    </label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-foreground/40" />
+                      <select
+                        value={formData.branch}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            branch: e.target.value,
+                          }))
+                        }
+                        className="w-full h-12 pl-10 pr-4 border border-border/60 rounded-md bg-background text-foreground focus:border-blue-500 focus:outline-none appearance-none cursor-pointer"
+                        required
+                      >
+                        <option value="">
+                          {t("courses.modal.branchPlaceholder")}
+                        </option>
+                        {branches.map((b) => (
+                          <option key={b.id} value={branchCity(b, locale)}>
+                            {branchCity(b, locale)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
                       {t("courses.modal.selected")}
                     </label>
                     <Input
@@ -485,6 +518,7 @@ export default function CoursesPageClient() {
                       isSubmitting ||
                       !formData.name.trim() ||
                       !formData.phone.trim() ||
+                      !formData.branch ||
                       !PHONE_PATTERN.test(formData.phone)
                     }
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"

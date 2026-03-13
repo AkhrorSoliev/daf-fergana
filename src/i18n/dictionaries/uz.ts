@@ -248,6 +248,8 @@ export const uz = {
       selected: "Tanlangan kurs",
       name: "Ism Familiya *",
       phone: "Telefon raqam *",
+      branch: "Filialni tanlang *",
+      branchPlaceholder: "Filial tanlang",
       sending: "Yuborilmoqda...",
       success: "Muvaffaqiyat! Tez orada siz bilan bog'lanamiz.",
       error: "Xatolik yuz berdi. Qaytadan urinib ko'ring.",

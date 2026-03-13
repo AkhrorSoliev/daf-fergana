@@ -247,6 +247,8 @@ export const de = {
       selected: "Ausgewählter Kurs",
       name: "Vor- und Nachname *",
       phone: "Telefonnummer *",
+      branch: "Filiale auswählen *",
+      branchPlaceholder: "Filiale wählen",
       sending: "Wird gesendet...",
       success: "Erfolg! Wir kontaktieren Sie in Kürze.",
       error: "Fehler aufgetreten. Bitte erneut versuchen.",
