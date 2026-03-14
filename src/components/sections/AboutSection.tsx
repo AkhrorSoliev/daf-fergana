@@ -13,7 +13,7 @@ export default function AboutSection() {
     {
       icon: GraduationCap,
       label: t("about.stats.branches"),
-      value: 8,
+      value: 3,
       suffix: "",
     },
     {
@@ -37,7 +37,7 @@ export default function AboutSection() {
   ];
 
   const { count: branchesCount, countRef: branchesRef } = useCountUp({
-    end: 8,
+    end: 3,
   });
   const { count: yearCount, countRef: yearRef } = useCountUp({ end: 2022 });
   const { count: studentsCount, countRef: studentsRef } = useCountUp({

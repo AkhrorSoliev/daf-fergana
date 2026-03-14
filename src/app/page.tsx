@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
@@ -14,10 +13,8 @@ export default function Home() {
       <AboutSection />
       <AdvantagesSection />
       <MediaSection />
-      <Suspense>
-        <ConsultationSection />
-        <ContactsSection />
-      </Suspense>
+      <ConsultationSection />
+      <ContactsSection />
     </div>
   );
 }

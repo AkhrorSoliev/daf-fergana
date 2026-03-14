@@ -21,59 +21,35 @@ export function useCountUp({ end, duration = 2000, startOnMount = false }: UseCo
       return;
     }
 
-    const element = countRef.current;
+    let observer: IntersectionObserver | null = null;
+    let frameId: number | null = null;
 
-    if (typeof window !== 'undefined' && 'IntersectionObserver' in window && element) {
-      const observer = new IntersectionObserver(
+    const setup = () => {
+      const element = countRef.current;
+      if (!element || hasStartedRef.current) return;
+
+      observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting && !hasStartedRef.current) {
             hasStartedRef.current = true;
             setIsVisible(true);
-            if (element) observer.unobserve(element);
+            observer?.disconnect();
           }
         },
-        {
-          root: null,
-          rootMargin: '0px',
-          threshold: 0,
-        }
+        { root: null, rootMargin: '0px', threshold: 0.1 }
       );
 
       observer.observe(element);
-      return () => observer.disconnect();
-    }
-
-    const checkInView = () => {
-      if (!countRef.current || hasStartedRef.current) return;
-      const rect = countRef.current.getBoundingClientRect();
-      const viewHeight = window.innerHeight || document.documentElement.clientHeight;
-      const viewWidth = window.innerWidth || document.documentElement.clientWidth;
-
-      const verticallyInView = rect.top < viewHeight && rect.bottom > 0;
-      const horizontallyInView = rect.left < viewWidth && rect.right > 0;
-
-      if (verticallyInView && horizontallyInView) {
-        hasStartedRef.current = true;
-        setIsVisible(true);
-        window.removeEventListener('scroll', checkInView, { passive: true } as any);
-        window.removeEventListener('resize', checkInView);
-        window.removeEventListener('load', checkInView);
-      }
     };
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', checkInView, { passive: true } as any);
-      window.addEventListener('resize', checkInView);
-      window.addEventListener('load', checkInView);
-      checkInView();
+    // Defer setup to ensure ref is attached after render
+    frameId = requestAnimationFrame(setup);
 
-      return () => {
-        window.removeEventListener('scroll', checkInView, { passive: true } as any);
-        window.removeEventListener('resize', checkInView);
-        window.removeEventListener('load', checkInView);
-      };
-    }
-  }, []);
+    return () => {
+      if (frameId) cancelAnimationFrame(frameId);
+      observer?.disconnect();
+    };
+  }, [startOnMount]);
 
   useEffect(() => {
     if (!isVisible) return;
