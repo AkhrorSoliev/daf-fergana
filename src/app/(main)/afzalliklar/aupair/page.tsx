@@ -1,5 +1,5 @@
-import AupairClient from "@/components/afzalliklar/AupairClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function AupairPage() {
-  return <AupairClient />;
+export default function Page() {
+  return <ProgramPage slug="aupair" />;
 }

@@ -1,5 +1,5 @@
-import FsjBfdClient from "@/components/afzalliklar/FsjBfdClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function FsjBfdPage() {
-  return <FsjBfdClient />;
+export default function Page() {
+  return <ProgramPage slug="fsj-bfd" />;
 }

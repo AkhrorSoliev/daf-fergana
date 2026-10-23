@@ -1,5 +1,5 @@
-import SaisonarbeitClient from "@/components/afzalliklar/SaisonarbeitClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function SaisonarbeitPage() {
-  return <SaisonarbeitClient />;
+export default function Page() {
+  return <ProgramPage slug="saisonarbeit" />;
 }

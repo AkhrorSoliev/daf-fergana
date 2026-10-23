@@ -1,5 +1,5 @@
-import FerienjobClient from "@/components/afzalliklar/FerienjobClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function FerienjobPage() {
-  return <FerienjobClient />;
+export default function Page() {
+  return <ProgramPage slug="ferienjob" />;
 }

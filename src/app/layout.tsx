@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { I18nProvider } from "@/i18n/I18nProvider";
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage",
-});
+import { ToastProvider } from "@/components/ui/toast";
+import { LeadProvider } from "@/components/LeadProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dafzentrum.uz"),
@@ -60,38 +56,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uz" className={bricolage.variable} suppressHydrationWarning>
-      <head>
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-  (function() {
-    try {
-      var storageKey = 'theme';
-      var root = document.documentElement;
-      var mql = window.matchMedia('(prefers-color-scheme: dark)');
-      var saved = localStorage.getItem(storageKey);
-      function apply(mode) {
-        var dark = mode === 'dark' || (mode !== 'light' && mql.matches);
-        root.classList.toggle('dark', dark);
-        root.style.colorScheme = dark ? 'dark' : 'light';
-      }
-      var mode = saved || 'system';
-      apply(mode);
-      if (mode === 'system') {
-        try { mql.addEventListener('change', function(){ apply('system'); }); } catch(e) { try { mql.addListener(function(){ apply('system'); }); } catch(_) {} }
-      }
-    } catch (e) {}
-  })();
-            `,
-          }}
-        />
-      </head>
-      <body className="font-sans antialiased" suppressHydrationWarning>
+    <html lang="uz">
+      <body className="font-sans antialiased">
         <I18nProvider>
-          {children}
+          <ToastProvider>
+            <LeadProvider>{children}</LeadProvider>
+          </ToastProvider>
         </I18nProvider>
         {/* Organization JSON-LD (can be overridden per-locale in future) */}
         <Script

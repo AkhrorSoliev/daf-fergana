@@ -1,5 +1,5 @@
-import MutaxassisIshiClient from "@/components/afzalliklar/MutaxassisIshiClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function MutaxassisIshiPage() {
-  return <MutaxassisIshiClient />;
+export default function Page() {
+  return <ProgramPage slug="mutaxassis-ishi" />;
 }

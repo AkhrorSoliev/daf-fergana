@@ -1,5 +1,5 @@
-import ConsultingClient from "@/components/afzalliklar/ConsultingClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function ConsultingPage() {
-  return <ConsultingClient />;
+export default function Page() {
+  return <ProgramPage slug="consulting" />;
 }

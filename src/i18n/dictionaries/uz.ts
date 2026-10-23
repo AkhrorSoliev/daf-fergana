@@ -1,4 +1,12 @@
 export const uz = {
+  home: {
+    allCourses: "Barcha kurslar",
+    allTeachers: "Barchasi",
+    cardLevels: "Har bir daraja uchun kurs",
+    cardStat: "yosh xalqaro imtihonga tayyorlanmoqda",
+    replay: "Qayta chizish",
+    contactsTitle: "Aloqa",
+  },
   hero: {
     phrases: [
       "Kuchli start 💪",
@@ -19,7 +27,7 @@ export const uz = {
     title: "O'qituvchilarimiz",
     subtitle:
       "Tajribali ustozlarimiz bilan nemis tilini samarali va zavq bilan o'rganing",
-    badge: "👨‍🏫 Professional jamoa",
+    badge: "Professional jamoa",
     featured: "Rahbar",
     details: "Batafsil ma'lumot",
     backToTeachers: "Barcha o'qituvchilarga qaytish",
@@ -36,7 +44,7 @@ export const uz = {
   advantages: {
     title: "Nima uchun bizni tanlash kerak?",
     subtitle: "Biz sizni quyidagi dasturlar uchun talab etiladigan til darajasi bo'yicha nemis tiliga tayyorlaymiz.",
-    badge: "⭐ Afzalliklar",
+    badge: "Afzalliklar",
     items: {
       bachelor: {
         title: "Germaniyada Ta'lim — Bachelor & Master",
@@ -82,12 +90,12 @@ export const uz = {
   media: {
     title: "Bizning faoliyatimiz",
     subtitle: "O'quv jarayoni va muvaffaqiyatlarimiz haqida",
-    badge: "📸 Galereya",
+    badge: "Galereya",
   },
   contacts: {
     title: "Biz bilan bog'laning",
     subtitle: "Savollaringiz bormi? Biz sizga yordam beramiz!",
-    badge: "📞 Aloqa",
+    badge: "Aloqa",
     address: "Manzil",
     phone: "Telefon",
     email: "Email",
@@ -104,7 +112,7 @@ export const uz = {
     },
   },
   about: {
-    badge: "📚 Bizning markaz",
+    badge: "Bizning markaz",
     title: "Markaz haqida",
     subtitle: "Professional nemis tili ta'limi va Germaniya imkoniyatlari",
     p1: "DaF Sprachzentrum M.CH.J — nemis tilini o'qitishga ixtisoslashgan zamonaviy til markazi.\n\nBugungi kunda markaz O'zbekiston bo'ylab 3 ta filialda faoliyat yuritadi va 2022-yildan beri yoshlarga Germaniya ta'lim standartlari asosida sifatli nemis tili ta'limini taqdim etib kelmoqda.",
@@ -117,13 +125,13 @@ export const uz = {
     },
 
     testimonialsTitle: "O'quvchilarning fikrlari",
-    resultsBadge: "⭐ Bizning natijalar",
+    resultsBadge: "Bizning natijalar",
     resultsTitle: "Bizning muvaffaqiyatlarimiz",
     resultsSubtitle:
       "O'quvchilarimizning yutuqlari va muvaffaqiyatlari bizning g'ururimiz",
   },
   consultation: {
-    badge: "📞 Bepul maslahat",
+    badge: "Bepul maslahat",
     title: "Bepul konsultatsiya",
     subtitle:
       "Nemis tilini o'rganish yoki Germaniyada ta'lim olish haqida maslahat oling. Mutaxassislarimiz sizga yordam berishga tayyor!",
@@ -154,7 +162,7 @@ export const uz = {
     cta: "Bepul konsultatsiya",
   },
   blog: {
-    badge: "📝 Blog",
+    badge: "Blog",
     title: "Blog maqolalari",
     subtitle: "Ustozlarimizdan foydali maqolalar va maslahatlar",
     readMore: "Batafsil o'qish",
@@ -162,7 +170,7 @@ export const uz = {
     shareCta: "Maqolani ulashing",
   },
   library: {
-    badge: "📚 Kutubxona",
+    badge: "Kutubxona",
     title: "Kitoblar va materiallar",
     subtitle:
       "Quyidagi ro\u02BByxatdan kerakli kitobni tanlang. Ko\u02BBrish yoki yuklab olish mumkin.",
@@ -198,7 +206,7 @@ export const uz = {
     address: "Ma'rifat ko'chasi 73, Farg'ona shahri, 150100",
   },
   contactsSection: {
-    badge: "📍 Bizning manzillar",
+    badge: "Bizning manzillar",
     title: "Manzillar & Filiallar",
     subtitle:
       "Bizning filiallarimizni tanlang va aloqa ma'lumotlarini ko'ring",
@@ -213,7 +221,7 @@ export const uz = {
     messageTelegram: "Telegram orqali yozing",
   },
   courses: {
-    badge: "📚 Nemis tili kurslari",
+    badge: "Nemis tili kurslari",
     title: "Bizning kurslarimiz",
     subtitle:
       "A1 dan C1 gacha barcha darajalar uchun individual, intensiv va standart kurslar.",
@@ -223,17 +231,17 @@ export const uz = {
       Individual: {
         title: "Individual kurslar",
         desc: "Shaxsiy yondashuv va moslashtirilgan jadval orqali tezroq natijaga erishing.",
-        badge: "👤 Shaxsiy yondashuv",
+        badge: "Shaxsiy yondashuv",
       },
       Intensive: {
         title: "Intensiv kurslar",
         desc: "Qisqa vaqt ichida samarali mashg'ulotlar bilan yuqori natijaga erishing.",
-        badge: "⚡ Tezkor o'sish",
+        badge: "Tezkor o'sish",
       },
       Standard: {
         title: "Standart kurslar",
         desc: "Barqaror o'quv rejasi bilan chuqur va mustahkam bilimlarni egallang.",
-        badge: "🌱 Barqaror rivojlanish",
+        badge: "Barqaror rivojlanish",
       },
     },
     ctaTitle: "Qaysi kurs sizga mos?",

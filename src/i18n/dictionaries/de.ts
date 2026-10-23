@@ -1,4 +1,12 @@
 export const de = {
+  home: {
+    allCourses: "Alle Kurse",
+    allTeachers: "Alle ansehen",
+    cardLevels: "Ein Kurs für jedes Niveau",
+    cardStat: "junge Menschen bereiten sich auf internationale Prüfungen vor",
+    replay: "Neu zeichnen",
+    contactsTitle: "Kontakt",
+  },
   hero: {
     phrases: [
       "Starker Start 💪",
@@ -19,7 +27,7 @@ export const de = {
     title: "Unsere Lehrer",
     subtitle:
       "Lernen Sie Deutsch effektiv und mit Freude mit unseren erfahrenen Lehrern",
-    badge: "👨‍🏫 Professionelles Team",
+    badge: "Professionelles Team",
     featured: "Leiter",
     details: "Weitere Details",
     backToTeachers: "Zurück zu allen Lehrern",
@@ -36,7 +44,7 @@ export const de = {
   advantages: {
     title: "Warum uns wählen?",
     subtitle: "Wir bereiten Sie auf das erforderliche Sprachniveau für die folgenden Programme vor.",
-    badge: "⭐ Vorteile",
+    badge: "Vorteile",
     items: {
       bachelor: {
         title: "Studium in Deutschland — Bachelor & Master",
@@ -82,12 +90,12 @@ export const de = {
   media: {
     title: "Unsere Aktivitäten",
     subtitle: "Über den Lernprozess und unsere Erfolge",
-    badge: "📸 Galerie",
+    badge: "Galerie",
   },
   contacts: {
     title: "Kontaktieren Sie uns",
     subtitle: "Haben Sie Fragen? Wir helfen Ihnen gerne!",
-    badge: "📞 Kontakt",
+    badge: "Kontakt",
     address: "Adresse",
     phone: "Telefon",
     email: "E-Mail",
@@ -104,7 +112,7 @@ export const de = {
     },
   },
   about: {
-    badge: "📚 Unser Zentrum",
+    badge: "Unser Zentrum",
     title: "Über das Zentrum",
     subtitle: "Professioneller Deutschunterricht und Chancen in Deutschland",
     p1: "DaF Sprachzentrum GmbH – ein modernes, auf Deutschunterricht spezialisiertes Sprachzentrum.\n\nDas Zentrum ist heute in 3 Filialen in ganz Usbekistan tätig und bietet seit 2022 qualitativ hochwertigen Deutschunterricht nach deutschen Bildungsstandards.",
@@ -117,12 +125,12 @@ export const de = {
     },
 
     testimonialsTitle: "Stimmen unserer Lernenden",
-    resultsBadge: "⭐ Unsere Ergebnisse",
+    resultsBadge: "Unsere Ergebnisse",
     resultsTitle: "Unsere Erfolge",
     resultsSubtitle: "Die Erfolge unserer Lernenden sind unser Stolz",
   },
   consultation: {
-    badge: "📞 Kostenlose Beratung",
+    badge: "Kostenlose Beratung",
     title: "Kostenlose Beratung",
     subtitle:
       "Erhalten Sie Beratung zum Deutschlernen oder Studium in Deutschland. Unsere Experten helfen Ihnen gern!",
@@ -153,7 +161,7 @@ export const de = {
     cta: "Kostenlose Beratung",
   },
   blog: {
-    badge: "📝 Blog",
+    badge: "Blog",
     title: "Blog-Artikel",
     subtitle: "Nützliche Artikel und Tipps unserer Lehrer",
     readMore: "Weiterlesen",
@@ -161,7 +169,7 @@ export const de = {
     shareCta: "Artikel teilen",
   },
   library: {
-    badge: "📚 Bibliothek",
+    badge: "Bibliothek",
     title: "Bücher und Materialien",
     subtitle:
       "Wählen Sie ein gewünschtes Buch aus der Liste. Sie können es ansehen oder herunterladen.",
@@ -197,7 +205,7 @@ export const de = {
     address: "Marifat-Straße 73, Fergana, 150100",
   },
   contactsSection: {
-    badge: "📍 Unsere Standorte",
+    badge: "Unsere Standorte",
     title: "Adressen & Filialen",
     subtitle: "Wählen Sie eine Filiale und sehen Sie die Kontaktdaten",
     selectBranch: "Filiale auswählen",
@@ -211,7 +219,7 @@ export const de = {
     messageTelegram: "Über Telegram schreiben",
   },
   courses: {
-    badge: "📚 Deutschkurse",
+    badge: "Deutschkurse",
     title: "Unsere Kurse",
     subtitle:
       "Individuelle, Intensiv- und Standardkurse für alle Niveaus von A1 bis C1.",
@@ -221,17 +229,17 @@ export const de = {
       Individual: {
         title: "Individuelle Kurse",
         desc: "Schneller zum Ziel mit individueller Betreuung und flexiblem Zeitplan.",
-        badge: "👤 Individuelle Betreuung",
+        badge: "Individuelle Betreuung",
       },
       Intensive: {
         title: "Intensivkurse",
         desc: "In kurzer Zeit hohe Ergebnisse mit effektiven Unterrichtseinheiten.",
-        badge: "⚡ Schnelles Wachstum",
+        badge: "Schnelles Wachstum",
       },
       Standard: {
         title: "Standardkurse",
         desc: "Tiefes und solides Wissen mit einem stabilen Lernplan.",
-        badge: "🌱 Stetige Entwicklung",
+        badge: "Stetige Entwicklung",
       },
     },
     ctaTitle: "Welcher Kurs passt zu Ihnen?",

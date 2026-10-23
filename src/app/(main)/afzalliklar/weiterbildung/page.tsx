@@ -1,5 +1,5 @@
-import WeiterbildungClient from "@/components/afzalliklar/WeiterbildungClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function WeiterbildungPage() {
-  return <WeiterbildungClient />;
+export default function Page() {
+  return <ProgramPage slug="weiterbildung" />;
 }

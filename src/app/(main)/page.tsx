@@ -2,16 +2,20 @@ import type { Metadata } from "next";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import AdvantagesSection from "@/components/sections/AdvantagesSection";
+import CoursesSection from "@/components/sections/CoursesSection";
+import TeachersSection from "@/components/sections/TeachersSection";
 import MediaSection from "@/components/sections/MediaSection";
 import ConsultationSection from "@/components/sections/ConsultationSection";
 import ContactsSection from "@/components/sections/ContactsSection";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div>
       <HeroSection />
       <AboutSection />
+      <CoursesSection />
       <AdvantagesSection />
+      <TeachersSection />
       <MediaSection />
       <ConsultationSection />
       <ContactsSection />
