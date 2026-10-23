@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import { ToastProvider } from "@/components/ui/toast";
 import { LeadProvider } from "@/components/LeadProvider";
@@ -62,13 +60,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <I18nProvider>
           <ToastProvider>
-          <LeadProvider>
-          <Navbar />
-          <main className="min-h-screen [&_.hero-container]:px-0">
-            {children}
-          </main>
-          <Footer />
-          </LeadProvider>
+            <LeadProvider>{children}</LeadProvider>
           </ToastProvider>
         </I18nProvider>
         {/* Organization JSON-LD (can be overridden per-locale in future) */}
