@@ -1,5 +1,5 @@
-import BachelorMasterClient from "@/components/afzalliklar/BachelorMasterClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function BachelorMasterPage() {
-  return <BachelorMasterClient />;
+export default function Page() {
+  return <ProgramPage slug="bachelor-master" />;
 }

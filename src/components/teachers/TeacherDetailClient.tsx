@@ -3,24 +3,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { motion } from "framer-motion";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { getTeacherBySlug } from "@/data/teachers";
-import { useI18n } from "@/i18n/I18nProvider";
 import { use as usePromise } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Award,
-  BookOpen,
-  Globe,
-  CheckCircle,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, GraduationCap, MapPin, Send, Star } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Section, SectionHeader } from "@/components/ui/section";
+import { Highlight } from "@/components/ui/highlight";
+import { TeacherCard, type CardTone } from "@/components/cards";
+import LeadButton from "@/components/LeadButton";
+import { getTeacherBySlug, teachers } from "@/data/teachers";
+import { branches, branchCity } from "@/data/branches";
+import { teacherPhoto } from "@/utils/teacher";
+import { useI18n } from "@/i18n/I18nProvider";
 
-type Props = {
-  params: Promise<{ slug: string }>;
-};
+const HIGHLIGHT_RE =
+  /\b(201\d|202\d|yil|yillar)\b|DAAD|Aupair|magistr|bakalavr|universitet|C1|C2|B1|B2|Sommerschule|Akyıldız|Harvard|mutaxassisligi|FarDU|FDU|Ferienjob/i;
+// Teachers whose intro/summary lines duplicate the highlight tiles; lines are dropped from the bio.
+const TRIM_BIO = new Set(["herr-jamsher", "frau-saida", "frau-iroda", "herr-umarov", "frau-sakina", "herr-doston"]);
+const INTRO_PHRASES = ["tanishaylik"];
+const EXTRA_PHRASES: Record<string, string[]> = { "frau-saida": ["2 yildan buyon daf sprachzentrumda"] };
+
+type Props = { params: Promise<{ slug: string }> };
 
 export default function TeacherDetailClient({ params }: Props) {
   const { t, locale } = useI18n();
@@ -28,286 +31,112 @@ export default function TeacherDetailClient({ params }: Props) {
   const teacher = getTeacherBySlug(slug);
   if (!teacher) return notFound();
 
-  const imageSrc =
-    teacher.branch === "qarshi"
-      ? `/lehrer-qarshi/${teacher.slug}.${teacher.slug === "herr-khasan" || teacher.slug === "herr-lazizjon" ? "jpg" : "JPG"}`
-      : teacher.slug === "herr-umarov"
-      ? "/lehrer/herr-musinjon.png"
-      : teacher.slug === "herr-doston"
-      ? "/lehrer/herr-doston.jpg"
-      : teacher.slug === "frau-sakina"
-      ? "/lehrer/frau-sakina.jpg"
-      : `/lehrer/${teacher.slug}.png`;
-  const isJamsher = teacher.slug === "herr-jamsher";
-  const localizedBio = teacher.bio[locale] || teacher.bio.uz;
-  const bioLines = localizedBio
+  const bioLines = (teacher.bio[locale] || teacher.bio.uz)
     .split(/\n+/)
     .map((s) => s.trim())
     .filter(Boolean);
-  const highlights = bioLines.filter((l) =>
-    /\b(201\d|202\d|yil|yillar)\b|DAAD|Aupair|magistr|bakalavr|universitet|C1|C2|B1|B2|Sommerschule|Akyıldız|Harvard|mutaxassisligi|FarDU|FDU|Ferienjob/i.test(
-      l
-    )
-  );
-  const biographyLines =
-    isJamsher ||
-    teacher.slug === "frau-saida" ||
-    teacher.slug === "frau-iroda" ||
-    teacher.slug === "herr-umarov" ||
-    teacher.slug === "frau-sakina" ||
-    teacher.slug === "herr-doston"
-      ? bioLines.filter((line) => {
-          const lowerLine = line.toLowerCase();
-          // Remove any biography paragraph that contains a highlight snippet (case-insensitive)
-          if (highlights.some((h) => lowerLine.includes(h.toLowerCase()))) {
-            return false;
-          }
-          // Additionally, for Frau Saida, remove specific summary lines from biography
-          if (teacher.slug === "frau-saida") {
-            const removePhrases = [
-              "2 yildan buyon daf sprachzentrumda",
-              "tanishaylik",
-            ];
-            const containsSpecific = removePhrases.some((p) =>
-              lowerLine.includes(p)
-            );
-            if (containsSpecific) return false;
-          }
-          // Additionally, for Frau Iroda, remove introductory line from biography
-          if (teacher.slug === "frau-iroda") {
-            const removePhrasesIroda = ["tanishaylik"];
-            if (removePhrasesIroda.some((p) => lowerLine.includes(p))) {
-              return false;
-            }
-          }
-          // Additionally, for Herr Umarov (Musinjon), remove introductory line from biography
-          if (teacher.slug === "herr-umarov") {
-            const removePhrasesUmarov = ["tanishaylik"];
-            if (removePhrasesUmarov.some((p) => lowerLine.includes(p))) {
-              return false;
-            }
-          }
-          // Additionally, for Herr Jamsher, remove introductory line from biography
-          if (teacher.slug === "herr-jamsher") {
-            const removePhrasesJamsher = ["tanishaylik"];
-            if (removePhrasesJamsher.some((p) => lowerLine.includes(p))) {
-              return false;
-            }
-          }
-          return true;
-        })
-      : bioLines;
+  // short highlight lines become fact tiles; long ones stay in the biography
+  const highlights = bioLines.filter((l) => HIGHLIGHT_RE.test(l) && l.length <= 100);
+  const phrases = [...INTRO_PHRASES, ...(EXTRA_PHRASES[teacher.slug] ?? [])];
+  const biography = TRIM_BIO.has(teacher.slug)
+    ? bioLines.filter((line) => {
+        const low = line.toLowerCase();
+        return !highlights.some((h) => low.includes(h.toLowerCase())) && !phrases.some((p) => low.includes(p));
+      })
+    : bioLines;
+
+  const city = branchCity(branches.find((b) => b.id === teacher.branch)!, locale);
+  const featured = teacher.slug === "herr-jamsher" || teacher.slug === "herr-lazizjon";
+  const [first, ...rest] = teacher.name.split(" ");
+  const others = teachers.filter((x) => x.slug !== teacher.slug && x.branch === teacher.branch).slice(0, 4);
+  const tones: CardTone[] = ["sky", "green", "coral", "lilac"];
 
   return (
-    <div className="min-h-screen pt-16 bg-gradient-to-br from-muted/20 via-background to-secondary/10 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-15">
-        <div className="absolute top-24 right-20 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-32 left-16 w-40 h-40 bg-secondary/15 rounded-full blur-2xl" />
-        <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-primary/10 rounded-full blur-xl" />
-      </div>
-
-      <div className="container py-8 md:py-16 relative">
-        {/* Enhanced Back Navigation */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Link
-            href="/oqituvchilar"
-            className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground text-sm md:text-base font-medium p-2 rounded-lg hover:bg-muted/50 transition-all duration-200 mb-6"
-          >
-            <ArrowLeft className="w-4 h-4" />
+    <>
+      <Section className="pt-[clamp(24px,4vw,48px)]">
+        <Button asChild variant="ghost" size="sm" className="-ml-3 mb-5">
+          <Link href="/oqituvchilar">
+            <ArrowLeft />
             {t("teachers.backToTeachers")}
           </Link>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 lg:gap-12"
-        >
-          {/* Enhanced Teacher Image Card */}
-          <div className="lg:col-span-2">
-            <Card className="relative aspect-[4/5] lg:aspect-[3/4] xl:aspect-[4/5] overflow-hidden rounded-3xl bg-transparent shadow-none ring-0 lg:sticky lg:top-24">
-              <Image
-                src={imageSrc}
-                alt={teacher.name}
-                fill
-                unoptimized={true}
-                className={`object-cover w-full h-full ${
-                  teacher.slug === "herr-jamsher"
-                    ? "object-[25%_center]"
-                    : "object-center"
-                }`}
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                priority
+        </Button>
+        <div className="kit-profile">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[36px] bg-sun-100 lg:sticky lg:top-24">
+            <Image
+              src={teacherPhoto(teacher.slug, teacher.branch)}
+              alt={teacher.name}
+              fill
+              priority
+              unoptimized
+              sizes="(min-width:900px) 40vw, 100vw"
+              className={teacher.slug === "herr-jamsher" ? "object-cover object-[25%_center]" : "object-cover"}
+            />
+          </div>
+          <div className="flex flex-col gap-[22px]">
+            <div className="flex flex-wrap gap-2">
+              {featured && (
+                <Badge tone="sun" icon={<Star />}>
+                  {t("teachers.featured")}
+                </Badge>
+              )}
+              <Badge tone="white" icon={<MapPin />} className="border border-line">
+                {city}
+              </Badge>
+              <Badge tone="white" icon={<GraduationCap />} className="border border-line">
+                {teacher.degree} · {teacher.level}
+              </Badge>
+            </div>
+            <h1 className="text-[length:var(--fs-h1)] leading-[1.02] font-semibold tracking-[-0.035em]">
+              {first} <Highlight color="green">{rest.join(" ")}</Highlight>
+            </h1>
+            {highlights.length > 0 && (
+              <div className="kit-facts">
+                {highlights.map((h) => (
+                  <div key={h}>
+                    <span>{t("teachers.mainInfo")}</span>
+                    <strong>{h}</strong>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="flex flex-col gap-3.5 text-[length:var(--fs-body-lg)] leading-[1.55] text-ink-2">
+              {biography.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+            <div className="kit-cta">
+              <LeadButton variant="accent" size="lg" source="O'qituvchi">
+                {t("teachers.consultation")}
+                <ArrowRight />
+              </LeadButton>
+              <Button asChild variant="secondary" size="lg">
+                <a href="https://t.me/daffergana" target="_blank" rel="noopener noreferrer">
+                  <Send />
+                  Telegram
+                </a>
+              </Button>
+            </div>
+            <p className="text-sm leading-normal text-ink-3">{t("teachers.additionalInfo")}</p>
+          </div>
+        </div>
+      </Section>
+      {others.length > 0 && (
+        <Section tone="white" inset>
+          <SectionHeader title={<>{t("teachers.title")}</>} />
+          <div className="kit-scroll kit-scroll-sm">
+            {others.map((o, i) => (
+              <TeacherCard
+                key={o.slug}
+                name={o.name}
+                photo={teacherPhoto(o.slug, o.branch)}
+                role={`${o.degree} · ${city}${locale === "uz" ? " filiali" : ""}`}
+                tone={tones[i % tones.length]}
+                href={`/oqituvchilar/${o.slug}`}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/90 via-black/70 to-transparent pointer-events-none" />
-
-              {/* Teacher info overlay */}
-              <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
-                <h1 className="text-white font-semibold tracking-tight text-3xl md:text-4xl lg:text-5xl mb-3">
-                  {teacher.name}
-                </h1>
-                <div className="inline-flex flex-wrap items-center gap-3">
-                  <span className="inline-flex items-center px-3.5 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white/90 text-sm">
-                    <BookOpen className="w-4 h-4 mr-2" />
-                    {teacher.degree}
-                  </span>
-                  <span className="inline-flex items-center px-3.5 py-1.5 rounded-lg bg-accent text-white text-sm font-bold">
-                    <Award className="w-4 h-4 mr-2" />
-                    {teacher.level}
-                  </span>
-                </div>
-              </div>
-            </Card>
+            ))}
           </div>
-
-          {/* Enhanced Biography Content */}
-          <div className="lg:col-span-3">
-            <Card className="relative overflow-hidden border border-border/60 bg-white/95 dark:bg-card shadow-xl rounded-2xl">
-              {/* Subtle background pattern */}
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-secondary/5 opacity-50" />
-
-              <div className="relative p-6 md:p-8 lg:p-10">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                >
-                  <h2 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-6">
-                    {t("teachers.fullBiography")}
-                  </h2>
-
-                  {/* Enhanced Highlights Section */}
-                  {highlights.length > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.4 }}
-                      className="mb-8"
-                    >
-                      <h3 className="flex items-center gap-2 text-lg font-bold text-foreground/90 mb-4">
-                        <CheckCircle className="w-5 h-5 text-accent" />
-                        {t("teachers.mainInfo")}
-                      </h3>
-                      <div className="bg-muted/30 rounded-xl p-4 md:p-6 border border-border/40">
-                        <ul className="space-y-3 text-foreground/90">
-                          {highlights.map((line, i) => (
-                            <motion.li
-                              key={i}
-                              className="flex items-start gap-3 leading-relaxed"
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{
-                                duration: 0.4,
-                                delay: 0.5 + i * 0.1,
-                              }}
-                            >
-                              <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
-                              <span className="text-sm md:text-base">
-                                {line}
-                              </span>
-                            </motion.li>
-                          ))}
-                        </ul>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* Enhanced Biography Text */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                    className="prose prose-zinc max-w-none prose-p:text-base prose-p:md:text-lg prose-p:leading-relaxed prose-p:mb-4 prose-strong:text-foreground text-foreground/90"
-                  >
-                    {biographyLines.map((para, idx) => (
-                      <motion.p
-                        key={idx}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.7 + idx * 0.1 }}
-                        className="mb-4 text-base md:text-lg leading-relaxed"
-                      >
-                        {para}
-                      </motion.p>
-                    ))}
-                  </motion.div>
-
-                  {/* Enhanced Action Buttons */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.8 }}
-                    className="mt-8 md:mt-10 pt-6 border-t border-border/60"
-                  >
-                    <div className="space-y-4">
-                      {/* Primary Action */}
-                      <Button
-                        asChild
-                        size="lg"
-                        className="w-full bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent/80 text-accent-foreground font-bold text-base md:text-lg py-4 md:py-5 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
-                      >
-                        <Link
-                          href="/#consultation"
-                          className="flex items-center justify-center gap-3"
-                        >
-                          <Globe className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-                          <span>{t("teachers.consultation")}</span>
-                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                        </Link>
-                      </Button>
-
-                      {/* Secondary Actions */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <Button
-                          asChild
-                          variant="outline"
-                          className="border border-border/60 hover:border-primary hover:bg-primary/5 font-medium text-base py-3 md:py-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group"
-                        >
-                          <Link
-                            href="/oqituvchilar"
-                            className="flex items-center justify-center gap-2"
-                          >
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
-                            <span>{t("teachers.title")}</span>
-                          </Link>
-                        </Button>
-
-                        <Button
-                          asChild
-                          variant="outline"
-                          className="border border-border/60 hover:border-secondary hover:bg-secondary/10 font-medium text-base py-3 md:py-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 group"
-                        >
-                          <Link
-                            href="/kurslar"
-                            className="flex items-center justify-center gap-2"
-                          >
-                            <BookOpen className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-                            <span>{t("navbar.courses")}</span>
-                          </Link>
-                        </Button>
-                      </div>
-
-                      {/* Additional Info */}
-                      <div className="mt-6 p-4 bg-muted/40 rounded-xl border border-border/40">
-                        <p className="text-sm text-foreground/70 text-center leading-relaxed">
-                          {t("teachers.additionalInfo")}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </div>
-            </Card>
-          </div>
-        </motion.div>
-      </div>
-    </div>
+        </Section>
+      )}
+    </>
   );
 }

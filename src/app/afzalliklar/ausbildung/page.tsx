@@ -1,5 +1,5 @@
-import AusbildungClient from "@/components/afzalliklar/AusbildungClient";
+import ProgramPage from "@/components/afzalliklar/ProgramPage";
 
-export default function AusbildungPage() {
-  return <AusbildungClient />;
+export default function Page() {
+  return <ProgramPage slug="ausbildung" />;
 }
