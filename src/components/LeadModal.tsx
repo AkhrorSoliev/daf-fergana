@@ -14,11 +14,7 @@ type LeadModalProps = {
   open: boolean;
   onClose: () => void;
   source: string;
-  levelOptions?: string[];
-  defaultLevel?: string;
   subtitle?: string;
-  /** Show the branch select (course sign-ups) */
-  askBranch?: boolean;
   redirectUrlAfterSuccess?: string;
 };
 
@@ -26,10 +22,7 @@ export function LeadModal({
   open,
   onClose,
   source,
-  levelOptions = [],
-  defaultLevel,
   subtitle,
-  askBranch,
   redirectUrlAfterSuccess,
 }: LeadModalProps) {
   const { t, locale } = useI18n();
@@ -37,7 +30,6 @@ export function LeadModal({
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [level, setLevel] = useState<string | undefined>(defaultLevel);
   const [branch, setBranch] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,11 +38,11 @@ export function LeadModal({
     if (open) {
       setError(null);
       setSubmitting(false);
-      setLevel(defaultLevel);
     }
-  }, [open, defaultLevel]);
+  }, [open]);
 
-  const valid = firstName.trim() && lastName.trim() && PHONE_PATTERN.test(phone) && (!askBranch || branch);
+  const valid =
+    firstName.trim() && lastName.trim() && PHONE_PATTERN.test(phone) && branch;
 
   const handleSubmit = async () => {
     if (!valid) {
@@ -67,9 +59,8 @@ export function LeadModal({
           firstName,
           lastName,
           phone,
-          level,
           source,
-          branch: askBranch ? branch : undefined,
+          branch,
         }),
       });
       if (!resp.ok) {
@@ -81,10 +72,10 @@ export function LeadModal({
       setFirstName("");
       setLastName("");
       setPhone("");
-      setLevel(undefined);
       setBranch("");
       setSubmitting(false);
-      if (redirectUrlAfterSuccess) window.location.href = redirectUrlAfterSuccess;
+      if (redirectUrlAfterSuccess)
+        window.location.href = redirectUrlAfterSuccess;
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : t("leadModal.generalError");
       setError(msg);
@@ -94,7 +85,12 @@ export function LeadModal({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} title={t("leadModal.title")} subtitle={subtitle ?? t("leadModal.subtitle")}>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      title={t("leadModal.title")}
+      subtitle={subtitle ?? t("leadModal.subtitle")}
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -127,32 +123,32 @@ export function LeadModal({
           inputMode="numeric"
           value={phone}
           onChange={(e) => setPhone(formatUzbekPhone(e.target.value))}
-          onFocus={() => !phone.startsWith(PHONE_PREFIX) && setPhone(PHONE_PREFIX)}
+          onFocus={() =>
+            !phone.startsWith(PHONE_PREFIX) && setPhone(PHONE_PREFIX)
+          }
           placeholder="+998 XX XXX XX XX"
           disabled={submitting}
           autoComplete="tel"
           error={error && !valid ? error : undefined}
         />
-        {levelOptions.length > 0 && (
-          <NativeSelect
-            label={t("leadModal.direction")}
-            placeholder={t("leadModal.directionPlaceholder")}
-            options={levelOptions}
-            value={level ?? ""}
-            onChange={(e) => setLevel(e.target.value)}
-          />
-        )}
-        {askBranch && (
-          <NativeSelect
-            label={t("consultation.form.branch").replace(/\s*\*$/, "")}
-            required
-            placeholder={t("consultation.form.branchPlaceholder")}
-            value={branch}
-            onChange={(e) => setBranch(e.target.value)}
-            options={branches.map((b) => ({ value: b.id, label: branchCity(b, locale) }))}
-          />
-        )}
-        <Button type="submit" variant="accent" size="lg" className="w-full" disabled={submitting || !valid}>
+        <NativeSelect
+          label={t("consultation.form.branch").replace(/\s*\*$/, "")}
+          required
+          placeholder={t("consultation.form.branchPlaceholder")}
+          value={branch}
+          onChange={(e) => setBranch(e.target.value)}
+          options={branches.map((b) => ({
+            value: b.id,
+            label: branchCity(b, locale),
+          }))}
+        />
+        <Button
+          type="submit"
+          variant="accent"
+          size="lg"
+          className="w-full"
+          disabled={submitting || !valid}
+        >
           {submitting ? t("leadModal.sending") : t("leadModal.submit")}
         </Button>
       </form>

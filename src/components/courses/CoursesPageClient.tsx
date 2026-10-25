@@ -37,7 +37,11 @@ export default function CoursesPageClient() {
             size="lg"
             value={cat}
             onChange={(v) => setCat(v as CourseCategory)}
-            options={TABS.map((x) => ({ value: x.value, label: label(x.value), icon: x.icon }))}
+            options={TABS.map((x) => ({
+              value: x.value,
+              label: label(x.value),
+              icon: x.icon,
+            }))}
           />
           <p className="text-ink-3">{t(`courses.category.${cat}.desc`)}</p>
         </div>
@@ -58,8 +62,6 @@ export default function CoursesPageClient() {
               onRegister={() =>
                 openLead({
                   source: "Kurslar",
-                  askBranch: true,
-                  level: `${c.category} - ${c.level}`,
                   subtitle: `${t("courses.modal.selected")}: ${label(c.category)} ${c.level}`,
                 })
               }
@@ -67,8 +69,11 @@ export default function CoursesPageClient() {
           ))}
         </div>
       </Section>
-      <CtaBand tone="sun" title={<HighlightLast text={t("courses.ctaTitle")} />}>
-        <LeadButton size="lg" source="Kurslar" askBranch>
+      <CtaBand
+        tone="sun"
+        title={<HighlightLast text={t("courses.ctaTitle")} />}
+      >
+        <LeadButton size="lg" source="Kurslar">
           {t("courses.ctaButton")}
           <ArrowRight />
         </LeadButton>
