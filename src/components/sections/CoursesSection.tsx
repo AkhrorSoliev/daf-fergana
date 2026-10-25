@@ -50,8 +50,6 @@ export default function CoursesSection() {
             onRegister={() =>
               openLead({
                 source: "Kurslar",
-                askBranch: true,
-                level: `${c.category} - ${c.level}`,
                 subtitle: `${t("courses.modal.selected")}: ${label(c.category)} ${c.level}`,
               })
             }

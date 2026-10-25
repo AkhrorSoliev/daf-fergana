@@ -291,7 +291,7 @@ export const uz = {
     sending: "Yuborilmoqda...",
     success: "Muvaffaqiyat! Tez orada siz bilan bog'lanamiz.",
     error: "Xatolik yuz berdi. Qaytadan urinib ko'ring.",
-    validationError: "Ism, familiya va telefon majburiy",
+    validationError: "Ism, familiya, telefon va filial majburiy",
     submitError: "Yuborishda xatolik",
     generalError: "Xatolik yuz berdi",
   },

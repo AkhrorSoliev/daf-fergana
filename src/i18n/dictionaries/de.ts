@@ -290,7 +290,7 @@ export const de = {
     sending: "Wird gesendet...",
     success: "Erfolg! Wir kontaktieren Sie in Kürze.",
     error: "Fehler aufgetreten. Bitte erneut versuchen.",
-    validationError: "Vorname, Nachname und Telefon sind erforderlich",
+    validationError: "Vorname, Nachname, Telefon und Filiale sind erforderlich",
     submitError: "Fehler beim Senden",
     generalError: "Ein Fehler ist aufgetreten",
   },
