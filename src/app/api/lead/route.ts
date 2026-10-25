@@ -1,29 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// ERP (daf-erp-system) filial id lari: ERP_BRANCH_IDS="fergana:1,namangan:2,qarshi:3".
+// Filial berilmasa birinchisi (Farg'ona) ishlatiladi.
+function erpBranchId(branch?: string): number | null {
+  const map = (process.env.ERP_BRANCH_IDS ?? "")
+    .split(",")
+    .map((p) => p.split(":").map((x) => x.trim()));
+  const found = map.find(([k]) => k === branch) ?? map[0];
+  const id = Number(found?.[1]);
+  return Number.isInteger(id) && id > 0 ? id : null;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const {
-      name,
-      phone,
-      level,
-      source,
-      branch,
-    }: { name?: string; phone?: string; level?: string; source?: string; branch?: string } =
-      body ?? {};
+    const { firstName, lastName, phone, level, source, branch } = body ?? {};
 
-    if (!name || !phone) {
+    if (!firstName?.trim() || !lastName?.trim() || !phone) {
       return NextResponse.json(
         { error: "Name and phone are required", reason: "validation" },
         { status: 400 }
       );
     }
 
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
-
-    if (!botToken || !chatId) {
-      console.error("Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID");
+    const url = process.env.ERP_API_URL;
+    const key = process.env.ERP_WEBSITE_LEADS_KEY;
+    const branchId = erpBranchId(branch);
+    if (!url || !key || !branchId) {
+      console.error("Missing ERP_API_URL / ERP_WEBSITE_LEADS_KEY / ERP_BRANCH_IDS");
       return NextResponse.json(
         { error: "Server misconfiguration", reason: "missing_env" },
         { status: 500 }
@@ -32,76 +36,19 @@ export async function POST(request: NextRequest) {
 
     const referer = request.headers.get("referer") || "";
     const inferredSource =
-      source ||
-      (level
-        ? "Kurslar"
-        : referer.includes("/kurslar")
-        ? "Kurslar"
-        : "Bepul konsultatsiya");
+      source || (level || referer.includes("/kurslar") ? "Kurslar" : "Bepul konsultatsiya");
 
-    const escapeHtml = (value: string | undefined | null): string => {
-      if (!value) return "";
-      return value
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-    };
+    const resp = await fetch(`${url.replace(/\/$/, "")}/public/website-leads`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-website-key": key },
+      body: JSON.stringify({ firstName, lastName, phone, branchId, source: inferredSource }),
+    });
 
-    const safeName = escapeHtml(name);
-    const safePhone = escapeHtml(phone);
-    const safeLevel = escapeHtml(level);
-    const safeSource = escapeHtml(inferredSource);
-    const safeBranch = escapeHtml(branch);
-    // Ensure Uzbekistan time (Asia/Tashkent, UTC+5)
-    const formattedTime = new Intl.DateTimeFormat("uz-UZ", {
-      timeZone: "Asia/Tashkent",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    }).format(new Date());
-
-    const lines: string[] = [
-      `<b>🆕 Yangi lead</b> — <i>${safeSource}</i>`,
-      `<b>👤 Ism:</b> ${safeName}`,
-      `<b>📞 Telefon:</b> <code>${safePhone}</code>`,
-    ];
-    if (safeBranch) {
-      lines.push(`<b>🏢 Filial:</b> ${safeBranch}`);
-    }
-    if (safeLevel) {
-      lines.push(`<b>📚 Kurs:</b> ${safeLevel}`);
-    }
-    lines.push(`<b>⏰ Vaqt (UZT):</b> ${escapeHtml(formattedTime)}`);
-
-    const text = lines.join("\n");
-
-    const tgResp = await fetch(
-      `https://api.telegram.org/bot${botToken}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text,
-          parse_mode: "HTML",
-          disable_web_page_preview: true,
-        }),
-      }
-    );
-
-    if (!tgResp.ok) {
-      const errText = await tgResp.text().catch(() => "");
-      console.error("Telegram API error:", tgResp.status, errText);
+    if (!resp.ok) {
+      const details = await resp.text().catch(() => "");
+      console.error("ERP lead error:", resp.status, details);
       return NextResponse.json(
-        {
-          error: "Failed to notify",
-          reason: "telegram_error",
-          details: errText,
-        },
+        { error: "Failed to notify", reason: "erp_error" },
         { status: 502 }
       );
     }

@@ -34,7 +34,8 @@ export function LeadModal({
 }: LeadModalProps) {
   const { t, locale } = useI18n();
   const toast = useToast();
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [level, setLevel] = useState<string | undefined>(defaultLevel);
   const [branch, setBranch] = useState("");
@@ -49,7 +50,7 @@ export function LeadModal({
     }
   }, [open, defaultLevel]);
 
-  const valid = name.trim() && PHONE_PATTERN.test(phone) && (!askBranch || branch);
+  const valid = firstName.trim() && lastName.trim() && PHONE_PATTERN.test(phone) && (!askBranch || branch);
 
   const handleSubmit = async () => {
     if (!valid) {
@@ -63,11 +64,12 @@ export function LeadModal({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name,
+          firstName,
+          lastName,
           phone,
           level,
           source,
-          branch: askBranch ? branches.find((b) => b.id === branch)?.city.uz : undefined,
+          branch: askBranch ? branch : undefined,
         }),
       });
       if (!resp.ok) {
@@ -76,7 +78,8 @@ export function LeadModal({
       }
       toast({ title: t("leadModal.success") });
       onClose();
-      setName("");
+      setFirstName("");
+      setLastName("");
       setPhone("");
       setLevel(undefined);
       setBranch("");
@@ -100,13 +103,22 @@ export function LeadModal({
         className="flex flex-col gap-3.5"
       >
         <Input
-          label={t("leadModal.name").replace(/\s*\*$/, "")}
+          label={t("leadModal.firstName").replace(/\s*\*$/, "")}
           required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder={t("leadModal.namePlaceholder")}
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder={t("leadModal.firstNamePlaceholder")}
           disabled={submitting}
-          autoComplete="name"
+          autoComplete="given-name"
+        />
+        <Input
+          label={t("leadModal.lastName").replace(/\s*\*$/, "")}
+          required
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder={t("leadModal.lastNamePlaceholder")}
+          disabled={submitting}
+          autoComplete="family-name"
         />
         <Input
           label={t("leadModal.phone").replace(/\s*\*$/, "")}

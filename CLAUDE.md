@@ -12,7 +12,7 @@ DaF Sprachzentrum Fergana — nemis tili o'quv markazi veb-sayti.
 - **Language**: TypeScript 5, React 19
 - **Styling**: Tailwind CSS 4 + CSS variables (primary: #444d78, accent: #58cc02)
 - **UI**: shadcn/ui (Radix primitives), Framer Motion animations
-- **Forms**: react-hook-form + Zod → `/api/lead` → Telegram Bot
+- **Forms**: react-hook-form + Zod → `/api/lead` → ERP (daf-erp-system)
 - **Icons**: lucide-react, react-icons
 - **SEO**: Next.js Metadata API + JSON-LD + next-sitemap
 
@@ -92,8 +92,8 @@ src/
 
 All lead forms use the same flow:
 1. `formatUzbekPhone()` from `@/utils/phone` for phone input formatting
-2. `POST /api/lead` with `{ name, phone, level?, source }`
-3. Backend sends to Telegram via Bot API (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`)
+2. `POST /api/lead` with `{ firstName, lastName, phone, branch?, level?, source }`
+3. Backend forwards to ERP `POST /public/website-leads` (header `x-website-key`); lead lands in the fixed «Sayt» section of the branch's NEW column
 
 ### Shared Utilities
 
@@ -115,8 +115,9 @@ All lead forms use the same flow:
 ## Environment Variables
 
 ```
-TELEGRAM_BOT_TOKEN   # Telegram bot token for lead notifications
-TELEGRAM_CHAT_ID     # Telegram chat ID for lead notifications
+ERP_API_URL            # ERP base URL
+ERP_WEBSITE_LEADS_KEY  # = ERP's WEBSITE_LEADS_KEY
+ERP_BRANCH_IDS         # fergana:1,namangan:2,qarshi:3 (ERP Branch.id; first = default)
 ```
 
 ## Important Notes
