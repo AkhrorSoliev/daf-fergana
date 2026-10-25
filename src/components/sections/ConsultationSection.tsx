@@ -44,7 +44,8 @@ function storeLead(name: string, phone: string, branch: string) {
 }
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  firstName: z.string().trim().min(2),
+  lastName: z.string().trim().min(2),
   phone: z.string().regex(PHONE_PATTERN),
 });
 
@@ -79,7 +80,7 @@ export default function ConsultationSection() {
 
   const onSubmit = async (data: FormData) => {
     setDuplicate(false);
-    if (isDuplicate(data.name, data.phone)) {
+    if (isDuplicate(`${data.firstName} ${data.lastName}`, data.phone)) {
       setDuplicate(true);
       return;
     }
@@ -89,16 +90,17 @@ export default function ConsultationSection() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: data.name,
+          firstName: data.firstName,
+          lastName: data.lastName,
           phone: data.phone,
-          branch: selectedBranch.city.uz,
+          branch: selectedBranchId,
           source: "Bepul konsultatsiya",
         }),
       });
       if (response.ok) {
-        storeLead(data.name, data.phone, selectedBranchId);
+        storeLead(`${data.firstName} ${data.lastName}`, data.phone, selectedBranchId);
         toast({ title: t("consultation.form.success") });
-        reset({ name: "", phone: PHONE_PREFIX });
+        reset({ firstName: "", lastName: "", phone: PHONE_PREFIX });
       } else {
         toast({ tone: "error", title: t("consultation.form.error") });
       }
@@ -153,12 +155,20 @@ export default function ConsultationSection() {
           className="flex flex-col gap-3.5 rounded-[30px] bg-paper p-[clamp(20px,4vw,32px)] text-ink"
         >
           <Input
-            label={star(t("consultation.form.name"))}
+            label={star(t("consultation.form.firstName"))}
             required
-            placeholder={t("consultation.form.namePlaceholder")}
-            autoComplete="name"
-            error={errors.name ? " " : undefined}
-            {...register("name")}
+            placeholder={t("consultation.form.firstNamePlaceholder")}
+            autoComplete="given-name"
+            error={errors.firstName ? " " : undefined}
+            {...register("firstName")}
+          />
+          <Input
+            label={star(t("consultation.form.lastName"))}
+            required
+            placeholder={t("consultation.form.lastNamePlaceholder")}
+            autoComplete="family-name"
+            error={errors.lastName ? " " : undefined}
+            {...register("lastName")}
           />
           <Input
             label={star(t("consultation.form.phone"))}
