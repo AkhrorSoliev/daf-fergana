@@ -121,7 +121,7 @@ export const de = {
       branches: "Filialen",
       startedYear: "Gründungsjahr",
       preparedYouth: "Vorbereitete Lernende",
-      internationalExams: "Internationale Prüfungen",
+      internationalExams: "Partnerschaft",
     },
 
     testimonialsTitle: "Stimmen unserer Lernenden",

@@ -11,7 +11,6 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { useLead } from "@/components/LeadProvider";
 import { branches, branchCity } from "@/data/branches";
 import HeroCastle from "./HeroCastle";
-import ExamMarquee from "./ExamMarquee";
 
 // Dictionary phrases carry trailing emoji; the design uses a serif word only.
 const stripEmoji = (s: string) =>
@@ -130,7 +129,6 @@ export default function HeroSection() {
           <span>{t("home.replay")}</span>
         </button>
       </div>
-      <ExamMarquee />
     </section>
   );
 }

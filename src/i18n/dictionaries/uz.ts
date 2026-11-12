@@ -121,7 +121,7 @@ export const uz = {
       branches: "Filiallar",
       startedYear: "Boshlangan yil",
       preparedYouth: "Tayyorgarlik olgan yoshlar",
-      internationalExams: "Xalqaro imtihonlar",
+      internationalExams: "Hamkorlik",
     },
 
     testimonialsTitle: "O'quvchilarning fikrlari",
