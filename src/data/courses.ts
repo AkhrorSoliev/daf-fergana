@@ -136,7 +136,7 @@ export const courses: Course[] = [
     level: "A1",
     duration: { uz: "1.5 oy", de: "1,5 Monate" },
     hours: 60,
-    price: "690 000 so'm",
+    price: "740 000 so'm",
     description: {
       uz: "Tezkor nemis tili o'rganish dasturi",
       de: "Schnelles Deutschlernprogramm.",
@@ -159,7 +159,7 @@ export const courses: Course[] = [
     level: "A2",
     duration: { uz: "2 oy", de: "2 Monate" },
     hours: 80,
-    price: "690 000 so'm",
+    price: "740 000 so'm",
     description: {
       uz: "A2 darajasini tez va samarali o'zlashtiring",
       de: "A2 schnell und effektiv erlernen.",
@@ -187,7 +187,7 @@ export const courses: Course[] = [
     level: "B1",
     duration: { uz: "2.5 oy", de: "2,5 Monate" },
     hours: 100,
-    price: "690 000 so'm",
+    price: "740 000 so'm",
     description: {
       uz: "O'rta daraja intensive kurs",
       de: "Intensivkurs auf Mittelstufenniveau (B1).",
@@ -215,7 +215,7 @@ export const courses: Course[] = [
     level: "B2",
     duration: { uz: "3 oy", de: "3 Monate" },
     hours: 120,
-    price: "690 000 so'm",
+    price: "740 000 so'm",
     description: {
       uz: "Yuqori o'rta daraja intensive dastur",
       de: "Intensivprogramm auf fortgeschrittenem Niveau (B2).",
@@ -245,7 +245,7 @@ export const courses: Course[] = [
     level: "A1",
     duration: { uz: "3 oy", de: "3 Monate" },
     hours: 72,
-    price: "400 000 so'm",
+    price: "450 000 so'm",
     description: {
       uz: "Oddiy tempda nemis tilini o'rganing",
       de: "Deutschlernen in moderatem Tempo.",
@@ -273,7 +273,7 @@ export const courses: Course[] = [
     level: "A2",
     duration: { uz: "4 oy", de: "4 Monate" },
     hours: 96,
-    price: "400 000 so'm",
+    price: "450 000 so'm",
     description: {
       uz: "A2 darajasini puxta o'zlashtiring",
       de: "A2 gründlich erlernen.",
@@ -301,7 +301,7 @@ export const courses: Course[] = [
     level: "B1",
     duration: { uz: "5 oy", de: "5 Monate" },
     hours: 120,
-    price: "400 000 so'm",
+    price: "450 000 so'm",
     description: {
       uz: "O'rta daraja standard kurs",
       de: "Standardkurs Mittelstufe (B1).",
@@ -329,7 +329,7 @@ export const courses: Course[] = [
     level: "B2",
     duration: { uz: "6 oy", de: "6 Monate" },
     hours: 144,
-    price: "400 000 so'm",
+    price: "450 000 so'm",
     description: {
       uz: "Yuqori o'rta daraja standard dastur",
       de: "Standardprogramm Fortgeschrittene (B2).",
