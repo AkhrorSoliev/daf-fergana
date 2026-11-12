@@ -11,7 +11,7 @@ export default function AboutSection() {
     { value: "3", label: t("about.stats.branches"), tone: "green" },
     { value: "2022", label: t("about.stats.startedYear"), tone: "sun" },
     { value: "650+", label: t("about.stats.preparedYouth"), tone: "coral" },
-    { value: <Image src="/brand/goethe-logo.svg" alt="Goethe" width={240} height={64} className="h-[clamp(44px,7vw,68px)] w-auto" />, label: t("about.stats.internationalExams"), tone: "sky" },
+    { value: <Image src="/brand/goethe-logo.svg" alt="Goethe" width={1134} height={427} className="h-[clamp(44px,7vw,68px)] w-auto" />, label: t("about.stats.internationalExams"), tone: "sky" },
   ] as const;
 
   return (
