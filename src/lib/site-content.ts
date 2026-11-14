@@ -22,7 +22,9 @@ export async function getBranches(): Promise<SiteBranch[]> {
       console.error("ERP website-content:", resp.status);
       return fallback;
     }
-    return parseSiteContent(await resp.json()) ?? fallback;
+    const parsed = parseSiteContent(await resp.json());
+    if (!parsed) console.error("ERP website-content: answer failed validation, using static copy");
+    return parsed ?? fallback;
   } catch (error) {
     console.error("ERP website-content failed:", error);
     return fallback;

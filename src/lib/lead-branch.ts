@@ -1,7 +1,11 @@
 /**
- * Which ERP branch a website lead belongs to. The visitor picked a branch in
- * the form; the lead must land in THAT branch's «Sayt» section or be refused —
- * never silently in the first branch.
+ * Which ERP branch a website lead belongs to. The ERP id comes from the live
+ * list when that branch has an `erpId`; otherwise from the env map
+ * ERP_BRANCH_IDS ("fergana:1,namangan:2") — also when the slug is not in the
+ * live list at all: a visitor on a stale or fallback-rendered page may have
+ * chosen a branch the live list no longer has, and the lead must still reach
+ * the branch they chose rather than be lost. Only a slug unknown to BOTH is
+ * refused (null). Never defaults to the first branch.
  */
 export function resolveErpBranchId(
   slug: unknown,
@@ -9,11 +13,9 @@ export function resolveErpBranchId(
   envMap: string | undefined,
 ): number | null {
   if (typeof slug !== "string" || !slug) return null;
-  const branch = branches.find((b) => b.id === slug);
-  if (!branch) return null;
-  if (branch.erpId) return branch.erpId;
+  const live = branches.find((b) => b.id === slug)?.erpId;
+  if (live) return live;
 
-  // Static fallback list (ERP unreachable): ERP_BRANCH_IDS="fergana:1,namangan:2".
   const pair = (envMap ?? "")
     .split(",")
     .map((p) => p.split(":").map((x) => x.trim()))

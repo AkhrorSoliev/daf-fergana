@@ -39,7 +39,7 @@ export default function TeachersSection() {
               key={tc.slug}
               name={tc.name}
               photo={teacherPhoto(tc.slug, tc.branch)}
-              role={`${tc.degree} · ${city}${locale === "uz" ? " filiali" : ""}`}
+              role={city ? `${tc.degree} · ${city}${locale === "uz" ? " filiali" : ""}` : tc.degree}
               featured={tc.slug === "herr-jamsher"}
               featuredLabel={t("teachers.featured")}
               tone={TONES[i % TONES.length]}

@@ -17,6 +17,7 @@ type LeadModalProps = {
   source: string;
   subtitle?: string;
   redirectUrlAfterSuccess?: string;
+  defaultBranch?: string;
 };
 
 export function LeadModal({
@@ -25,6 +26,7 @@ export function LeadModal({
   source,
   subtitle,
   redirectUrlAfterSuccess,
+  defaultBranch,
 }: LeadModalProps) {
   const { t, locale } = useI18n();
   const branches = useBranches();
@@ -40,8 +42,10 @@ export function LeadModal({
     if (open) {
       setError(null);
       setSubmitting(false);
+      if (defaultBranch && branches.some((b) => b.id === defaultBranch))
+        setBranch(defaultBranch);
     }
-  }, [open]);
+  }, [open, defaultBranch, branches]);
 
   const valid =
     firstName.trim() && lastName.trim() && PHONE_PATTERN.test(phone) && branch;
@@ -67,7 +71,11 @@ export function LeadModal({
       });
       if (!resp.ok) {
         const data = await resp.json().catch(() => ({}));
-        throw new Error(data?.error || t("leadModal.submitError"));
+        throw new Error(
+          data?.reason === "unknown_branch"
+            ? t("leadModal.branchChanged")
+            : t("leadModal.submitError"),
+        );
       }
       toast({ title: t("leadModal.success") });
       onClose();
@@ -81,7 +89,7 @@ export function LeadModal({
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : t("leadModal.generalError");
       setError(msg);
-      toast({ tone: "error", title: t("leadModal.error") });
+      toast({ tone: "error", title: msg });
       setSubmitting(false);
     }
   };

@@ -104,7 +104,14 @@ export default function ConsultationSection() {
         toast({ title: t("consultation.form.success") });
         reset({ firstName: "", lastName: "", phone: PHONE_PREFIX });
       } else {
-        toast({ tone: "error", title: t("consultation.form.error") });
+        const data = await response.json().catch(() => ({}));
+        toast({
+          tone: "error",
+          title:
+            data?.reason === "unknown_branch"
+              ? t("leadModal.branchChanged")
+              : t("consultation.form.error"),
+        });
       }
     } catch (error) {
       console.error("Form submission error:", error);

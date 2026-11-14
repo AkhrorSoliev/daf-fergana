@@ -23,7 +23,9 @@ export default function CoursesSection() {
   const branches = useBranches();
   const [branchId, setBranchId] = useBranchParam();
   const branch = branches.find((b) => b.id === branchId) ?? branches[0];
-  const categories = CATEGORIES.filter((c) => branch.prices[c]);
+  // A branch with no prices at all shows every type, without a price.
+  const priced = CATEGORIES.filter((c) => branch.prices[c]);
+  const categories = priced.length ? priced : CATEGORIES;
   const [picked, setCat] = useState<CourseCategory>("Standard");
   const cat = branch.prices[picked] ? picked : (categories[0] ?? picked);
   const price = branch.prices[cat];
@@ -57,7 +59,7 @@ export default function CoursesSection() {
         }
       />
       <div className="kit-scroll">
-        {price && getCoursesByCategory(cat).map((c) => (
+        {getCoursesByCategory(cat).map((c) => (
           <CourseCard
             key={c.id}
             level={c.level}
@@ -66,13 +68,14 @@ export default function CoursesSection() {
             duration={c.duration[locale]}
             hours={c.hours}
             hoursLabel={t("courses.hours")}
-            price={formatPrice(price)}
+            price={price ? formatPrice(price) : undefined}
             description={c.description[locale]}
             features={c.features[locale]}
             ctaLabel={t("courses.register")}
             onRegister={() =>
               openLead({
                 source: "Kurslar",
+                branch: branch.id,
                 subtitle: `${t("courses.modal.selected")}: ${label(c.category)} ${c.level}`,
               })
             }

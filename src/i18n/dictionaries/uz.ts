@@ -157,7 +157,7 @@ export const uz = {
     home: "Asosiy sahifa",
     teachers: "Oqituvchilar",
     courses: "Kurslar",
-    branches: "Filallar",
+    branches: "Filiallar",
     results: "Natijalar",
     library: "Kutubxona",
     blog: "Blog",
@@ -294,6 +294,7 @@ export const uz = {
     validationError: "Ism, familiya, telefon va filial majburiy",
     submitError: "Yuborishda xatolik",
     generalError: "Xatolik yuz berdi",
+    branchChanged: "Filiallar ro'yxati yangilandi. Sahifani yangilab, qaytadan yuboring.",
   },
   mediaStats: {
     students: "Muvaffaqiyatli o'quvchilar",

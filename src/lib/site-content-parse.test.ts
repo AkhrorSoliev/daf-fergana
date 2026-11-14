@@ -6,6 +6,7 @@ import {
   isAllowedMapEmbed,
   parseSiteContent,
 } from "./site-content-parse.ts";
+import { mapEmbedUrl } from "../data/branches.ts";
 
 const branch = {
   id: 2,
@@ -81,4 +82,35 @@ test("formats prices and phones the way the site prints them", () => {
   assert.equal(formatPrice({ amount: 450000, currency: "UZS" }), "450 000 so'm");
   assert.equal(formatPrice({ amount: 100, currency: "USD" }), "100$");
   assert.equal(formatPhone("905351099"), "+998 90 535 10 99");
+});
+
+test("isAllowedMapEmbed rejects host confusion", () => {
+  for (const url of [
+    "https://www.google.com@evil.example/maps/embed",
+    "https://u:p@www.google.com/maps/embed",
+    "https://www.google.com:8443/maps/embed",
+    "https://www.google.com./maps/embed",
+    "https://yandex.uz.evil.example/map-widget/v1/",
+    "https://evilyandex.uz/map-widget/v1/",
+    "https://www.google.com/maps?q=a",
+    "data:text/html,x",
+  ]) {
+    assert.equal(isAllowedMapEmbed(url), false, url);
+  }
+});
+
+test("parseSiteContent returns null for an off-allowlist telegramAdmin", () => {
+  assert.equal(
+    parseSiteContent({
+      branches: [{ ...branch, telegramAdmin: "https://evil.example/x" }],
+    }),
+    null,
+  );
+});
+
+test("the address-based map fallback stays inside the allowlist", () => {
+  assert.equal(
+    isAllowedMapEmbed(mapEmbedUrl("Fargʻona", "Turkiston 22 #3 ?a=b&c")),
+    true,
+  );
 });

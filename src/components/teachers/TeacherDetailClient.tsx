@@ -81,9 +81,11 @@ export default function TeacherDetailClient({ params }: Props) {
                   {t("teachers.featured")}
                 </Badge>
               )}
-              <Badge tone="white" icon={<MapPin />} className="border border-line">
-                {city}
-              </Badge>
+              {city && (
+                <Badge tone="white" icon={<MapPin />} className="border border-line">
+                  {city}
+                </Badge>
+              )}
               <Badge tone="white" icon={<GraduationCap />} className="border border-line">
                 {teacher.degree} · {teacher.level}
               </Badge>
@@ -131,7 +133,7 @@ export default function TeacherDetailClient({ params }: Props) {
                 key={o.slug}
                 name={o.name}
                 photo={teacherPhoto(o.slug, o.branch)}
-                role={`${o.degree} · ${city}${locale === "uz" ? " filiali" : ""}`}
+                role={city ? `${o.degree} · ${city}${locale === "uz" ? " filiali" : ""}` : o.degree}
                 tone={tones[i % tones.length]}
                 href={`/oqituvchilar/${o.slug}`}
               />

@@ -24,6 +24,20 @@ test("an unknown or missing branch is null, never the first branch", () => {
   assert.equal(resolveErpBranchId({ id: 1 }, erp, env), null);
 });
 
-test("a branch the site does not list is refused even if the env knows it", () => {
-  assert.equal(resolveErpBranchId("qarshi", erp, env), null);
+test("a branch missing from the live list still resolves through the env map", () => {
+  assert.equal(resolveErpBranchId("qarshi", erp, env), 3);
+});
+
+test("the ERP id wins over the env", () => {
+  assert.equal(resolveErpBranchId("namangan", erp, "namangan:9"), 2);
+});
+
+test("malformed env entries give null for a slug with no erpId", () => {
+  for (const bad of ["qarshi:", "qarshi:abc", "qarshi:-3", "qarshi:3.5", undefined]) {
+    assert.equal(resolveErpBranchId("qarshi", staticOnly, bad), null, String(bad));
+  }
+});
+
+test("whitespace in the env map is tolerated", () => {
+  assert.equal(resolveErpBranchId("qarshi", erp, " fergana:1 , qarshi : 3 "), 3);
 });

@@ -20,7 +20,7 @@ export const branches: Branch[] = [
     id: "fergana",
     city: { uz: "Farg\u02BBona", de: "Fergana" },
     address: "Turkiston ko\u02BBchasi 22",
-    phones: ["+99 890 535 10 99"],
+    phones: ["+998 90 535 10 99"],
     email: "info@daf-sprachzentrum.uz",
     telegramChannel: "https://t.me/daffergana",
     telegramAdmin: "https://t.me/daffergana",

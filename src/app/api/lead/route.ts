@@ -29,9 +29,9 @@ export async function POST(request: NextRequest) {
       process.env.ERP_BRANCH_IDS,
     );
     if (!branchId) {
-      console.error("Lead with unknown branch:", branch);
+      console.error("Lead with unknown branch:", String(branch).slice(0, 40));
       return NextResponse.json(
-        { error: "Unknown branch", reason: "validation" },
+        { error: "Unknown branch", reason: "unknown_branch" },
         { status: 400 }
       );
     }

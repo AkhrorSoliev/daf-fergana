@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { LeadModal } from "@/components/LeadModal";
 
-type LeadOptions = { source?: string; subtitle?: string };
+type LeadOptions = { source?: string; subtitle?: string; branch?: string };
 const LeadCtx = createContext<(o?: LeadOptions) => void>(() => {});
 
 /** useLead()({ source, subtitle }) opens the shared lead dialog. */
@@ -25,6 +25,7 @@ export function LeadProvider({ children }: { children: React.ReactNode }) {
         onClose={() => setState((s) => ({ ...s, open: false }))}
         source={state.source ?? "Bepul konsultatsiya"}
         subtitle={state.subtitle}
+        defaultBranch={state.branch}
       />
     </LeadCtx.Provider>
   );

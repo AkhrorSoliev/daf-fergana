@@ -28,7 +28,9 @@ export default function CoursesPageClient() {
   const branches = useBranches();
   const [branchId, setBranchId] = useBranchParam();
   const branch = branches.find((b) => b.id === branchId) ?? branches[0];
-  const tabs = TABS.filter((x) => branch.prices[x.value]);
+  // A branch with no prices at all shows every type, without a price.
+  const priced = TABS.filter((x) => branch.prices[x.value]);
+  const tabs = priced.length ? priced : TABS;
   const [picked, setCat] = useState<CourseCategory>("Standard");
   // A branch may not offer every course type; fall back to its first one.
   const cat = branch.prices[picked] ? picked : (tabs[0]?.value ?? picked);
@@ -67,7 +69,7 @@ export default function CoursesPageClient() {
           <p className="text-ink-3">{t(`courses.category.${cat}.desc`)}</p>
         </div>
         <div className="kit-grid-4">
-          {price && getCoursesByCategory(cat).map((c) => (
+          {getCoursesByCategory(cat).map((c) => (
             <CourseCard
               key={c.id}
               level={c.level}
@@ -76,13 +78,14 @@ export default function CoursesPageClient() {
               duration={c.duration[locale]}
               hours={c.hours}
               hoursLabel={t("courses.hours")}
-              price={formatPrice(price)}
+              price={price ? formatPrice(price) : undefined}
               description={c.description[locale]}
               features={c.features[locale]}
               ctaLabel={t("courses.register")}
               onRegister={() =>
                 openLead({
                   source: "Kurslar",
+                  branch: branch.id,
                   subtitle: `${t("courses.modal.selected")}: ${label(c.category)} ${c.level}`,
                 })
               }
