@@ -4,11 +4,13 @@ import Image from "next/image";
 import { Section, SectionHeader, HighlightLast } from "@/components/ui/section";
 import { Stat } from "@/components/cards";
 import { useI18n } from "@/i18n/I18nProvider";
+import { useBranches } from "@/components/SiteContentProvider";
 
 export default function AboutSection() {
   const { t } = useI18n();
+  const branches = useBranches();
   const stats = [
-    { value: "3", label: t("about.stats.branches"), tone: "green" },
+    { value: String(branches.length), label: t("about.stats.branches"), tone: "green" },
     { value: "2022", label: t("about.stats.startedYear"), tone: "sun" },
     { value: "650+", label: t("about.stats.preparedYouth"), tone: "coral" },
     { value: <Image src="/brand/goethe-logo.svg" alt="Goethe" width={1134} height={427} className="h-[clamp(44px,7vw,68px)] w-auto" />, label: t("about.stats.internationalExams"), tone: "sky" },

@@ -8,7 +8,8 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { useToast } from "@/components/ui/toast";
 import { formatUzbekPhone, PHONE_PREFIX, PHONE_PATTERN } from "@/utils/phone";
 import { useI18n } from "@/i18n/I18nProvider";
-import { branches, branchCity } from "@/data/branches";
+import { branchCity } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 
 type LeadModalProps = {
   open: boolean;
@@ -26,6 +27,7 @@ export function LeadModal({
   redirectUrlAfterSuccess,
 }: LeadModalProps) {
   const { t, locale } = useI18n();
+  const branches = useBranches();
   const toast = useToast();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

@@ -12,7 +12,8 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { useToast } from "@/components/ui/toast";
 import { useI18n } from "@/i18n/I18nProvider";
 import { formatUzbekPhone, PHONE_PREFIX, PHONE_PATTERN } from "@/utils/phone";
-import { branches, branchCity } from "@/data/branches";
+import { branchCity } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 import { useBranchParam } from "@/hooks/useBranchParam";
 
 const STORAGE_KEY = "daf_consultation_leads";
@@ -53,6 +54,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function ConsultationSection() {
   const { t, locale } = useI18n();
+  const branches = useBranches();
   const toast = useToast();
   const isDe = locale === "de";
   const dePhone = "+49 176 238 97 113";
@@ -63,7 +65,7 @@ export default function ConsultationSection() {
 
   const selectedBranch = useMemo(
     () => branches.find((b) => b.id === selectedBranchId) ?? branches[0],
-    [selectedBranchId],
+    [branches, selectedBranchId],
   );
 
   const {

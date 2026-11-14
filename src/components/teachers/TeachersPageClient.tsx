@@ -7,13 +7,13 @@ import { SegmentedControl } from "@/components/ui/segmented-control";
 import { TeacherCard, type CardTone } from "@/components/cards";
 import LeadButton from "@/components/LeadButton";
 import { teachers } from "@/data/teachers";
-import { branches, branchCity } from "@/data/branches";
+import { branchCity, cityById } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 import { teacherPhoto } from "@/utils/teacher";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const TONES: CardTone[] = ["sun", "sky", "green", "coral", "lilac"];
 const FEATURED = new Set(["herr-jamsher", "herr-lazizjon"]);
-const BRANCHES_WITH_TEACHERS = branches.filter((b) => teachers.some((x) => x.branch === b.id));
 
 /** Fergana: herr-doston and frau-sakina are listed right after herr-umarov. */
 function reorderFergana(list: typeof teachers) {
@@ -28,6 +28,10 @@ function reorderFergana(list: typeof teachers) {
 
 export default function TeachersPageClient() {
   const { t, locale } = useI18n();
+  const branches = useBranches();
+  const BRANCHES_WITH_TEACHERS = branches.filter((b) =>
+    teachers.some((x) => x.branch === b.id),
+  );
   const [branch, setBranch] = useState("all");
 
   const list = useMemo(
@@ -58,7 +62,7 @@ export default function TeachersPageClient() {
         </div>
         <div className="kit-grid-4">
           {list.map((tc, i) => {
-            const city = branchCity(branches.find((b) => b.id === tc.branch)!, locale);
+            const city = cityById(branches, tc.branch, locale);
             return (
               <TeacherCard
                 key={tc.slug}
