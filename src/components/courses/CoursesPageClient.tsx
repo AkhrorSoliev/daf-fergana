@@ -11,6 +11,10 @@ import { CourseCard } from "@/components/cards";
 import { useLead } from "@/components/LeadProvider";
 import { getCoursesByCategory, type CourseCategory } from "@/data/courses";
 import { useI18n } from "@/i18n/I18nProvider";
+import { useBranches } from "@/components/SiteContentProvider";
+import { useBranchParam } from "@/hooks/useBranchParam";
+import { branchCity } from "@/data/branches";
+import { formatPrice } from "@/lib/site-content-parse";
 
 const TABS: { value: CourseCategory; icon: React.ReactNode }[] = [
   { value: "Standard", icon: <Sprout /> },
@@ -21,7 +25,14 @@ const TABS: { value: CourseCategory; icon: React.ReactNode }[] = [
 export default function CoursesPageClient() {
   const { t, locale } = useI18n();
   const openLead = useLead();
-  const [cat, setCat] = useState<CourseCategory>("Standard");
+  const branches = useBranches();
+  const [branchId, setBranchId] = useBranchParam();
+  const branch = branches.find((b) => b.id === branchId) ?? branches[0];
+  const tabs = TABS.filter((x) => branch.prices[x.value]);
+  const [picked, setCat] = useState<CourseCategory>("Standard");
+  // A branch may not offer every course type; fall back to its first one.
+  const cat = branch.prices[picked] ? picked : (tabs[0]?.value ?? picked);
+  const price = branch.prices[cat];
   const label = (c: CourseCategory) => t(`courses.category.${c}.title`);
 
   return (
@@ -33,11 +44,21 @@ export default function CoursesPageClient() {
       />
       <Section className="pt-0">
         <div className="mb-7 flex flex-col gap-3">
+          {branches.length > 1 && (
+            <SegmentedControl
+              value={branch.id}
+              onChange={setBranchId}
+              options={branches.map((b) => ({
+                value: b.id,
+                label: branchCity(b, locale),
+              }))}
+            />
+          )}
           <SegmentedControl
             size="lg"
             value={cat}
             onChange={(v) => setCat(v as CourseCategory)}
-            options={TABS.map((x) => ({
+            options={tabs.map((x) => ({
               value: x.value,
               label: label(x.value),
               icon: x.icon,
@@ -46,7 +67,7 @@ export default function CoursesPageClient() {
           <p className="text-ink-3">{t(`courses.category.${cat}.desc`)}</p>
         </div>
         <div className="kit-grid-4">
-          {getCoursesByCategory(cat).map((c) => (
+          {price && getCoursesByCategory(cat).map((c) => (
             <CourseCard
               key={c.id}
               level={c.level}
@@ -55,7 +76,7 @@ export default function CoursesPageClient() {
               duration={c.duration[locale]}
               hours={c.hours}
               hoursLabel={t("courses.hours")}
-              price={c.price}
+              price={formatPrice(price)}
               description={c.description[locale]}
               features={c.features[locale]}
               ctaLabel={t("courses.register")}
