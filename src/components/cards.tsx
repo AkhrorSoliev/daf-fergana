@@ -247,6 +247,8 @@ function BranchCard({
   email,
   telegram,
   mapHref,
+  mapEmbedSrc,
+  mapTitle,
   active,
   onSelect,
   callLabel,
@@ -257,6 +259,8 @@ function BranchCard({
   email?: string;
   telegram?: string;
   mapHref?: string;
+  mapEmbedSrc?: string;
+  mapTitle?: string;
   active?: boolean;
   onSelect?: () => void;
   callLabel: string;
@@ -291,6 +295,16 @@ function BranchCard({
         {phone && row(Phone, phone)}
         {email && row(Mail, email)}
       </div>
+      {mapEmbedSrc && (
+        <iframe
+          src={mapEmbedSrc}
+          title={mapTitle ?? city}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          sandbox="allow-scripts allow-same-origin allow-popups"
+          className="h-[220px] w-full rounded-[18px] border-0"
+        />
+      )}
       <div className="mt-auto flex gap-2">
         {phone && (
           <Button asChild size="sm" variant={active ? "accent" : "default"} className="flex-1">
