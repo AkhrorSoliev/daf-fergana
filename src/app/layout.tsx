@@ -4,6 +4,8 @@ import "./globals.css";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import { ToastProvider } from "@/components/ui/toast";
 import { LeadProvider } from "@/components/LeadProvider";
+import { SiteContentProvider } from "@/components/SiteContentProvider";
+import { getBranches } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dafzentrum.uz"),
@@ -50,18 +52,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const branches = await getBranches();
   return (
     <html lang="uz">
       <body className="font-sans antialiased">
         <I18nProvider>
-          <ToastProvider>
-            <LeadProvider>{children}</LeadProvider>
-          </ToastProvider>
+          <SiteContentProvider branches={branches}>
+            <ToastProvider>
+              <LeadProvider>{children}</LeadProvider>
+            </ToastProvider>
+          </SiteContentProvider>
         </I18nProvider>
         {/* Organization JSON-LD (can be overridden per-locale in future) */}
         <Script
