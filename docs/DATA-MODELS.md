@@ -16,7 +16,6 @@ interface Course {
   level: CourseLevel;
   duration: { uz: string; de: string };    // "2 oy" / "2 Monate"
   hours: number;                           // Umumiy soatlar
-  price: string;                           // "100$" yoki "690 000 so'm"
   description: { uz: string; de: string };
   features: { uz: string[]; de: string[] };
   icon: string;                            // Emoji
@@ -26,11 +25,13 @@ interface Course {
 
 ### Ma'lumotlar (12 ta kurs)
 
-| Kategoriya | Darajalar | Soatlar | Narx |
-|------------|-----------|---------|------|
-| Individual | A1-B2 | 48-84 | $100 |
-| Intensive | A1-B2 | 60-120 | 690,000 so'm |
-| Standard | A1-B2 | 72-144 | 400,000 so'm |
+| Kategoriya | Darajalar | Soatlar |
+|------------|-----------|---------|
+| Individual | A1-B2 | 48-84 |
+| Intensive | A1-B2 | 60-120 |
+| Standard | A1-B2 | 72-144 |
+
+Narx ERP'dan keladi, filial × tur bo'yicha; `courses.ts` da narx yo'q.
 
 ### Helper funksiyalar
 
@@ -87,37 +88,33 @@ getTeacherBySlug(slug: string): Teacher | undefined
 
 ---
 
-## Filiallar (`branches.ts`)
+## Filiallar
 
-### Tip
+Manba — ERP: `getBranches()` (server, `src/lib/site-content.ts`) va komponentlarda `useBranches()`. `src/data/branches.ts` da faqat ERP javob bermaganda ishlatiladigan 3 filialli zaxira nusxa bor (narxlar: 450 000 so'm / 740 000 so'm / 100 $).
+
+### Tip (`SiteBranch`, `src/lib/site-content-parse.ts`)
 
 ```typescript
-type Branch = {
-  id: string;            // "fergana", "tashkent"
-  city: string;          // "Farg'ona"
-  name?: string;         // "DaF Texnopark" (ixtiyoriy)
+type SiteBranch = {
+  id: string;                    // slug: "fergana", "namangan", "qarshi"
+  erpId?: number;                // ERP Branch.id — lid shu filialga ketadi
+  city: { uz: string; de: string };
+  name?: string;                 // ixtiyoriy
   address: string;
   phones: string[];
   email?: string;
+  telegramChannel: string;
+  telegramAdmin: string;
+  mapEmbedUrl?: string;          // faqat ruxsat etilgan Google/Yandex manzillari
+  prices: Partial<Record<CourseCategory, { amount: number; currency: "UZS" | "USD" }>>;
 };
 ```
 
-### Filiallar (8 ta)
-
-| ID | Shahar | Email |
-|----|--------|-------|
-| tashkent | Toshkent | daftashkent@gmail.com |
-| bukhara | Buxoro | — |
-| fergana | Farg'ona | dafsprachzentrum@gmail.com |
-| fergana-texnopark | Farg'ona (Texnopark) | — |
-| namangan | Namangan | — |
-| navoiy | Navoiy | — |
-| samarkand | Samarqand | dafsamarkand@gmail.com |
-| khorezm | Xorazm | — |
-
-### Helper funksiyalar
+### Helper funksiyalar (`branches.ts`)
 
 ```typescript
+branchCity(branch: Branch, locale: Locale): string
+cityById(list: Branch[], id: string, locale: Locale): string
 mapSearchUrl(city: string, address: string): string   // Google Maps qidiruv
 mapEmbedUrl(city: string, address: string): string     // Google Maps embed
 ```

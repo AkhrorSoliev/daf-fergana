@@ -23,6 +23,7 @@ npm run dev       # Development (Turbopack)
 npm run build     # Production build (Turbopack)
 npm run start     # Start production server
 npm run lint      # ESLint
+npm test          # node --test src/lib/*.test.ts (native TypeScript; Node >= 22.18, Node 24 in use)
 ```
 
 ## Architecture
@@ -53,9 +54,9 @@ src/
 │   ├── branches/           # BranchesPageClient
 │   ├── Navbar.tsx, Footer.tsx, LeadModal.tsx, ThemeToggle.tsx, etc.
 ├── data/                   # Static data files
-│   ├── courses.ts          # Course levels, categories, pricing
+│   ├── courses.ts          # Course texts (prices come from the ERP)
 │   ├── teachers.ts         # Teacher profiles
-│   ├── branches.ts         # Branch locations + map utils
+│   ├── branches.ts         # Fallback branch copy + map/city helpers
 │   ├── posts.ts            # Blog posts
 │   ├── books.ts            # Library books + parseTitle()
 │   ├── gallery-images.ts   # Results page image URLs
@@ -70,6 +71,16 @@ src/
 └── lib/
     └── utils.ts            # cn() — clsx + tailwind-merge
 ```
+
+### Branches and prices from the ERP
+
+- `getBranches()` (`src/lib/site-content.ts`, server only) fetches `GET <ERP>/public/website-content` with `x-website-key`, caches it for 10 minutes and validates the answer with zod (`src/lib/site-content-parse.ts`).
+- Any failure (no env, timeout, non-200, invalid answer) returns the static copy in `src/data/branches.ts` — it is a fallback only.
+- The root layout is async and wraps the app in `<SiteContentProvider>`; components read `useBranches()` and never import `branches` directly.
+- Every static route is ISR with a 10-minute revalidate.
+- Course prices are per branch × type (`Branch.prices`); course texts stay static in `courses.ts` (no `price`).
+- Branch slugs (`fergana`, `namangan`, `qarshi`) must match `teachers.ts` and `ERP_BRANCH_IDS`.
+- Map iframes only load allowlisted Google/Yandex URLs (`isAllowedMapEmbed`) and are additionally limited by the `frame-src` CSP in `next.config.ts` — a new iframe source must be added there.
 
 ### Page Rendering Rules
 
@@ -92,8 +103,9 @@ src/
 
 All lead forms use the same flow:
 1. `formatUzbekPhone()` from `@/utils/phone` for phone input formatting
-2. `POST /api/lead` with `{ firstName, lastName, phone, branch?, level?, source }`
+2. `POST /api/lead` with `{ firstName, lastName, phone, branch, level?, source }` — `branch` is required
 3. Backend forwards to ERP `POST /public/website-leads` (header `x-website-key`); lead lands in the fixed «Sayt» section of the branch's NEW column
+4. `/api/lead` resolves `branch` with `resolveErpBranchId` (`src/lib/lead-branch.ts`): ERP id from the live list, else `ERP_BRANCH_IDS`. A branch unknown to both gets HTTP 400 `unknown_branch` and is never routed to the first branch.
 
 ### Shared Utilities
 
@@ -117,8 +129,11 @@ All lead forms use the same flow:
 ```
 ERP_API_URL            # ERP base URL
 ERP_WEBSITE_LEADS_KEY  # = ERP's WEBSITE_LEADS_KEY
-ERP_BRANCH_IDS         # fergana:1,namangan:2,qarshi:3 (ERP Branch.id; first = default)
+ERP_WEBSITE_CONTENT_KEY  # = ERP's WEBSITE_CONTENT_KEY (server only, never NEXT_PUBLIC_)
+ERP_BRANCH_IDS         # fergana:1,namangan:2,qarshi:3 — slug → ERP Branch.id; used when the live ERP list has no id for the chosen branch; no default branch; must stay set in prod
 ```
+
+ERP_API_URL + ERP_WEBSITE_CONTENT_KEY must be present in Vercel BEFORE the build. If they are missing at build time every page is prerendered from the static copy with no revalidation until the next deploy.
 
 ## Important Notes
 
