@@ -27,7 +27,7 @@ export default function CoursesSection() {
   const priced = CATEGORIES.filter((c) => branch.prices[c]);
   const categories = priced.length ? priced : CATEGORIES;
   const [picked, setCat] = useState<CourseCategory>("Standard");
-  const cat = branch.prices[picked] ? picked : (categories[0] ?? picked);
+  const cat = categories.includes(picked) ? picked : categories[0];
   const price = branch.prices[cat];
   const label = (c: CourseCategory) => t(`courses.category.${c}.title`);
 

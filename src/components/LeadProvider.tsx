@@ -6,7 +6,7 @@ import { LeadModal } from "@/components/LeadModal";
 type LeadOptions = { source?: string; subtitle?: string; branch?: string };
 const LeadCtx = createContext<(o?: LeadOptions) => void>(() => {});
 
-/** useLead()({ source, subtitle }) opens the shared lead dialog. */
+/** useLead()({ source, subtitle, branch }) opens the shared lead dialog; `branch` (slug) preselects the branch. */
 export const useLead = () => useContext(LeadCtx);
 
 export function LeadProvider({ children }: { children: React.ReactNode }) {

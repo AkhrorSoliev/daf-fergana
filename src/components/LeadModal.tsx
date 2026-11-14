@@ -42,13 +42,14 @@ export function LeadModal({
     if (open) {
       setError(null);
       setSubmitting(false);
-      if (defaultBranch && branches.some((b) => b.id === defaultBranch))
-        setBranch(defaultBranch);
+      if (defaultBranch) setBranch(defaultBranch);
     }
-  }, [open, defaultBranch, branches]);
+  }, [open, defaultBranch]);
 
+  // A branch id the current list does not have shows as "no selection".
+  const branchId = branches.some((b) => b.id === branch) ? branch : "";
   const valid =
-    firstName.trim() && lastName.trim() && PHONE_PATTERN.test(phone) && branch;
+    firstName.trim() && lastName.trim() && PHONE_PATTERN.test(phone) && branchId;
 
   const handleSubmit = async () => {
     if (!valid) {
@@ -66,16 +67,19 @@ export function LeadModal({
           lastName,
           phone,
           source,
-          branch,
+          branch: branchId,
         }),
       });
       if (!resp.ok) {
         const data = await resp.json().catch(() => ({}));
-        throw new Error(
+        const msg =
           data?.reason === "unknown_branch"
             ? t("leadModal.branchChanged")
-            : t("leadModal.submitError"),
-        );
+            : t("leadModal.submitError");
+        setError(msg);
+        toast({ tone: "error", title: msg });
+        setSubmitting(false);
+        return;
       }
       toast({ title: t("leadModal.success") });
       onClose();
@@ -86,8 +90,9 @@ export function LeadModal({
       setSubmitting(false);
       if (redirectUrlAfterSuccess)
         window.location.href = redirectUrlAfterSuccess;
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : t("leadModal.generalError");
+    } catch {
+      // fetch itself rejected (network): never show the browser's English text.
+      const msg = t("leadModal.error");
       setError(msg);
       toast({ tone: "error", title: msg });
       setSubmitting(false);
@@ -145,7 +150,7 @@ export function LeadModal({
           label={t("consultation.form.branch").replace(/\s*\*$/, "")}
           required
           placeholder={t("consultation.form.branchPlaceholder")}
-          value={branch}
+          value={branchId}
           onChange={(e) => setBranch(e.target.value)}
           options={branches.map((b) => ({
             value: b.id,

@@ -32,8 +32,8 @@ export default function CoursesPageClient() {
   const priced = TABS.filter((x) => branch.prices[x.value]);
   const tabs = priced.length ? priced : TABS;
   const [picked, setCat] = useState<CourseCategory>("Standard");
-  // A branch may not offer every course type; fall back to its first one.
-  const cat = branch.prices[picked] ? picked : (tabs[0]?.value ?? picked);
+  // The selection must be one of the shown types; else the first shown one.
+  const cat = tabs.some((x) => x.value === picked) ? picked : tabs[0].value;
   const price = branch.prices[cat];
   const label = (c: CourseCategory) => t(`courses.category.${c}.title`);
 
