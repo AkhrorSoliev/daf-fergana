@@ -7,13 +7,15 @@ import { Button } from "@/components/ui/button";
 import { TeacherCard, type CardTone } from "@/components/cards";
 import { useI18n } from "@/i18n/I18nProvider";
 import { teachers } from "@/data/teachers";
-import { branches, branchCity } from "@/data/branches";
+import { cityById } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 import { teacherPhoto } from "@/utils/teacher";
 
 const TONES: CardTone[] = ["sun", "sky", "green", "coral"];
 
 export default function TeachersSection() {
   const { t, locale } = useI18n();
+  const branches = useBranches();
   return (
     <Section tone="white" inset>
       <SectionHeader
@@ -31,13 +33,13 @@ export default function TeachersSection() {
       />
       <div className="kit-scroll kit-scroll-sm">
         {teachers.slice(0, 4).map((tc, i) => {
-          const city = branchCity(branches.find((b) => b.id === tc.branch)!, locale);
+          const city = cityById(branches, tc.branch, locale);
           return (
             <TeacherCard
               key={tc.slug}
               name={tc.name}
               photo={teacherPhoto(tc.slug, tc.branch)}
-              role={`${tc.degree} · ${city}${locale === "uz" ? " filiali" : ""}`}
+              role={city ? `${tc.degree} · ${city}${locale === "uz" ? " filiali" : ""}` : tc.degree}
               featured={tc.slug === "herr-jamsher"}
               featuredLabel={t("teachers.featured")}
               tone={TONES[i % TONES.length]}

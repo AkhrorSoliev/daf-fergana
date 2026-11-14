@@ -9,7 +9,8 @@ import { Highlight } from "@/components/ui/highlight";
 import { dictionaries } from "@/i18n/dictionaries";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useLead } from "@/components/LeadProvider";
-import { branches, branchCity } from "@/data/branches";
+import { branchCity } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 import HeroCastle from "./HeroCastle";
 
 // Dictionary phrases carry trailing emoji; the design uses a serif word only.
@@ -33,6 +34,7 @@ function RotatingPhrase({ phrases }: { phrases: string[] }) {
 
 export default function HeroSection() {
   const { t, locale } = useI18n();
+  const branches = useBranches();
   const openLead = useLead();
   const sec = useRef<HTMLDivElement>(null);
   const scene = useRef<HTMLElement>(null);

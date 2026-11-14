@@ -1,5 +1,6 @@
 export type CourseLevel = "A1" | "A2" | "B1" | "B2";
-export type CourseCategory = "Individual" | "Intensive" | "Standard";
+import type { CourseCategory } from "@/lib/site-content-parse";
+export type { CourseCategory } from "@/lib/site-content-parse";
 
 export interface Course {
   id: string;
@@ -7,7 +8,6 @@ export interface Course {
   level: CourseLevel;
   duration: { uz: string; de: string };
   hours: number;
-  price: string;
   description: { uz: string; de: string };
   features: { uz: string[]; de: string[] };
   icon: string;
@@ -22,7 +22,6 @@ export const courses: Course[] = [
     level: "A1",
     duration: { uz: "2 oy", de: "2 Monate" },
     hours: 48,
-    price: "100$",
     description: {
       uz: "Shaxsiy darslar orqali nemis tilining asoslarini o'rganing",
       de: "Lernen Sie die Grundlagen der deutschen Sprache im Einzelunterricht.",
@@ -50,7 +49,6 @@ export const courses: Course[] = [
     level: "A2",
     duration: { uz: "2.5 oy", de: "2,5 Monate" },
     hours: 60,
-    price: "100$",
     description: {
       uz: "A1 asosida nemis tilini chuqurroq o'rganing",
       de: "Vertiefen Sie Ihre Deutschkenntnisse aufbauend auf A1 im Einzelunterricht.",
@@ -78,7 +76,6 @@ export const courses: Course[] = [
     level: "B1",
     duration: { uz: "3 oy", de: "3 Monate" },
     hours: 72,
-    price: "100$",
     description: {
       uz: "O'rta daraja nemis tili individual darslar",
       de: "Einzelunterricht auf Mittelstufenniveau (B1).",
@@ -106,7 +103,6 @@ export const courses: Course[] = [
     level: "B2",
     duration: { uz: "3.5 oy", de: "3,5 Monate" },
     hours: 84,
-    price: "100$",
     description: {
       uz: "Yuqori o'rta daraja individual ta'lim",
       de: "Einzelunterricht auf fortgeschrittenem Niveau (B2).",
@@ -136,7 +132,6 @@ export const courses: Course[] = [
     level: "A1",
     duration: { uz: "1.5 oy", de: "1,5 Monate" },
     hours: 60,
-    price: "740 000 so'm",
     description: {
       uz: "Tezkor nemis tili o'rganish dasturi",
       de: "Schnelles Deutschlernprogramm.",
@@ -159,7 +154,6 @@ export const courses: Course[] = [
     level: "A2",
     duration: { uz: "2 oy", de: "2 Monate" },
     hours: 80,
-    price: "740 000 so'm",
     description: {
       uz: "A2 darajasini tez va samarali o'zlashtiring",
       de: "A2 schnell und effektiv erlernen.",
@@ -187,7 +181,6 @@ export const courses: Course[] = [
     level: "B1",
     duration: { uz: "2.5 oy", de: "2,5 Monate" },
     hours: 100,
-    price: "740 000 so'm",
     description: {
       uz: "O'rta daraja intensive kurs",
       de: "Intensivkurs auf Mittelstufenniveau (B1).",
@@ -215,7 +208,6 @@ export const courses: Course[] = [
     level: "B2",
     duration: { uz: "3 oy", de: "3 Monate" },
     hours: 120,
-    price: "740 000 so'm",
     description: {
       uz: "Yuqori o'rta daraja intensive dastur",
       de: "Intensivprogramm auf fortgeschrittenem Niveau (B2).",
@@ -245,7 +237,6 @@ export const courses: Course[] = [
     level: "A1",
     duration: { uz: "3 oy", de: "3 Monate" },
     hours: 72,
-    price: "450 000 so'm",
     description: {
       uz: "Oddiy tempda nemis tilini o'rganing",
       de: "Deutschlernen in moderatem Tempo.",
@@ -273,7 +264,6 @@ export const courses: Course[] = [
     level: "A2",
     duration: { uz: "4 oy", de: "4 Monate" },
     hours: 96,
-    price: "450 000 so'm",
     description: {
       uz: "A2 darajasini puxta o'zlashtiring",
       de: "A2 gründlich erlernen.",
@@ -301,7 +291,6 @@ export const courses: Course[] = [
     level: "B1",
     duration: { uz: "5 oy", de: "5 Monate" },
     hours: 120,
-    price: "450 000 so'm",
     description: {
       uz: "O'rta daraja standard kurs",
       de: "Standardkurs Mittelstufe (B1).",
@@ -329,7 +318,6 @@ export const courses: Course[] = [
     level: "B2",
     duration: { uz: "6 oy", de: "6 Monate" },
     hours: 144,
-    price: "450 000 so'm",
     description: {
       uz: "Yuqori o'rta daraja standard dastur",
       de: "Standardprogramm Fortgeschrittene (B2).",

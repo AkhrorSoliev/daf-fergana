@@ -3,11 +3,13 @@
 import { Section, SectionHeader, HighlightLast } from "@/components/ui/section";
 import { BranchCard } from "@/components/cards";
 import { useI18n } from "@/i18n/I18nProvider";
-import { branches, branchCity, mapSearchUrl } from "@/data/branches";
+import { branchCity, mapSearchUrl } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 import { useBranchParam } from "@/hooks/useBranchParam";
 
 export default function ContactsSection() {
   const { t, locale } = useI18n();
+  const branches = useBranches();
   const [active, setActive] = useBranchParam();
   return (
     <Section>

@@ -42,6 +42,22 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            // Only frames are restricted: even if a wrong map URL ever reached
+            // the page, the browser would refuse to load it.
+            key: "Content-Security-Policy",
+            value:
+              "frame-src https://www.google.com https://yandex.uz https://yandex.com https://yandex.ru",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

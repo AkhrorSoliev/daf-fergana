@@ -8,7 +8,8 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { useToast } from "@/components/ui/toast";
 import { formatUzbekPhone, PHONE_PREFIX, PHONE_PATTERN } from "@/utils/phone";
 import { useI18n } from "@/i18n/I18nProvider";
-import { branches, branchCity } from "@/data/branches";
+import { branchCity } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 
 type LeadModalProps = {
   open: boolean;
@@ -16,6 +17,7 @@ type LeadModalProps = {
   source: string;
   subtitle?: string;
   redirectUrlAfterSuccess?: string;
+  defaultBranch?: string;
 };
 
 export function LeadModal({
@@ -24,8 +26,10 @@ export function LeadModal({
   source,
   subtitle,
   redirectUrlAfterSuccess,
+  defaultBranch,
 }: LeadModalProps) {
   const { t, locale } = useI18n();
+  const branches = useBranches();
   const toast = useToast();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -38,11 +42,14 @@ export function LeadModal({
     if (open) {
       setError(null);
       setSubmitting(false);
+      if (defaultBranch) setBranch(defaultBranch);
     }
-  }, [open]);
+  }, [open, defaultBranch]);
 
+  // A branch id the current list does not have shows as "no selection".
+  const branchId = branches.some((b) => b.id === branch) ? branch : "";
   const valid =
-    firstName.trim() && lastName.trim() && PHONE_PATTERN.test(phone) && branch;
+    firstName.trim() && lastName.trim() && PHONE_PATTERN.test(phone) && branchId;
 
   const handleSubmit = async () => {
     if (!valid) {
@@ -60,12 +67,19 @@ export function LeadModal({
           lastName,
           phone,
           source,
-          branch,
+          branch: branchId,
         }),
       });
       if (!resp.ok) {
         const data = await resp.json().catch(() => ({}));
-        throw new Error(data?.error || t("leadModal.submitError"));
+        const msg =
+          data?.reason === "unknown_branch"
+            ? t("leadModal.branchChanged")
+            : t("leadModal.submitError");
+        setError(msg);
+        toast({ tone: "error", title: msg });
+        setSubmitting(false);
+        return;
       }
       toast({ title: t("leadModal.success") });
       onClose();
@@ -76,10 +90,11 @@ export function LeadModal({
       setSubmitting(false);
       if (redirectUrlAfterSuccess)
         window.location.href = redirectUrlAfterSuccess;
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : t("leadModal.generalError");
+    } catch {
+      // fetch itself rejected (network): never show the browser's English text.
+      const msg = t("leadModal.error");
       setError(msg);
-      toast({ tone: "error", title: t("leadModal.error") });
+      toast({ tone: "error", title: msg });
       setSubmitting(false);
     }
   };
@@ -135,7 +150,7 @@ export function LeadModal({
           label={t("consultation.form.branch").replace(/\s*\*$/, "")}
           required
           placeholder={t("consultation.form.branchPlaceholder")}
-          value={branch}
+          value={branchId}
           onChange={(e) => setBranch(e.target.value)}
           options={branches.map((b) => ({
             value: b.id,

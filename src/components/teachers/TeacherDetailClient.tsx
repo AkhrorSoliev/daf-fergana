@@ -12,7 +12,8 @@ import { Highlight } from "@/components/ui/highlight";
 import { TeacherCard, type CardTone } from "@/components/cards";
 import LeadButton from "@/components/LeadButton";
 import { getTeacherBySlug, teachers } from "@/data/teachers";
-import { branches, branchCity } from "@/data/branches";
+import { cityById } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 import { teacherPhoto } from "@/utils/teacher";
 import { useI18n } from "@/i18n/I18nProvider";
 
@@ -27,6 +28,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export default function TeacherDetailClient({ params }: Props) {
   const { t, locale } = useI18n();
+  const branches = useBranches();
   const { slug } = usePromise(params);
   const teacher = getTeacherBySlug(slug);
   if (!teacher) return notFound();
@@ -45,7 +47,7 @@ export default function TeacherDetailClient({ params }: Props) {
       })
     : bioLines;
 
-  const city = branchCity(branches.find((b) => b.id === teacher.branch)!, locale);
+  const city = cityById(branches, teacher.branch, locale);
   const featured = teacher.slug === "herr-jamsher" || teacher.slug === "herr-lazizjon";
   const [first, ...rest] = teacher.name.split(" ");
   const others = teachers.filter((x) => x.slug !== teacher.slug && x.branch === teacher.branch).slice(0, 4);
@@ -79,9 +81,11 @@ export default function TeacherDetailClient({ params }: Props) {
                   {t("teachers.featured")}
                 </Badge>
               )}
-              <Badge tone="white" icon={<MapPin />} className="border border-line">
-                {city}
-              </Badge>
+              {city && (
+                <Badge tone="white" icon={<MapPin />} className="border border-line">
+                  {city}
+                </Badge>
+              )}
               <Badge tone="white" icon={<GraduationCap />} className="border border-line">
                 {teacher.degree} · {teacher.level}
               </Badge>
@@ -129,7 +133,7 @@ export default function TeacherDetailClient({ params }: Props) {
                 key={o.slug}
                 name={o.name}
                 photo={teacherPhoto(o.slug, o.branch)}
-                role={`${o.degree} · ${city}${locale === "uz" ? " filiali" : ""}`}
+                role={city ? `${o.degree} · ${city}${locale === "uz" ? " filiali" : ""}` : o.degree}
                 tone={tones[i % tones.length]}
                 href={`/oqituvchilar/${o.slug}`}
               />

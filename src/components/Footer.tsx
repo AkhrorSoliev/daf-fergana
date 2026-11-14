@@ -6,7 +6,8 @@ import Image from "next/image";
 import { Instagram, Send } from "lucide-react";
 import { IconButton } from "@/components/ui/button";
 import { useI18n } from "@/i18n/I18nProvider";
-import { branches, branchCity } from "@/data/branches";
+import { branchCity } from "@/data/branches";
+import { useBranches } from "@/components/SiteContentProvider";
 
 const PHONE = "+998 90 535 10 99";
 const EMAIL = "info@daf-sprachzentrum.uz";
@@ -18,6 +19,7 @@ const linkCls =
 
 export default function Footer() {
   const { t, locale } = useI18n();
+  const branches = useBranches();
   const [tgOpen, setTgOpen] = useState(false);
   const tgRef = useRef<HTMLDivElement>(null);
 

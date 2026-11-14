@@ -293,6 +293,7 @@ export const de = {
     validationError: "Vorname, Nachname, Telefon und Filiale sind erforderlich",
     submitError: "Fehler beim Senden",
     generalError: "Ein Fehler ist aufgetreten",
+    branchChanged: "Die Filialliste wurde aktualisiert. Bitte laden Sie die Seite neu und senden Sie das Formular erneut.",
   },
   mediaStats: {
     students: "Erfolgreiche Lernende",
