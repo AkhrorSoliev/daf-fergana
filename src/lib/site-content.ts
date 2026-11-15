@@ -1,12 +1,13 @@
 import { branches as fallback } from "@/data/branches";
-import { parseSiteContent, type SiteBranch } from "@/lib/site-content-parse";
+import { mergeBranches, parseSiteContent, type SiteBranch } from "@/lib/site-content-parse";
 
 const REVALIDATE_SECONDS = 600;
 
 /**
- * Branches and their prices from the ERP, cached for ten minutes. Any failure
- * — no env, timeout, non-200, an answer that fails validation — returns the
- * static copy, so the site never renders empty.
+ * The site's own branches with whatever the ERP has valid overlaid field by
+ * field, cached for ten minutes. Any failure — no env, timeout, non-200, a body
+ * that is not `{ branches: [...] }` — returns the static list, so the site
+ * never renders empty.
  */
 export async function getBranches(): Promise<SiteBranch[]> {
   const url = process.env.ERP_API_URL;
@@ -23,8 +24,11 @@ export async function getBranches(): Promise<SiteBranch[]> {
       return fallback;
     }
     const parsed = parseSiteContent(await resp.json());
-    if (!parsed) console.error("ERP website-content: answer failed validation, using static copy");
-    return parsed ?? fallback;
+    if (!parsed) {
+      console.error("ERP website-content: answer failed validation, using static copy");
+      return fallback;
+    }
+    return mergeBranches(fallback, parsed, process.env.ERP_BRANCH_IDS);
   } catch (error) {
     console.error("ERP website-content failed:", error);
     return fallback;
