@@ -90,7 +90,16 @@ getTeacherBySlug(slug: string): Teacher | undefined
 
 ## Filiallar
 
-Manba — ERP: `getBranches()` (server, `src/lib/site-content.ts`) va komponentlarda `useBranches()`. `src/data/branches.ts` da faqat ERP javob bermaganda ishlatiladigan 3 filialli zaxira nusxa bor (narxlar: 450 000 so'm / 740 000 so'm / 100 $).
+Manba — ERP: `getBranches()` (server, `src/lib/site-content.ts`) va komponentlarda `useBranches()`. `src/data/branches.ts` — 3 filialli ASOSIY ro'yxat (narxlar: 450 000 so'm / 740 000 so'm / 100 $); endi u faqat zaxira emas.
+
+Qoida (`mergeBranches()`, `src/lib/site-content-parse.ts`): ERP ma'lumoti asosiy ro'yxat ustiga maydon-maydon qo'yiladi.
+
+- ERP'dagi har bir to'g'ri maydon asosiy maydonni almashtiradi; narxlar kurs turi bo'yicha. ERP'da bo'sh narx — asosiy narx qoladi.
+- Noto'g'ri maydon faqat o'zi e'tiborsiz qoldiriladi, filial yoki butun javob tashlanmaydi.
+- ERP filiali asosiy filialga avval slug bo'yicha, bo'lmasa `ERP_BRANCH_IDS` bo'yicha moslanadi (slug ustun).
+- Sayt bilmaydigan ERP filiali faqat «saytda ko'rsatilsin» belgilangan va to'liq bo'lsa (slug, shahar, manzil, telefon, Telegram kanal) qo'shiladi.
+- Asosiy filialni ERP'dan yashirib bo'lmaydi. ERP javob bermasa yoki javob `{ branches: [...] }` bo'lmasa — asosiy ro'yxat o'zgarishsiz.
+- Build vaqtida `ERP_API_URL` + `ERP_WEBSITE_CONTENT_KEY` kerak; `ERP_BRANCH_IDS` endi ERP ma'lumotini asosiy filialga moslash uchun ham ishlatiladi (ERP'da slug yo'q bo'lsa).
 
 ### Tip (`SiteBranch`, `src/lib/site-content-parse.ts`)
 
