@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { resolveErpBranchId } from "./lead-branch.ts";
+import { parseBranchIdMap, resolveErpBranchId } from "./lead-branch.ts";
 
 const erp = [
   { id: "fergana", erpId: 1 },
@@ -40,4 +40,13 @@ test("malformed env entries give null for a slug with no erpId", () => {
 
 test("whitespace in the env map is tolerated", () => {
   assert.equal(resolveErpBranchId("qarshi", erp, " fergana:1 , qarshi : 3 "), 3);
+});
+
+test("parseBranchIdMap keeps only well-formed slug:id pairs", () => {
+  const map = parseBranchIdMap(" fergana:1 , bad:x, namangan : 2 ,qarshi:-3,:4");
+  assert.deepEqual([...map], [
+    ["fergana", 1],
+    ["namangan", 2],
+  ]);
+  assert.equal(parseBranchIdMap(undefined).size, 0);
 });

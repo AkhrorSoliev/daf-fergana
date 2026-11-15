@@ -56,7 +56,7 @@ src/
 ├── data/                   # Static data files
 │   ├── courses.ts          # Course texts (prices come from the ERP)
 │   ├── teachers.ts         # Teacher profiles
-│   ├── branches.ts         # Fallback branch copy + map/city helpers
+│   ├── branches.ts         # Base branch list (ERP overlays it) + map/city helpers
 │   ├── posts.ts            # Blog posts
 │   ├── books.ts            # Library books + parseTitle()
 │   ├── gallery-images.ts   # Results page image URLs
@@ -74,8 +74,10 @@ src/
 
 ### Branches and prices from the ERP
 
-- `getBranches()` (`src/lib/site-content.ts`, server only) fetches `GET <ERP>/public/website-content` with `x-website-key`, caches it for 10 minutes and validates the answer with zod (`src/lib/site-content-parse.ts`).
-- Any failure (no env, timeout, non-200, invalid answer) returns the static copy in `src/data/branches.ts` — it is a fallback only.
+- `getBranches()` (`src/lib/site-content.ts`, server only) fetches `GET <ERP>/public/website-content` with `x-website-key`, caches it for 10 minutes and parses the answer field by field with zod (`src/lib/site-content-parse.ts`).
+- `src/data/branches.ts` is the BASE branch list, not just a fallback. `mergeBranches()` overlays the ERP on it: every valid ERP field replaces the base field, prices per course type (an empty ERP price keeps the base price). A bad ERP field is ignored on its own — it never discards the branch or the answer.
+- An ERP branch is matched to a base branch by slug, else by `ERP_BRANCH_IDS` (slug wins). An ERP branch the site does not know is appended only when it is marked visible and complete (slug, city, address, phone, Telegram channel). A base branch cannot be hidden from the ERP.
+- Any failure (no env, timeout, non-200, a body that is not `{ branches: [...] }`) returns the base list unchanged.
 - The root layout is async and wraps the app in `<SiteContentProvider>`; components read `useBranches()` and never import `branches` directly.
 - Every static route is ISR with a 10-minute revalidate.
 - Course prices are per branch × type (`Branch.prices`); course texts stay static in `courses.ts` (no `price`).
@@ -130,10 +132,10 @@ All lead forms use the same flow:
 ERP_API_URL            # ERP base URL
 ERP_WEBSITE_LEADS_KEY  # = ERP's WEBSITE_LEADS_KEY
 ERP_WEBSITE_CONTENT_KEY  # = ERP's WEBSITE_CONTENT_KEY (server only, never NEXT_PUBLIC_)
-ERP_BRANCH_IDS         # fergana:1,namangan:2,qarshi:3 — slug → ERP Branch.id; used when the live ERP list has no id for the chosen branch; no default branch; must stay set in prod
+ERP_BRANCH_IDS         # fergana:1,namangan:2,qarshi:3 — slug → ERP Branch.id; matches ERP data to a base branch when the ERP has no slug for it, and routes a lead when the live list has no id for the chosen branch; no default branch; must stay set in prod
 ```
 
-ERP_API_URL + ERP_WEBSITE_CONTENT_KEY must be present in Vercel BEFORE the build. If they are missing at build time every page is prerendered from the static copy with no revalidation until the next deploy.
+ERP_API_URL + ERP_WEBSITE_CONTENT_KEY must be present in Vercel BEFORE the build. If they are missing at build time every page is prerendered from the base list with no revalidation until the next deploy.
 
 ## Important Notes
 

@@ -3,9 +3,9 @@ import type { SiteBranch, SitePrice, CourseCategory } from "@/lib/site-content-p
 export type Locale = "uz" | "de";
 export type Branch = SiteBranch;
 
-// Fallback used when the ERP is unreachable. ponytail: can go stale — update
-// it when a price changes for good; the ERP stays the source of truth.
-const FALLBACK_PRICES: Partial<Record<CourseCategory, SitePrice>> = {
+// BASE of the branch list: the ERP overlays its valid fields on it (see
+// mergeBranches) and it is served as-is when the ERP is unreachable.
+const BASE_PRICES: Partial<Record<CourseCategory, SitePrice>> = {
   Standard: { amount: 450000, currency: "UZS" },
   Intensive: { amount: 740000, currency: "UZS" },
   Individual: { amount: 100, currency: "USD" },
@@ -24,7 +24,7 @@ export const branches: Branch[] = [
     email: "info@daf-sprachzentrum.uz",
     telegramChannel: "https://t.me/daffergana",
     telegramAdmin: "https://t.me/daffergana",
-    prices: FALLBACK_PRICES,
+    prices: BASE_PRICES,
   },
   {
     id: "namangan",
@@ -33,7 +33,7 @@ export const branches: Branch[] = [
     phones: ["+998 88 388 55 50"],
     telegramChannel: "https://t.me/NamDAFsprachzentrum",
     telegramAdmin: "https://t.me/NamDafsprachzentrum",
-    prices: FALLBACK_PRICES,
+    prices: BASE_PRICES,
   },
   {
     id: "qarshi",
@@ -42,7 +42,7 @@ export const branches: Branch[] = [
     phones: ["+998 97 294 90 06"],
     telegramChannel: "https://t.me/daf_qarshi",
     telegramAdmin: "https://t.me/Laziz_9006",
-    prices: FALLBACK_PRICES,
+    prices: BASE_PRICES,
   },
 ];
 
@@ -56,7 +56,7 @@ export function mapEmbedUrl(city: string, address: string): string {
   return `https://www.google.com/maps?q=${q}&output=embed`;
 }
 
-/** City of a branch by slug; "" when the ERP no longer publishes that branch. */
+/** City of a branch by slug; "" for a slug that is not in the list (e.g. a teacher tied to an unknown branch). */
 export function cityById(list: Branch[], id: string, locale: Locale): string {
   return list.find((b) => b.id === id)?.city[locale] ?? "";
 }

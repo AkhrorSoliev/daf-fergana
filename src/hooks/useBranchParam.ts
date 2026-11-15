@@ -7,7 +7,7 @@ import { useBranches } from "@/components/SiteContentProvider";
 /**
  * Syncs a branch selection with the `branch` URL search param.
  * Returns [selectedBranchId, setSelectedBranchId]. The default is the first
- * branch the ERP publishes.
+ * base branch (the site list is never empty).
  *
  * Reads the URL param via window.location.search instead of useSearchParams()
  * so this hook does NOT require a Suspense boundary — avoiding hydration
