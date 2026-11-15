@@ -74,6 +74,8 @@ export type ErpBranch = {
 };
 
 const MAX_ERP_BRANCHES = 50;
+const MAX_PRICE_ITEMS = 10;
+const MAX_PRICE = 100_000_000;
 
 const telegram = z.string().regex(/^https:\/\/t\.me\/[A-Za-z0-9_]{3,64}$/);
 const idSchema = z.number().int().positive();
@@ -83,7 +85,7 @@ const emailSchema = z.email();
 const mapSchema = z.string().max(2000).refine(isAllowedMapEmbed);
 const priceSchema = z.object({
   category: z.enum(["STANDARD", "INTENSIVE", "INDIVIDUAL"]),
-  amount: z.number().int().positive(),
+  amount: z.number().int().positive().max(MAX_PRICE),
   currency: z.enum(["UZS", "USD"]),
 });
 
@@ -92,12 +94,12 @@ function field(schema: z.ZodType<string>, value: unknown): string | null {
   const r = schema.safeParse(value);
   return r.success ? r.data : null;
 }
-const text = (max: number) => z.string().min(1).max(max);
+const text = (max: number) => z.string().trim().min(1).max(max);
 
 function parsePrices(value: unknown): ErpBranch["prices"] {
   const out: ErpBranch["prices"] = [];
   if (!Array.isArray(value)) return out;
-  for (const item of value) {
+  for (const item of value.slice(0, MAX_PRICE_ITEMS)) {
     const p = priceSchema.safeParse(item);
     if (p.success && !out.some((o) => o.category === p.data.category)) out.push(p.data);
   }
@@ -167,6 +169,19 @@ export function mergeBranches(
   for (const b of base) claim(b, erp.find((x) => x.slug === b.id));
   for (const b of base) claim(b, erp.find((x) => x.id === ids.get(b.id)));
 
+  // Disagreement between the slug and the env map is served as matched; log it so it gets noticed.
+  for (const b of base) {
+    const e = match.get(b.id);
+    const envId = ids.get(b.id);
+    if (e && envId && e.slug === b.id && e.id !== envId) {
+      console.error(`ERP website-content: ${b.id} matched ERP ${e.id} by slug but ERP_BRANCH_IDS says ${envId}`);
+    }
+    const other = envId ? base.find((o) => o.id !== b.id && match.get(o.id)?.id === envId) : undefined;
+    if (other) {
+      console.error(`ERP website-content: ERP ${envId} (ERP_BRANCH_IDS for ${b.id}) is matched to ${other.id}`);
+    }
+  }
+
   const merged = base.map((b) => {
     const e = match.get(b.id);
     if (!e) return b;
@@ -185,9 +200,12 @@ export function mergeBranches(
     };
   });
   const added: SiteBranch[] = [];
+  const taken = new Set(base.map((b) => b.id));
   for (const e of erp) {
     if (used.has(e) || !e.visible) continue;
     if (!e.slug || !e.cityUz || !e.address || !e.phone || !e.telegramChannel) continue;
+    if (taken.has(e.slug)) continue;
+    taken.add(e.slug);
     added.push({
       id: e.slug,
       erpId: e.id,

@@ -367,3 +367,159 @@ test("a base branch cannot be hidden by the ERP", () => {
   assert.equal(out.length, 2);
   assert.equal(out[0].id, "fergana");
 });
+
+// ---------- hardening ----------
+
+/** Runs fn with console.error captured; returns the logged lines. */
+function captureErrors(fn: () => void): string[] {
+  const lines: string[] = [];
+  const orig = console.error;
+  console.error = (...args: unknown[]) => void lines.push(args.join(" "));
+  try {
+    fn();
+  } finally {
+    console.error = orig;
+  }
+  return lines;
+}
+
+test("logs when a slug-matched ERP id differs from the env id, result unchanged", () => {
+  let out: SiteBranch[] = [];
+  const logs = captureErrors(() => {
+    out = mergeBranches(base(), [erpEmpty(9, { slug: "namangan", address: "by slug" })], ENV);
+  });
+  assert.equal(out[1].erpId, 9);
+  assert.equal(out[1].address, "by slug");
+  assert.equal(logs.length, 1);
+  assert.match(logs[0], /namangan/);
+});
+
+test("logs when a base branch's env id is used by an ERP branch matched to another", () => {
+  let out: SiteBranch[] = [];
+  const logs = captureErrors(() => {
+    out = mergeBranches(base(), [erpEmpty(1, { slug: "namangan", address: "X" })], "fergana:1");
+  });
+  assert.equal(out[1].erpId, 1);
+  assert.equal(out[1].address, "X");
+  assert.equal(out[0].erpId, undefined);
+  assert.ok(logs.some((l) => /fergana/.test(l)), logs.join("|"));
+});
+
+test("a consistent slug and env id logs nothing", () => {
+  const logs = captureErrors(() => {
+    mergeBranches(base(), [erpEmpty(1, { slug: "fergana" }), erpEmpty(2)], ENV);
+  });
+  assert.deepEqual(logs, []);
+});
+
+test("an ERP branch whose slug is a base id is not appended", () => {
+  const dup = erpEmpty(5, {
+    slug: "fergana", visible: true, cityUz: "T", address: "A", phone: "901234567", telegramChannel: "https://t.me/tash",
+  });
+  // fergana is already claimed by id 1 via slug, so id 5 is the unmatched duplicate
+  const out = mergeBranches(base(), [erpEmpty(1, { slug: "fergana" }), dup], ENV);
+  assert.deepEqual(out.map((b) => b.id), ["fergana", "namangan"]);
+});
+
+test("two unknown ERP branches with the same slug: only the first is appended", () => {
+  const mk = (id: number, address: string) =>
+    erpEmpty(id, {
+      slug: "tashkent", visible: true, cityUz: "T", address, phone: "901234567", telegramChannel: "https://t.me/tash",
+    });
+  const out = mergeBranches(base(), [mk(5, "first"), mk(6, "second")], ENV);
+  assert.deepEqual(out.map((b) => b.id), ["fergana", "namangan", "tashkent"]);
+  assert.equal(out[2].address, "first");
+  assert.equal(out[2].erpId, 5);
+});
+
+test("whitespace-only text fields become null and the base value is kept", () => {
+  const [p] = parseSiteContent({ branches: [{ ...branch, cityUz: "   ", address: " \n " }] })!;
+  assert.equal(p.cityUz, null);
+  assert.equal(p.address, null);
+  const out = mergeBranches(base(), [{ ...p, id: 1, slug: null }], ENV);
+  assert.deepEqual(out[0].city, { uz: base()[0].city.uz, de: "Namangan" });
+  assert.equal(out[0].address, base()[0].address);
+});
+
+test("text fields are trimmed", () => {
+  assert.equal(one({ cityUz: "  Namangan  " })?.cityUz, "Namangan");
+  assert.equal(one({ address: "\tA 1 " })?.address, "A 1");
+});
+
+test("an absurd price amount is ignored, a valid sibling kept", () => {
+  const out = one({
+    prices: [
+      { category: "STANDARD", amount: 1e15, currency: "UZS" },
+      { category: "INTENSIVE", amount: 740000, currency: "UZS" },
+    ],
+  });
+  assert.deepEqual(out?.prices, [{ category: "INTENSIVE", amount: 740000, currency: "UZS" }]);
+  assert.equal(one({ prices: [{ category: "STANDARD", amount: 100_000_000, currency: "UZS" }] })?.prices.length, 1);
+  assert.equal(one({ prices: [{ category: "STANDARD", amount: 100_000_001, currency: "UZS" }] })?.prices.length, 0);
+});
+
+test("a 50-item prices array does not throw and yields at most one price per category", () => {
+  const prices = Array.from({ length: 50 }, (_, i) => ({
+    category: ["STANDARD", "INTENSIVE", "INDIVIDUAL"][i % 3],
+    amount: i + 1,
+    currency: "UZS",
+  }));
+  const out = one({ prices });
+  assert.equal(out?.prices.length, 3);
+  assert.deepEqual(out?.prices.map((p) => p.amount), [1, 2, 3]);
+});
+
+test("only the first 10 price items are read", () => {
+  const junk = Array.from({ length: 10 }, () => "junk");
+  const out = one({ prices: [...junk, { category: "STANDARD", amount: 5, currency: "UZS" }] });
+  assert.deepEqual(out?.prices, []);
+});
+
+// ---------- end to end, production-shaped ----------
+
+test("production-shaped answer: ERP with almost nothing filled leaves the site as it is", async () => {
+  const { branches: real } = await import("../data/branches.ts");
+  const { resolveErpBranchId } = await import("./lead-branch.ts");
+  const realBefore = structuredClone(real);
+  const row = (id: number, phone: string, prices: unknown[] = []) => ({
+    id, slug: null, visible: false, cityUz: null, cityDe: null, address: null, phone,
+    email: null, telegramChannel: null, telegramAdmin: null, mapEmbedUrl: null, prices,
+  });
+  const body = {
+    branches: [
+      row(1, "905351099", [
+        { category: "STANDARD", amount: 300000, currency: "UZS" },
+        { category: "INTENSIVE", amount: 350000, currency: "UZS" },
+        { category: "INDIVIDUAL", amount: 200, currency: "USD" },
+      ]),
+      row(2, "883885550"),
+      row(3, "996682518"),
+      row(4, "883885550"),
+    ],
+  };
+  const env = "fergana:1,namangan:2,qarshi:3";
+  const out = mergeBranches(real, parseSiteContent(body)!, env);
+
+  assert.deepEqual(out.map((b) => [b.id, b.erpId]), [["fergana", 1], ["namangan", 2], ["qarshi", 3]]);
+  const without = (b: SiteBranch, ...keys: string[]) => {
+    const c: Record<string, unknown> = { ...b };
+    for (const k of ["erpId", ...keys]) delete c[k];
+    return c;
+  };
+  const [fe, na, qa] = out;
+  assert.deepEqual(without(fe, "prices"), without(real[0], "prices"));
+  assert.deepEqual(fe.prices, {
+    Standard: { amount: 300000, currency: "UZS" },
+    Intensive: { amount: 350000, currency: "UZS" },
+    Individual: { amount: 200, currency: "USD" },
+  });
+  assert.deepEqual(without(na), without(real[1]));
+  assert.deepEqual(without(qa, "phones"), without(real[2], "phones"));
+  assert.deepEqual(qa.phones, ["+998 99 668 25 18"]);
+
+  assert.equal(resolveErpBranchId("fergana", out, env), 1);
+  assert.equal(resolveErpBranchId("namangan", out, env), 2);
+  assert.equal(resolveErpBranchId("qarshi", out, env), 3);
+  assert.equal(resolveErpBranchId("tashkent", out, env), null);
+  assert.deepEqual(real, realBefore);
+});

@@ -56,7 +56,7 @@ export function mapEmbedUrl(city: string, address: string): string {
   return `https://www.google.com/maps?q=${q}&output=embed`;
 }
 
-/** City of a branch by slug; "" when the ERP no longer publishes that branch. */
+/** City of a branch by slug; "" for a slug that is not in the list (e.g. a teacher tied to an unknown branch). */
 export function cityById(list: Branch[], id: string, locale: Locale): string {
   return list.find((b) => b.id === id)?.city[locale] ?? "";
 }

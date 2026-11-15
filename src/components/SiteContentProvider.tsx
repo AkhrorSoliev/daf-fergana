@@ -5,7 +5,7 @@ import { branches as fallback, type Branch } from "@/data/branches";
 
 const Ctx = createContext<Branch[]>(fallback);
 
-/** Branches (with prices) the server fetched from the ERP for this render. */
+/** Branches for this render: the site's base list overlaid with the ERP fields the server fetched. */
 export const useBranches = () => useContext(Ctx);
 
 export function SiteContentProvider({
