@@ -1,11 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 import { ArrowLeft, ArrowRight, Pause, Play, Volume2, VolumeX } from "lucide-react";
-import { Section, SectionHeader, HighlightLast } from "@/components/ui/section";
-import { Button, IconButton } from "@/components/ui/button";
-import { RESULT_PHOTO_BASE, RESULT_VIDEOS, type ResultVideo } from "@/data/natijalar";
+import { IconButton } from "@/components/ui/button";
+import { RESULT_PHOTO_BASE, type ResultVideo } from "@/data/natijalar";
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
 
@@ -143,24 +141,5 @@ export function VideoStrip({ videos, title }: { videos: ResultVideo[]; title?: R
         })}
       </div>
     </div>
-  );
-}
-
-/** Home page: the best student videos, with a link to every result. */
-export default function VideoResultsSection() {
-  const { t } = useI18n();
-  return (
-    <Section>
-      <SectionHeader
-        eyebrow={t("about.resultsBadge")}
-        title={<HighlightLast text={t("results.homeTitle")} color="coral" />}
-        action={
-          <Button variant="secondary" asChild>
-            <Link href="/natijalar">{t("results.all")}</Link>
-          </Button>
-        }
-      />
-      <VideoStrip videos={RESULT_VIDEOS.filter((v) => v.home)} />
-    </Section>
   );
 }
