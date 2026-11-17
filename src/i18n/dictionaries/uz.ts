@@ -372,6 +372,10 @@ export const uz = {
   },
   results: {
     title: "Natijalar",
+    openInTelegram: "Telegramda ko'rish",
+    close: "Yopish",
+    prev: "Oldingi",
+    next: "Keyingi",
   },
   branches: {
     title: "Filiallar",

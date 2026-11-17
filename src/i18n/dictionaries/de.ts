@@ -371,6 +371,10 @@ export const de = {
   },
   results: {
     title: "Ergebnisse",
+    openInTelegram: "In Telegram ansehen",
+    close: "Schließen",
+    prev: "Zurück",
+    next: "Weiter",
   },
   branches: {
     title: "Filialen",
