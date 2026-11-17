@@ -4,6 +4,7 @@ import AboutSection from "@/components/sections/AboutSection";
 import AdvantagesSection from "@/components/sections/AdvantagesSection";
 import CoursesSection from "@/components/sections/CoursesSection";
 import TeachersSection from "@/components/sections/TeachersSection";
+import VideoResultsSection from "@/components/results/VideoStories";
 import MediaSection from "@/components/sections/MediaSection";
 import ConsultationSection from "@/components/sections/ConsultationSection";
 import ContactsSection from "@/components/sections/ContactsSection";
@@ -16,6 +17,7 @@ export default function Home() {
       <CoursesSection />
       <AdvantagesSection />
       <TeachersSection />
+      <VideoResultsSection />
       <MediaSection />
       <ConsultationSection />
       <ContactsSection />
