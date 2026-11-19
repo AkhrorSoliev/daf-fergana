@@ -114,17 +114,6 @@ export const RESULT_POSTS: ResultPost[] = [
     ]
   },
   {
-    "id": 146,
-    "text": "O’quvchimiz Zaylobiddinov Mahmudjon TELC B1 sertfikatini qo’lga kiritdi!!!\n\n👨‍🏫O’qituvchi:\nJamsher Murtazoxonov\n\nSarflangan muddat:\n📆 9 oy",
-    "photos": [
-      {
-        "file": "146-1.jpg",
-        "w": 600,
-        "h": 800
-      }
-    ]
-  },
-  {
     "id": 141,
     "text": "O’quvchimiz Abdulaxad Obidjonov FSJ vizasini qo’lga kiritdi 🔥\n\n*Avvalroq Germaniya Elchixonasidan chiqqanlarida rasm ulashgandik.\n\nBugun ataylab Herr Akhmadjonov bilan rasmga tushaman deb kelgan ekanlar 🐳",
     "photos": [
@@ -453,17 +442,6 @@ export const RESULT_POSTS: ResultPost[] = [
       {
         "file": "105-1.jpg",
         "w": 600,
-        "h": 800
-      }
-    ]
-  },
-  {
-    "id": 104,
-    "text": "O’quvchimiz Ne’matjonova Husnidaxon TELC B1 sertifikatini qo’lga kiritdilar!\n\nO’qituvchi:\n👨‍🏫 Jamsher Murtazoxonov\n\nSarflangan muddat:\n🗓 8,5 oy",
-    "photos": [
-      {
-        "file": "104-1.jpg",
-        "w": 599,
         "h": 800
       }
     ]
