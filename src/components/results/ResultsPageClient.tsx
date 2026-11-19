@@ -5,9 +5,10 @@ import { ArrowLeft, ArrowRight, Images, Plus, Send, X } from "lucide-react";
 import PageHead from "@/components/PageHead";
 import { Section, HighlightLast } from "@/components/ui/section";
 import { Button, IconButton } from "@/components/ui/button";
-import { RESULT_CHANNEL, RESULT_PHOTO_BASE, RESULT_POSTS, type ResultPost } from "@/data/natijalar";
+import { RESULT_CHANNEL, RESULT_PHOTO_BASE, RESULT_POSTS, RESULT_VIDEOS, type ResultPost } from "@/data/natijalar";
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
+import { VideoStrip } from "./VideoStories";
 
 const TINTS = ["bg-sun-100", "bg-sky-100", "bg-green-100", "bg-coral-100"];
 const PAGE = 12;
@@ -176,6 +177,9 @@ export default function ResultsPageClient() {
         subtitle={t("about.resultsSubtitle")}
       />
       <Section className="pt-0">
+        <div className="mb-10">
+          <VideoStrip videos={RESULT_VIDEOS} title={t("results.videos")} />
+        </div>
         <div className="kit-masonry">
           {RESULT_POSTS.slice(0, shown).map((post, k) => (
             <Tile key={post.id} post={post} k={k} onOpen={setOpen} />

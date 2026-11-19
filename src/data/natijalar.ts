@@ -3,6 +3,25 @@
 export const RESULT_CHANNEL = "dafnatijalar";
 export const RESULT_PHOTO_BASE = "https://pub-84eb659f52e545d39be582596548f2c0.r2.dev/website/natijalar/";
 
+/**
+ * Video stories: {id}.mp4 + {id}.jpg poster under RESULT_PHOTO_BASE + "video/". id = channel post id.
+ * `home` marks the ten shown on the home page. Only videos Telegram serves publicly (under ~20 MB) are here.
+ */
+export type ResultVideo = { id: number; name?: string; result: string; home?: boolean };
+export const RESULT_VIDEOS: ResultVideo[] = [
+  { id: 127, name: "Alijonov Abdunosir", result: "Ausbildung vizasi", home: true },
+  { id: 124, name: "Normatov Boburjon", result: "Ferienjob — Shengen vizasi", home: true },
+  { id: 107, name: "Xalilov Abdurashid", result: "Weiterbildung vizasi", home: true },
+  { id: 92, result: "FSJ vizasi — o'quvchilar hikoyasi", home: true },
+  { id: 66, result: "O'quvchimiz hikoyasi", home: true },
+  { id: 58, name: "Sarvarbek", result: "Germaniya vizasi", home: true },
+  { id: 47, name: "Islomxo'ja", result: "Work and Travel vizasi", home: true },
+  { id: 17, result: "Hamshiralik — Germaniya vizasi", home: true },
+  { id: 23, result: "Germaniya vizasi", home: true },
+  { id: 57, result: "O'quvchimiz fikri", home: true },
+  { id: 64, result: "Viza markazida" },
+];
+
 export type ResultPost = { id: number; text: string; photos: { file: string; w: number; h: number }[] };
 
 export const RESULT_POSTS: ResultPost[] = [
@@ -90,17 +109,6 @@ export const RESULT_POSTS: ResultPost[] = [
       {
         "file": "148-1.jpg",
         "w": 450,
-        "h": 800
-      }
-    ]
-  },
-  {
-    "id": 146,
-    "text": "O’quvchimiz Zaylobiddinov Mahmudjon TELC B1 sertfikatini qo’lga kiritdi!!!\n\n👨‍🏫O’qituvchi:\nJamsher Murtazoxonov\n\nSarflangan muddat:\n📆 9 oy",
-    "photos": [
-      {
-        "file": "146-1.jpg",
-        "w": 600,
         "h": 800
       }
     ]
@@ -434,17 +442,6 @@ export const RESULT_POSTS: ResultPost[] = [
       {
         "file": "105-1.jpg",
         "w": 600,
-        "h": 800
-      }
-    ]
-  },
-  {
-    "id": 104,
-    "text": "O’quvchimiz Ne’matjonova Husnidaxon TELC B1 sertifikatini qo’lga kiritdilar!\n\nO’qituvchi:\n👨‍🏫 Jamsher Murtazoxonov\n\nSarflangan muddat:\n🗓 8,5 oy",
-    "photos": [
-      {
-        "file": "104-1.jpg",
-        "w": 599,
         "h": 800
       }
     ]

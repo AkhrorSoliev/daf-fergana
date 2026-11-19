@@ -1,12 +1,11 @@
 "use client";
 
 import { Section, SectionHeader, HighlightLast } from "@/components/ui/section";
-import { TestimonialCard, type CardTone } from "@/components/cards";
+import { VideoStrip } from "@/components/results/VideoStories";
+import { RESULT_VIDEOS } from "@/data/natijalar";
 import { useI18n } from "@/i18n/I18nProvider";
-import { testimonials } from "@/data/testimonials";
 
-const TONES: CardTone[] = ["sky", "coral", "lilac", "sun"];
-
+/** "What students say": the ten best student videos. */
 export default function MediaSection() {
   const { t } = useI18n();
   return (
@@ -15,11 +14,7 @@ export default function MediaSection() {
         eyebrow={t("media.badge")}
         title={<HighlightLast text={t("about.testimonialsTitle")} color="coral" />}
       />
-      <div className="kit-scroll">
-        {testimonials.map((x, i) => (
-          <TestimonialCard key={x.name} quote={x.content} name={x.name} role={x.role} tone={TONES[i % TONES.length]} />
-        ))}
-      </div>
+      <VideoStrip videos={RESULT_VIDEOS.filter((v) => v.home)} />
     </Section>
   );
 }

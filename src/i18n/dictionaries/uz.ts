@@ -116,7 +116,7 @@ export const uz = {
     title: "Markaz haqida",
     subtitle: "Professional nemis tili ta'limi va Germaniya imkoniyatlari",
     p1: "DaF Sprachzentrum M.CH.J — nemis tilini o'qitishga ixtisoslashgan zamonaviy til markazi.\n\nBugungi kunda markaz O'zbekiston bo'ylab 3 ta filialda faoliyat yuritadi va 2022-yildan beri yoshlarga Germaniya ta'lim standartlari asosida sifatli nemis tili ta'limini taqdim etib kelmoqda.",
-    p2: "Farg'ona filialida esa hozirda 650+ nafar yoshlar Goethe, ECL, ÖSD, TELC, TestDaF kabi xalqaro sertifikat imtihonlariga tayyorlanib, yuqori natijalar bilan muvaffaqiyat qozonmoqda.",
+    p2: "Farg'ona filialida esa hozirda 650+ nafar yoshlar Goethe, ECL, ÖSD, TestDaF kabi xalqaro sertifikat imtihonlariga tayyorlanib, yuqori natijalar bilan muvaffaqiyat qozonmoqda.",
     stats: {
       branches: "Filiallar",
       startedYear: "Boshlangan yil",
@@ -372,6 +372,14 @@ export const uz = {
   },
   results: {
     title: "Natijalar",
+    videos: "Video natijalar",
+    homeTitle: "O'quvchilarimiz natijalari",
+    all: "Barcha natijalar",
+    play: "O'ynatish",
+    pause: "To'xtatish",
+    mute: "Ovozni o'chirish",
+    unmute: "Ovozni yoqish",
+    seek: "Video vaqti",
     openInTelegram: "Telegramda ko'rish",
     close: "Yopish",
     prev: "Oldingi",
