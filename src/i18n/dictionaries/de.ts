@@ -116,7 +116,7 @@ export const de = {
     title: "Über das Zentrum",
     subtitle: "Professioneller Deutschunterricht und Chancen in Deutschland",
     p1: "DaF Sprachzentrum GmbH – ein modernes, auf Deutschunterricht spezialisiertes Sprachzentrum.\n\nDas Zentrum ist heute in 3 Filialen in ganz Usbekistan tätig und bietet seit 2022 qualitativ hochwertigen Deutschunterricht nach deutschen Bildungsstandards.",
-    p2: "In der Filiale Fergana bereiten sich derzeit über 650 junge Menschen auf internationale Zertifikatsprüfungen wie Goethe, ECL, ÖSD, TELC und TestDaF vor und erzielen hervorragende Ergebnisse.",
+    p2: "In der Filiale Fergana bereiten sich derzeit über 650 junge Menschen auf internationale Zertifikatsprüfungen wie Goethe, ECL, ÖSD und TestDaF vor und erzielen hervorragende Ergebnisse.",
     stats: {
       branches: "Filialen",
       startedYear: "Gründungsjahr",
